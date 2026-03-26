@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nagme/config/theme.dart';
 import 'package:nagme/config/constants.dart';
 import 'package:nagme/providers/settings_provider.dart';
+import 'package:nagme/config/temperaments.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -13,6 +14,7 @@ class SettingsScreen extends ConsumerWidget {
     final refA4 = ref.watch(refA4Provider);
     final notation = ref.watch(notationProvider);
     final threshold = ref.watch(tuneThresholdProvider);
+    final temperament = ref.watch(temperamentProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -112,6 +114,37 @@ class SettingsScreen extends ConsumerWidget {
                   Text(
                     'Profesyonel: 3 · Standart: 5 · Başlangıç: 8',
                     style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: AppConstants.paddingMD),
+
+          // Temperament
+          _SectionTitle(title: 'Akort Sistemi'),
+          Card(
+            child: RadioGroup<Temperament>(
+              groupValue: temperament,
+              onChanged: (value) {
+                if (value != null) {
+                  ref.read(temperamentProvider.notifier).state = value;
+                }
+              },
+              child: Column(
+                children: [
+                  RadioListTile<Temperament>(
+                    title: const Text('Pisagor (Saf Beşli)'),
+                    subtitle: const Text('Keman, viyola, çello için önerilen'),
+                    value: Temperament.pythagorean,
+                    activeColor: AppColors.inTune,
+                  ),
+                  RadioListTile<Temperament>(
+                    title: const Text('Eşit Temperament (12-TET)'),
+                    subtitle: const Text('Gitar, piyano, fretli enstrümanlar'),
+                    value: Temperament.equal,
+                    activeColor: AppColors.inTune,
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nagme/config/temperaments.dart';
 import 'package:nagme/main.dart';
 
 /// Referans A4 frekansı (Hz) provider'ı — SharedPreferences ile kalıcı.
@@ -16,6 +17,11 @@ class RefA4Notifier extends StateNotifier<double> {
 final notationProvider = StateProvider<String>((ref) {
   final prefs = ref.watch(preferencesServiceProvider);
   return prefs.notation;
+});
+
+/// Temperament sistemi — keman: Pisagor, gitar: Eşit.
+final temperamentProvider = StateProvider<Temperament>((ref) {
+  return Temperament.pythagorean; // Profesyonel varsayılan
 });
 
 /// Hassasiyet eşiği (cent) provider'ı.
