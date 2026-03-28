@@ -60,10 +60,10 @@
   **Dosyalar:** lib/models/tuning_session.dart, lib/services/preferences_service.dart
   **Test:** 6 unit test (serialization, round-trip, edge cases).
 
-- [ ] D.3 — Gelişmiş ton üretici
-  **Ne:** Sinüs dalgası yerine enstrümana yakın ton rengi. Uzun basıp bırakma.
+- [x] D.3 — Gelişmiş ton üretici
+  **Ne:** 3 dalga formu: sine, warm (4 harmonik), bright (8 harmonik).
   **Dosyalar:** lib/services/tone_generator.dart
-  **Not:** just_audio ile harmonik zengin dalga formu veya sample playback.
+  **Not:** Cosine fade-in/out, Nyquist koruması, WaveForm enum.
 
 - [ ] D.4 — Açık tema seçeneği
   **Ne:** Koyu (mevcut) + açık tema. Ayarlardan değiştirilebilir.
@@ -98,7 +98,7 @@
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
 | C   | 4      | 4          | TAMAM |
-| D   | 5      | 2          | Sırada |
+| D   | 5      | 3          | Sırada |
 | E   | 4      | 0          | Beklemede |
 
 **Sıradaki:** C.1 → Isolate pitch detection

@@ -3,14 +3,27 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:just_audio/just_audio.dart';
 
-/// Sinüs tonu üretici — referans ses çalmak için.
+/// Dalga formu tipleri.
+enum WaveForm {
+  /// Saf sinus dalgasi.
+  sine,
+
+  /// Harmonik zengin — enstrumana yakin sicak ton.
+  warm,
+
+  /// Parlak — daha fazla harmonik, gitar benzeri.
+  bright,
+}
+
+/// Referans ton uretici — farkli dalga formlari destekler.
 class ToneGenerator {
   final AudioPlayer _player = AudioPlayer();
   bool _isPlaying = false;
+  WaveForm waveForm = WaveForm.warm;
 
   bool get isPlaying => _isPlaying;
 
-  /// Belirli frekansta referans ton çal.
+  /// Belirli frekansta referans ton cal.
   Future<void> play(double frequency, {int durationMs = 1500}) async {
     if (_isPlaying) await stop();
     _isPlaying = true;
@@ -19,13 +32,14 @@ class ToneGenerator {
       final wavBytes = _generateWav(
         frequency: frequency,
         durationMs: durationMs,
+        waveForm: waveForm,
       );
 
       final source = _WavAudioSource(wavBytes);
       await _player.setAudioSource(source);
       await _player.play();
 
-      // Çalma bitince state güncelle
+      // Calma bitince state guncelle
       _player.playerStateStream.listen((state) {
         if (state.processingState == ProcessingState.completed) {
           _isPlaying = false;
@@ -46,21 +60,81 @@ class ToneGenerator {
     _player.dispose();
   }
 
-  /// WAV dosyası (byte array) üretir.
+  /// WAV dosyasi (byte array) uretir.
   Uint8List _generateWav({
     required double frequency,
     int durationMs = 1500,
     int sampleRate = 44100,
     double amplitude = 0.3,
+    WaveForm waveForm = WaveForm.warm,
   }) {
     final sampleCount = (sampleRate * durationMs / 1000).toInt();
-    final fadeLength = (sampleRate * 0.02).toInt();
-    final dataSize = sampleCount * 2; // 16-bit = 2 bytes per sample
+    final fadeInLength = (sampleRate * 0.03).toInt(); // 30ms fade-in
+    final fadeOutLength = (sampleRate * 0.08).toInt(); // 80ms fade-out
+    final dataSize = sampleCount * 2;
     final fileSize = 44 + dataSize;
 
     final buffer = ByteData(fileSize);
 
     // WAV header
+    _writeWavHeader(buffer, fileSize, dataSize, sampleRate);
+
+    // PCM data
+    final nyquist = sampleRate / 2.0;
+    for (int i = 0; i < sampleCount; i++) {
+      final t = i / sampleRate;
+      double sample = _synthesize(frequency, t, waveForm, nyquist);
+      sample *= amplitude;
+
+      // Fade-in (cosine curve — yumusak baslangic)
+      if (i < fadeInLength) {
+        final fade = 0.5 * (1.0 - cos(pi * i / fadeInLength));
+        sample *= fade;
+      }
+      // Fade-out (cosine curve — yumusak bitis)
+      if (i > sampleCount - fadeOutLength) {
+        final remaining = sampleCount - i;
+        final fade = 0.5 * (1.0 - cos(pi * remaining / fadeOutLength));
+        sample *= fade;
+      }
+
+      final int16 = (sample * 32767).round().clamp(-32768, 32767);
+      buffer.setInt16(44 + i * 2, int16, Endian.little);
+    }
+
+    return buffer.buffer.asUint8List();
+  }
+
+  /// Dalga formu sentezi.
+  double _synthesize(
+      double freq, double t, WaveForm waveForm, double nyquist) {
+    switch (waveForm) {
+      case WaveForm.sine:
+        return sin(2.0 * pi * freq * t);
+
+      case WaveForm.warm:
+        // Temel + 3 harmonik, azalan genliklerle — sicak, dolu ton
+        double s = sin(2.0 * pi * freq * t);
+        if (freq * 2 < nyquist) s += 0.5 * sin(2.0 * pi * freq * 2 * t);
+        if (freq * 3 < nyquist) s += 0.25 * sin(2.0 * pi * freq * 3 * t);
+        if (freq * 4 < nyquist) s += 0.125 * sin(2.0 * pi * freq * 4 * t);
+        return s / 1.875; // normalize
+
+      case WaveForm.bright:
+        // Daha fazla harmonik — parlak, testere benzeri
+        double s = 0.0;
+        double norm = 0.0;
+        for (int h = 1; h <= 8; h++) {
+          if (freq * h >= nyquist) break;
+          final amp = 1.0 / h;
+          s += amp * sin(2.0 * pi * freq * h * t);
+          norm += amp;
+        }
+        return norm > 0 ? s / norm : 0.0;
+    }
+  }
+
+  void _writeWavHeader(ByteData buffer, int fileSize, int dataSize, int sr) {
     // "RIFF"
     buffer.setUint8(0, 0x52); buffer.setUint8(1, 0x49);
     buffer.setUint8(2, 0x46); buffer.setUint8(3, 0x46);
@@ -71,33 +145,17 @@ class ToneGenerator {
     // "fmt "
     buffer.setUint8(12, 0x66); buffer.setUint8(13, 0x6D);
     buffer.setUint8(14, 0x74); buffer.setUint8(15, 0x20);
-    buffer.setUint32(16, 16, Endian.little); // chunk size
+    buffer.setUint32(16, 16, Endian.little);
     buffer.setUint16(20, 1, Endian.little); // PCM
     buffer.setUint16(22, 1, Endian.little); // mono
-    buffer.setUint32(24, sampleRate, Endian.little);
-    buffer.setUint32(28, sampleRate * 2, Endian.little); // byte rate
-    buffer.setUint16(32, 2, Endian.little); // block align
-    buffer.setUint16(34, 16, Endian.little); // bits per sample
+    buffer.setUint32(24, sr, Endian.little);
+    buffer.setUint32(28, sr * 2, Endian.little);
+    buffer.setUint16(32, 2, Endian.little);
+    buffer.setUint16(34, 16, Endian.little);
     // "data"
     buffer.setUint8(36, 0x64); buffer.setUint8(37, 0x61);
     buffer.setUint8(38, 0x74); buffer.setUint8(39, 0x61);
     buffer.setUint32(40, dataSize, Endian.little);
-
-    // PCM data
-    for (int i = 0; i < sampleCount; i++) {
-      double sample = amplitude * sin(2.0 * pi * frequency * i / sampleRate);
-
-      // Fade-in/out
-      if (i < fadeLength) sample *= i / fadeLength;
-      if (i > sampleCount - fadeLength) {
-        sample *= (sampleCount - i) / fadeLength;
-      }
-
-      final int16 = (sample * 32767).round().clamp(-32768, 32767);
-      buffer.setInt16(44 + i * 2, int16, Endian.little);
-    }
-
-    return buffer.buffer.asUint8List();
   }
 }
 
