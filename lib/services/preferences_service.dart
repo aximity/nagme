@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PreferencesService {
   static const _keyRefA4 = 'refA4';
   static const _keyInstrumentId = 'instrumentId';
+  static const _keyTuningName = 'tuningName';
   static const _keyNotation = 'notation';
   static const _keyTuneThreshold = 'tuneThreshold';
 
@@ -19,6 +20,11 @@ class PreferencesService {
   String get instrumentId => _prefs.getString(_keyInstrumentId) ?? 'violin';
   Future<void> setInstrumentId(String id) =>
       _prefs.setString(_keyInstrumentId, id);
+
+  // Seçili akort düzeni
+  String get tuningName => _prefs.getString(_keyTuningName) ?? 'Standart';
+  Future<void> setTuningName(String name) =>
+      _prefs.setString(_keyTuningName, name);
 
   // Notasyon
   String get notation => _prefs.getString(_keyNotation) ?? 'international';

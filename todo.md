@@ -50,10 +50,10 @@
 
 ## Faz D — Özellik Genişletme
 
-- [ ] D.1 — Alternatif akort sistemleri
+- [x] D.1 — Alternatif akort sistemleri
   **Ne:** Drop D, Open G, DADGAD, Half Step Down, Bağlama düzenleri vb.
   **Dosyalar:** lib/config/instruments.dart, lib/screens/instruments/instrument_select_screen.dart
-  **Not:** Her enstrümana "Akort Düzeni" alt menüsü ekle.
+  **Not:** tuningName field + bottom sheet akort duzeni secici.
 
 - [ ] D.2 — Akort oturumu geçmişi
   **Ne:** Son 20 akort oturumunu kaydet (tarih, enstrüman, süre, sonuç).
@@ -98,7 +98,7 @@
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
 | C   | 4      | 4          | TAMAM |
-| D   | 5      | 0          | Beklemede |
+| D   | 5      | 1          | Sırada |
 | E   | 4      | 0          | Beklemede |
 
 **Sıradaki:** C.1 → Isolate pitch detection

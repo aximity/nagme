@@ -159,7 +159,9 @@ class _TunerScreenState extends ConsumerState<TunerScreen>
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                instrument.name,
+                                instrument.tuningName == 'Standart'
+                                    ? instrument.name
+                                    : '${instrument.name} · ${instrument.tuningName}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .labelLarge
