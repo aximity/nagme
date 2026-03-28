@@ -24,8 +24,42 @@ class TunerScreen extends ConsumerStatefulWidget {
   ConsumerState<TunerScreen> createState() => _TunerScreenState();
 }
 
-class _TunerScreenState extends ConsumerState<TunerScreen> {
+class _TunerScreenState extends ConsumerState<TunerScreen>
+    with WidgetsBindingObserver {
   bool _wasInTune = false;
+  bool _wasActiveBeforePause = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final notifier = ref.read(tunerProvider.notifier);
+
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      // Arka plana alindi — mikrofonu durdur
+      if (notifier.isActive) {
+        _wasActiveBeforePause = true;
+        notifier.stop();
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      // On plana dondu — mikrofonu yeniden baslat
+      if (_wasActiveBeforePause) {
+        _wasActiveBeforePause = false;
+        notifier.start();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

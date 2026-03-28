@@ -43,7 +43,7 @@
   **Dosyalar:** lib/utils/ring_buffer.dart, lib/services/pitch_service.dart
   **Test:** 8 unit test, wrap-around ve audio boyutu dogrulanmis.
 
-- [ ] C.4 — App lifecycle yönetimi
+- [x] C.4 — App lifecycle yönetimi
   **Ne:** Arka plana alındığında mikrofonu durdur, geri gelince başlat.
   **Dosyalar:** lib/screens/tuner/tuner_screen.dart (WidgetsBindingObserver)
   **Test:** Uygulamayı arka plana al → mikrofon kapansın, geri gel → otomatik başlasın.
@@ -97,7 +97,7 @@
 |-----|--------|------------|-------|
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
-| C   | 4      | 3          | Sırada |
+| C   | 4      | 4          | TAMAM |
 | D   | 5      | 0          | Beklemede |
 | E   | 4      | 0          | Beklemede |
 
