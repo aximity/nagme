@@ -38,16 +38,25 @@ class TunerNotifier extends StateNotifier<TunerState> {
 
   bool get isActive => _pitchService != null;
 
-  /// Tuner aktifse durdur ve yeni ayarlarla yeniden başlat.
+  /// Tuner aktifse mikrofonu kesmeden ayarlari gunceller.
   Future<void> _restartIfActive() async {
     if (!isActive || _busy) return;
     _busy = true;
     try {
-      await _cleanup();
+      final instrument = _ref.read(selectedInstrumentProvider);
+      final refA4 = _ref.read(refA4Provider);
+      final sens = _ref.read(sensitivityProvider);
+      await _pitchService!.updateConfig(
+        instrument: instrument,
+        refA4: refA4,
+        sensitivity: sens,
+      );
+    } catch (e) {
+      debugPrint('Tuner updateConfig error: $e');
+      _ref.read(tunerErrorProvider.notifier).state = e.toString();
     } finally {
       _busy = false;
     }
-    await start();
   }
 
   Future<void> start() async {

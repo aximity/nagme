@@ -33,10 +33,10 @@
   **Dosyalar:** lib/core/pitch_detector.dart, lib/services/pitch_service.dart
   **Test:** 60fps korunmalı, flutter run --profile ile jank kontrolü.
 
-- [ ] C.2 — Seamless enstrüman geçişi
+- [x] C.2 — Seamless enstrüman geçişi
   **Ne:** Enstrüman değiştiğinde mikrofon stream kesilmeden yeni ayarlarla devam.
   **Dosyalar:** lib/providers/tuner_provider.dart, lib/services/pitch_service.dart
-  **Not:** Şu an stop+start yapılıyor. PitchService'e updateInstrument() metodu ekle.
+  **Not:** PitchService.updateConfig() ile mikrofon kesmeden isolate hot-swap.
 
 - [ ] C.3 — Ring buffer + bellek optimizasyonu
   **Ne:** Audio buffer'ların gereksiz kopyalanmasını önle.
@@ -97,7 +97,7 @@
 |-----|--------|------------|-------|
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
-| C   | 4      | 1          | Sırada |
+| C   | 4      | 2          | Sırada |
 | D   | 5      | 0          | Beklemede |
 | E   | 4      | 0          | Beklemede |
 

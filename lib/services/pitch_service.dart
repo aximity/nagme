@@ -12,9 +12,9 @@ import 'package:nagme/config/constants.dart';
 /// sonuclari TunerState stream'ine cevirir.
 class PitchService {
   final AudioService _audioService;
-  final double refA4;
-  final InstrumentTuning instrument;
-  final double sensitivity;
+  double _refA4;
+  InstrumentTuning _instrument;
+  double _sensitivity;
 
   StreamSubscription<Float32List>? _audioSub;
   StreamSubscription<PitchIsolateResult>? _isolateSub;
@@ -26,10 +26,13 @@ class PitchService {
 
   PitchService({
     AudioService? audioService,
-    this.refA4 = AppConstants.defaultRefHz,
-    required this.instrument,
-    this.sensitivity = 0.5,
-  }) : _audioService = audioService ?? AudioService();
+    double refA4 = AppConstants.defaultRefHz,
+    required InstrumentTuning instrument,
+    double sensitivity = 0.5,
+  })  : _audioService = audioService ?? AudioService(),
+        _refA4 = refA4,
+        _instrument = instrument,
+        _sensitivity = sensitivity;
 
   Stream<TunerState> get stateStream => _controller.stream;
 
@@ -37,12 +40,7 @@ class PitchService {
     await _audioService.start();
 
     // Isolate'i baslat
-    await _isolateManager.start(PitchIsolateConfig(
-      sampleRate: _audioService.actualSampleRate,
-      refA4: refA4,
-      sensitivity: sensitivity,
-      instrument: instrument,
-    ));
+    await _isolateManager.start(_currentConfig());
 
     // Isolate sonuclarini dinle
     _isolateSub = _isolateManager.resultStream.listen(_onIsolateResult);
@@ -50,6 +48,32 @@ class PitchService {
     // Mikrofon verisini dinle
     _audioSub = _audioService.stream.listen(_onAudioData);
     _controller.add(const TunerState(status: TunerStatus.listening));
+  }
+
+  /// Mikrofon stream'ini kesmeden ayarlari gunceller.
+  ///
+  /// Enstruman, referans Hz veya hassasiyet degistiginde cagirilir.
+  /// Sadece worker isolate yeniden baslatilir, mikrofon devam eder.
+  Future<void> updateConfig({
+    InstrumentTuning? instrument,
+    double? refA4,
+    double? sensitivity,
+  }) async {
+    if (instrument != null) _instrument = instrument;
+    if (refA4 != null) _refA4 = refA4;
+    if (sensitivity != null) _sensitivity = sensitivity;
+
+    // Eski isolate listener'ini kaldir
+    await _isolateSub?.cancel();
+
+    // Accumulator'u temizle — eski config ile biriken veri yeni isolate'e gitmesin
+    _accumulator.clear();
+
+    // Yeni config ile isolate'i yeniden baslat (mikrofon devam ediyor)
+    await _isolateManager.start(_currentConfig());
+
+    // Yeni isolate'in sonuclarini dinle
+    _isolateSub = _isolateManager.resultStream.listen(_onIsolateResult);
   }
 
   Future<void> stop() async {
@@ -83,6 +107,13 @@ class PitchService {
     // Buffer'i Isolate'e gonder — UI thread'i bloklamaz
     _isolateManager.processBuffer(buffer);
   }
+
+  PitchIsolateConfig _currentConfig() => PitchIsolateConfig(
+        sampleRate: _audioService.actualSampleRate,
+        refA4: _refA4,
+        sensitivity: _sensitivity,
+        instrument: _instrument,
+      );
 
   /// Isolate'ten gelen sonuclari TunerState'e cevirir.
   void _onIsolateResult(PitchIsolateResult result) {
