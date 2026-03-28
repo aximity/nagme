@@ -8,6 +8,7 @@ class PreferencesService {
   static const _keyTuningName = 'tuningName';
   static const _keyNotation = 'notation';
   static const _keyTuneThreshold = 'tuneThreshold';
+  static const _keyThemeMode = 'themeMode';
   static const _keySessions = 'tuningSessions';
   static const _maxSessions = 20;
 
@@ -28,6 +29,11 @@ class PreferencesService {
   String get tuningName => _prefs.getString(_keyTuningName) ?? 'Standart';
   Future<void> setTuningName(String name) =>
       _prefs.setString(_keyTuningName, name);
+
+  // Tema modu: 'dark', 'light', 'system'
+  String get themeMode => _prefs.getString(_keyThemeMode) ?? 'dark';
+  Future<void> setThemeMode(String mode) =>
+      _prefs.setString(_keyThemeMode, mode);
 
   // Notasyon
   String get notation => _prefs.getString(_keyNotation) ?? 'international';

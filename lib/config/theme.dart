@@ -34,6 +34,30 @@ class AppColors {
   static const needleColor = Color(0xFFF0EDE8);
 }
 
+/// Acik tema renk paleti
+class AppColorsLight {
+  AppColorsLight._();
+
+  static const background = Color(0xFFF5F3EF);
+  static const surface = Color(0xFFFFFFFF);
+  static const surfaceLight = Color(0xFFF0EDE8);
+  static const surfaceBorder = Color(0xFFDDD9D3);
+
+  // Akort durumu — koyu temadakiyle ayni
+  static const inTune = Color(0xFFD4950A);
+  static const sharp = Color(0xFFD04E44);
+  static const flat = Color(0xFF4A7ADE);
+
+  // Metin
+  static const textPrimary = Color(0xFF1A1816);
+  static const textSecondary = Color(0xFF6B6660);
+  static const textMuted = Color(0xFFAAA59E);
+
+  // Gauge
+  static const gaugeTrack = Color(0xFFE5E2DC);
+  static const needleColor = Color(0xFF1A1816);
+}
+
 /// Gradyan tanımları
 class AppGradients {
   AppGradients._();
@@ -135,6 +159,100 @@ class AppTheme {
         inactiveTrackColor: AppColors.gaugeTrack,
         thumbColor: AppColors.inTune,
         overlayColor: AppColors.inTune.withValues(alpha: 0.12),
+      ),
+    );
+  }
+
+  static ThemeData get light {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: AppColorsLight.background,
+      colorScheme: const ColorScheme.light(
+        surface: AppColorsLight.surface,
+        primary: AppColorsLight.inTune,
+        error: AppColors.error,
+        onSurface: AppColorsLight.textPrimary,
+        onPrimary: Colors.white,
+      ),
+      textTheme: _textThemeLight,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColorsLight.background,
+        foregroundColor: AppColorsLight.textPrimary,
+        elevation: 0,
+        centerTitle: true,
+      ),
+      cardTheme: CardThemeData(
+        color: AppColorsLight.surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+          side: BorderSide(color: AppColorsLight.surfaceBorder.withValues(alpha: 0.5)),
+        ),
+      ),
+      sliderTheme: SliderThemeData(
+        trackHeight: 3,
+        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+        overlayShape: const RoundSliderOverlayShape(overlayRadius: 18),
+        activeTrackColor: AppColorsLight.inTune,
+        inactiveTrackColor: AppColorsLight.gaugeTrack,
+        thumbColor: AppColorsLight.inTune,
+        overlayColor: AppColorsLight.inTune.withValues(alpha: 0.12),
+      ),
+    );
+  }
+
+  static TextTheme get _textThemeLight {
+    return TextTheme(
+      displayLarge: GoogleFonts.outfit(
+        fontSize: 88,
+        fontWeight: FontWeight.w700,
+        color: AppColorsLight.textPrimary,
+        letterSpacing: -3,
+        height: 1.0,
+      ),
+      displayMedium: GoogleFonts.jetBrainsMono(
+        fontSize: 28,
+        fontWeight: FontWeight.w500,
+        color: AppColorsLight.textSecondary,
+        fontFeatures: const [FontFeature.tabularFigures()],
+      ),
+      displaySmall: GoogleFonts.jetBrainsMono(
+        fontSize: 20,
+        fontWeight: FontWeight.w400,
+        color: AppColorsLight.textSecondary,
+        fontFeatures: const [FontFeature.tabularFigures()],
+      ),
+      headlineMedium: GoogleFonts.outfit(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        color: AppColorsLight.textPrimary,
+      ),
+      titleMedium: GoogleFonts.outfit(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: AppColorsLight.textPrimary,
+      ),
+      bodyLarge: GoogleFonts.outfit(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: AppColorsLight.textPrimary,
+      ),
+      bodyMedium: GoogleFonts.outfit(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppColorsLight.textSecondary,
+      ),
+      labelLarge: GoogleFonts.outfit(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: AppColorsLight.textPrimary,
+      ),
+      labelSmall: GoogleFonts.jetBrainsMono(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppColorsLight.textMuted,
+        fontFeatures: const [FontFeature.tabularFigures()],
       ),
     );
   }
