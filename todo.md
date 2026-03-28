@@ -55,10 +55,10 @@
   **Dosyalar:** lib/config/instruments.dart, lib/screens/instruments/instrument_select_screen.dart
   **Not:** tuningName field + bottom sheet akort duzeni secici.
 
-- [ ] D.2 — Akort oturumu geçmişi
+- [x] D.2 — Akort oturumu geçmişi
   **Ne:** Son 20 akort oturumunu kaydet (tarih, enstrüman, süre, sonuç).
-  **Dosyalar:** lib/services/preferences_service.dart, yeni: lib/models/tuning_session.dart
-  **Test:** Oturum kaydedilir, listelenebilir, silinebilir.
+  **Dosyalar:** lib/models/tuning_session.dart, lib/services/preferences_service.dart
+  **Test:** 6 unit test (serialization, round-trip, edge cases).
 
 - [ ] D.3 — Gelişmiş ton üretici
   **Ne:** Sinüs dalgası yerine enstrümana yakın ton rengi. Uzun basıp bırakma.
@@ -98,7 +98,7 @@
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
 | C   | 4      | 4          | TAMAM |
-| D   | 5      | 1          | Sırada |
+| D   | 5      | 2          | Sırada |
 | E   | 4      | 0          | Beklemede |
 
 **Sıradaki:** C.1 → Isolate pitch detection
