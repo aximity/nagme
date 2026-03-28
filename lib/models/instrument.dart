@@ -19,12 +19,14 @@ class InstrumentTuning {
   final String name;
   final String icon;
   final List<StringTuning> strings;
+  final String tuningName;
 
   const InstrumentTuning({
     required this.id,
     required this.name,
     required this.icon,
     required this.strings,
+    this.tuningName = 'Standart',
   });
 
   /// Asset yolu: assets/instruments/{id}.png

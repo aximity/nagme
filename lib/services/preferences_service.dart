@@ -1,11 +1,16 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:nagme/models/tuning_session.dart';
 
 /// SharedPreferences wrapper — kullanıcı tercihlerini kalıcı depolar.
 class PreferencesService {
   static const _keyRefA4 = 'refA4';
   static const _keyInstrumentId = 'instrumentId';
+  static const _keyTuningName = 'tuningName';
   static const _keyNotation = 'notation';
   static const _keyTuneThreshold = 'tuneThreshold';
+  static const _keyThemeMode = 'themeMode';
+  static const _keySessions = 'tuningSessions';
+  static const _maxSessions = 20;
 
   final SharedPreferences _prefs;
 
@@ -20,6 +25,16 @@ class PreferencesService {
   Future<void> setInstrumentId(String id) =>
       _prefs.setString(_keyInstrumentId, id);
 
+  // Seçili akort düzeni
+  String get tuningName => _prefs.getString(_keyTuningName) ?? 'Standart';
+  Future<void> setTuningName(String name) =>
+      _prefs.setString(_keyTuningName, name);
+
+  // Tema modu: 'dark', 'light', 'system'
+  String get themeMode => _prefs.getString(_keyThemeMode) ?? 'dark';
+  Future<void> setThemeMode(String mode) =>
+      _prefs.setString(_keyThemeMode, mode);
+
   // Notasyon
   String get notation => _prefs.getString(_keyNotation) ?? 'international';
   Future<void> setNotation(String value) =>
@@ -29,4 +44,27 @@ class PreferencesService {
   double get tuneThreshold => _prefs.getDouble(_keyTuneThreshold) ?? 5.0;
   Future<void> setTuneThreshold(double value) =>
       _prefs.setDouble(_keyTuneThreshold, value);
+
+  // Akort oturumlari
+  List<TuningSession> get sessions {
+    final json = _prefs.getString(_keySessions);
+    if (json == null || json.isEmpty) return [];
+    try {
+      return TuningSession.decodeList(json);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<void> addSession(TuningSession session) async {
+    final list = sessions;
+    list.insert(0, session);
+    // En fazla _maxSessions kayit tut
+    if (list.length > _maxSessions) {
+      list.removeRange(_maxSessions, list.length);
+    }
+    await _prefs.setString(_keySessions, TuningSession.encodeList(list));
+  }
+
+  Future<void> clearSessions() => _prefs.remove(_keySessions);
 }

@@ -28,64 +28,64 @@
 
 ## Faz C — Performans & Kararlılık
 
-- [ ] C.1 — Pitch detection'ı Isolate'e taşı
+- [x] C.1 — Pitch detection'ı Isolate'e taşı
   **Ne:** UI thread bloklamadan ses işleme. compute() veya custom Isolate.
   **Dosyalar:** lib/core/pitch_detector.dart, lib/services/pitch_service.dart
   **Test:** 60fps korunmalı, flutter run --profile ile jank kontrolü.
 
-- [ ] C.2 — Seamless enstrüman geçişi
+- [x] C.2 — Seamless enstrüman geçişi
   **Ne:** Enstrüman değiştiğinde mikrofon stream kesilmeden yeni ayarlarla devam.
   **Dosyalar:** lib/providers/tuner_provider.dart, lib/services/pitch_service.dart
-  **Not:** Şu an stop+start yapılıyor. PitchService'e updateInstrument() metodu ekle.
+  **Not:** PitchService.updateConfig() ile mikrofon kesmeden isolate hot-swap.
 
-- [ ] C.3 — Ring buffer + bellek optimizasyonu
+- [x] C.3 — Ring buffer + bellek optimizasyonu
   **Ne:** Audio buffer'ların gereksiz kopyalanmasını önle.
-  **Dosyalar:** lib/services/audio_service.dart, lib/services/pitch_service.dart
-  **Test:** Memory profiler ile buffer allocation kontrol.
+  **Dosyalar:** lib/utils/ring_buffer.dart, lib/services/pitch_service.dart
+  **Test:** 8 unit test, wrap-around ve audio boyutu dogrulanmis.
 
-- [ ] C.4 — App lifecycle yönetimi
+- [x] C.4 — App lifecycle yönetimi
   **Ne:** Arka plana alındığında mikrofonu durdur, geri gelince başlat.
   **Dosyalar:** lib/screens/tuner/tuner_screen.dart (WidgetsBindingObserver)
   **Test:** Uygulamayı arka plana al → mikrofon kapansın, geri gel → otomatik başlasın.
 
 ## Faz D — Özellik Genişletme
 
-- [ ] D.1 — Alternatif akort sistemleri
+- [x] D.1 — Alternatif akort sistemleri
   **Ne:** Drop D, Open G, DADGAD, Half Step Down, Bağlama düzenleri vb.
   **Dosyalar:** lib/config/instruments.dart, lib/screens/instruments/instrument_select_screen.dart
-  **Not:** Her enstrümana "Akort Düzeni" alt menüsü ekle.
+  **Not:** tuningName field + bottom sheet akort duzeni secici.
 
-- [ ] D.2 — Akort oturumu geçmişi
+- [x] D.2 — Akort oturumu geçmişi
   **Ne:** Son 20 akort oturumunu kaydet (tarih, enstrüman, süre, sonuç).
-  **Dosyalar:** lib/services/preferences_service.dart, yeni: lib/models/tuning_session.dart
-  **Test:** Oturum kaydedilir, listelenebilir, silinebilir.
+  **Dosyalar:** lib/models/tuning_session.dart, lib/services/preferences_service.dart
+  **Test:** 6 unit test (serialization, round-trip, edge cases).
 
-- [ ] D.3 — Gelişmiş ton üretici
-  **Ne:** Sinüs dalgası yerine enstrümana yakın ton rengi. Uzun basıp bırakma.
+- [x] D.3 — Gelişmiş ton üretici
+  **Ne:** 3 dalga formu: sine, warm (4 harmonik), bright (8 harmonik).
   **Dosyalar:** lib/services/tone_generator.dart
-  **Not:** just_audio ile harmonik zengin dalga formu veya sample playback.
+  **Not:** Cosine fade-in/out, Nyquist koruması, WaveForm enum.
 
-- [ ] D.4 — Açık tema seçeneği
-  **Ne:** Koyu (mevcut) + açık tema. Ayarlardan değiştirilebilir.
-  **Dosyalar:** lib/config/theme.dart, lib/providers/settings_provider.dart
+- [x] D.4 — Açık tema seçeneği
+  **Ne:** Koyu + açık tema. themeModeProvider + SharedPreferences.
+  **Dosyalar:** lib/config/theme.dart, lib/providers/settings_provider.dart, lib/app.dart
 
-- [ ] D.5 — Çoklu dil desteği (i18n)
-  **Ne:** Türkçe (mevcut) + İngilizce. flutter_localizations kullan.
-  **Dosyalar:** lib/l10n/ (yeni klasör), pubspec.yaml
+- [x] D.5 — Çoklu dil desteği (i18n)
+  **Ne:** Türkçe + İngilizce. flutter_localizations + ARB dosyaları.
+  **Dosyalar:** lib/l10n/app_tr.arb, lib/l10n/app_en.arb, l10n.yaml, pubspec.yaml
 
 ## Faz E — Store Yayını
 
-- [ ] E.1 — Play Store listing hazırlığı
+- [x] E.1 — Play Store listing hazırlığı
   **Ne:** Açıklama, ekran görüntüleri. Feature graphic hazır (assets/icon/).
-  **Not:** 4-6 ekran görüntüsü, kısa/uzun açıklama.
+  **Not:** store/play_store/ altinda TR+EN listing dosyalari.
 
-- [ ] E.2 — Release build + imzalama
-  **Ne:** Keystore oluştur, build.gradle ayarla, flutter build appbundle --release.
-  **Dosyalar:** android/app/build.gradle, android/key.properties (yeni)
+- [x] E.2 — Release build + imzalama
+  **Ne:** build.gradle.kts release signing, key.properties sablonu.
+  **Dosyalar:** android/app/build.gradle.kts, android/key.properties.example
 
-- [ ] E.3 — ProGuard / R8 kuralları
-  **Ne:** Release build'de crash olmadığından emin ol.
-  **Test:** Release APK cihazda tam test.
+- [x] E.3 — ProGuard / R8 kuralları
+  **Ne:** proguard-rules.pro, minify + shrink aktif.
+  **Dosyalar:** android/app/proguard-rules.pro
 
 - [ ] E.4 — iOS build hazırlığı (opsiyonel — Mac gerekli)
 
@@ -97,8 +97,8 @@
 |-----|--------|------------|-------|
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
-| C   | 4      | 0          | Sırada |
-| D   | 5      | 0          | Beklemede |
-| E   | 4      | 0          | Beklemede |
+| C   | 4      | 4          | TAMAM |
+| D   | 5      | 5          | TAMAM |
+| E   | 4      | 3          | Sırada |
 
 **Sıradaki:** C.1 → Isolate pitch detection

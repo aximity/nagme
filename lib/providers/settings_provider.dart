@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show ThemeMode;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nagme/config/temperaments.dart';
 import 'package:nagme/main.dart';
@@ -28,4 +29,14 @@ final temperamentProvider = StateProvider<Temperament>((ref) {
 final tuneThresholdProvider = StateProvider<double>((ref) {
   final prefs = ref.watch(preferencesServiceProvider);
   return prefs.tuneThreshold;
+});
+
+/// Tema modu provider'i — dark, light, system.
+final themeModeProvider = StateProvider<ThemeMode>((ref) {
+  final prefs = ref.watch(preferencesServiceProvider);
+  return switch (prefs.themeMode) {
+    'light' => ThemeMode.light,
+    'system' => ThemeMode.system,
+    _ => ThemeMode.dark,
+  };
 });

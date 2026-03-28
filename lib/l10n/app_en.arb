@@ -1,0 +1,36 @@
+{
+  "@@locale": "en",
+  "appTitle": "Nagme",
+  "instrumentSelect": "Select Instrument",
+  "tuningPreset": "Tuning Preset",
+  "chromatic": "Chromatic",
+  "standard": "Standard",
+  "strings": "{count} strings",
+  "@strings": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settings": "Settings",
+  "referenceFrequency": "Reference Frequency",
+  "sensitivity": "Sensitivity",
+  "theme": "Theme",
+  "themeDark": "Dark",
+  "themeLight": "Light",
+  "themeSystem": "System",
+  "language": "Language",
+  "toneGenerator": "Tone Generator",
+  "waveformSine": "Sine",
+  "waveformWarm": "Warm",
+  "waveformBright": "Bright",
+  "inTune": "In Tune",
+  "sharp": "Sharp",
+  "flat": "Flat",
+  "noSignal": "No Signal",
+  "listening": "Listening...",
+  "lowConfidence": "Weak Signal",
+  "micPermissionDenied": "Microphone permission denied.",
+  "tuningHistory": "Tuning History",
+  "sessionDuration": "Duration",
+  "successRate": "Success Rate"
+}

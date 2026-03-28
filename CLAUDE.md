@@ -153,7 +153,7 @@ lib/
 | iOS ses oturumu | iOS'ta ses kaydı için AVAudioSession ayarı lazım | Audio session category doğru set edilmeli |
 | Düşük frekans algılama | Bas teller (<80Hz) için buffer büyük olmalı | Buffer 4096+, belki 8192 |
 | Gürültülü ortam | Arka plan gürültüsü yanlış nota algılatır | RMS eşik değeri + gürültü gate |
-| UI jank | Pitch detection ana thread'de → kasma | Isolate'te çalıştır |
+| UI jank | Pitch detection ana thread'de → kasma | ~~Isolate'te çalıştır~~ ÇÖZÜLDÜ (PitchIsolateManager) |
 | Platform farkları | Android ve iOS mikrofon API'leri farklı davranır | Her platformda ayrı test |
 
 ---
@@ -168,12 +168,20 @@ lib/
 - Akort değişikliklerinin anlık yansıması (provider listen)
 - Gecikme optimizasyonu (hold time, stability, accumulator)
 - Harmonik düzeltme iyileştirmesi
+- P3: Pitch detection Isolate'e taşındı (UI jank önleme)
+- P4: Seamless enstrüman geçişi (mikrofon kesmeden config hot-swap)
+- P5: Ring buffer bellek optimizasyonu
+- P6: App lifecycle yönetimi (arka planda mikrofon durur)
+- P7: Alternatif akort sistemleri (12 preset: Drop D, Open G, DADGAD, Bağlama düzenleri vb.)
+- P8: Akort oturumu geçmişi (son 20 oturum)
+- P9: Gelişmiş ton üretici (3 dalga formu: sine, warm, bright)
+- P10: Açık/koyu tema desteği
+- P11: Türkçe + İngilizce i18n altyapısı
+- P12: Play Store listing + release build + ProGuard ayarları
 
 ### Aktif Öncelik
-- **P3:** App Store / Play Store yayını
-- **P4:** Pitch detection'ı Isolate'e taşı (UI jank önleme)
-- **P5:** Alternatif akort sistemleri (drop D, open G, vb.)
-- **P6:** Ton üretici iyileştirmeleri
+- **Store Yayını:** Keystore oluştur, key.properties doldur, release build, cihaz testi, Play Store yükle
+- **iOS Build:** Mac gerekli (E.4)
 
 ---
 
