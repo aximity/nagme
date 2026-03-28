@@ -26,3 +26,8 @@
 
 # R8 full mode uyumlulugu
 -dontwarn java.lang.invoke.StringConcatFactory
+
+# Google Play Core (Flutter deferred components)
+-dontwarn com.google.android.play.core.splitcompat.**
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
