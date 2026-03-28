@@ -69,9 +69,9 @@
   **Ne:** Koyu + açık tema. themeModeProvider + SharedPreferences.
   **Dosyalar:** lib/config/theme.dart, lib/providers/settings_provider.dart, lib/app.dart
 
-- [ ] D.5 — Çoklu dil desteği (i18n)
-  **Ne:** Türkçe (mevcut) + İngilizce. flutter_localizations kullan.
-  **Dosyalar:** lib/l10n/ (yeni klasör), pubspec.yaml
+- [x] D.5 — Çoklu dil desteği (i18n)
+  **Ne:** Türkçe + İngilizce. flutter_localizations + ARB dosyaları.
+  **Dosyalar:** lib/l10n/app_tr.arb, lib/l10n/app_en.arb, l10n.yaml, pubspec.yaml
 
 ## Faz E — Store Yayını
 
@@ -98,7 +98,7 @@
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
 | C   | 4      | 4          | TAMAM |
-| D   | 5      | 4          | Sırada |
+| D   | 5      | 5          | TAMAM |
 | E   | 4      | 0          | Beklemede |
 
 **Sıradaki:** C.1 → Isolate pitch detection

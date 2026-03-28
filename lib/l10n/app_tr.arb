@@ -1,0 +1,36 @@
+{
+  "@@locale": "tr",
+  "appTitle": "Nağme",
+  "instrumentSelect": "Enstrüman Seçimi",
+  "tuningPreset": "Akort Düzeni",
+  "chromatic": "Kromatik",
+  "standard": "Standart",
+  "strings": "{count} tel",
+  "@strings": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settings": "Ayarlar",
+  "referenceFrequency": "Referans Frekans",
+  "sensitivity": "Hassasiyet",
+  "theme": "Tema",
+  "themeDark": "Koyu",
+  "themeLight": "Açık",
+  "themeSystem": "Sistem",
+  "language": "Dil",
+  "toneGenerator": "Ton Üretici",
+  "waveformSine": "Sinüs",
+  "waveformWarm": "Sıcak",
+  "waveformBright": "Parlak",
+  "inTune": "Akortlu",
+  "sharp": "Tiz",
+  "flat": "Pes",
+  "noSignal": "Sinyal yok",
+  "listening": "Dinleniyor...",
+  "lowConfidence": "Zayıf sinyal",
+  "micPermissionDenied": "Mikrofon izni verilmedi.",
+  "tuningHistory": "Akort Geçmişi",
+  "sessionDuration": "Süre",
+  "successRate": "Başarı Oranı"
+}

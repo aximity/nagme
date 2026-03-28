@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nagme/config/theme.dart';
 import 'package:nagme/config/routes.dart';
+import 'package:nagme/l10n/app_localizations.dart';
 import 'package:nagme/providers/settings_provider.dart';
 
 class NagmeApp extends ConsumerWidget {
@@ -17,6 +18,8 @@ class NagmeApp extends ConsumerWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: themeMode,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
     );
   }
