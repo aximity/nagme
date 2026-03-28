@@ -28,7 +28,7 @@
 
 ## Faz C — Performans & Kararlılık
 
-- [ ] C.1 — Pitch detection'ı Isolate'e taşı
+- [x] C.1 — Pitch detection'ı Isolate'e taşı
   **Ne:** UI thread bloklamadan ses işleme. compute() veya custom Isolate.
   **Dosyalar:** lib/core/pitch_detector.dart, lib/services/pitch_service.dart
   **Test:** 60fps korunmalı, flutter run --profile ile jank kontrolü.
@@ -97,7 +97,7 @@
 |-----|--------|------------|-------|
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
-| C   | 4      | 0          | Sırada |
+| C   | 4      | 1          | Sırada |
 | D   | 5      | 0          | Beklemede |
 | E   | 4      | 0          | Beklemede |
 
