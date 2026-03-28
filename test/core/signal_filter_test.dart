@@ -67,10 +67,9 @@ void main() {
   group('ConfidenceScorer', () {
     test('kararlı pitch ardışık frame kontrolünü geçer', () {
       final scorer = ConfidenceScorer();
-      // Aynı frekansı 5 kez tekrarla — 4. frame'de geçmeli
+      // Aynı frekansı tekrarla — 2. kararlı frame'de geçmeli
       expect(scorer.checkStability(440.0), false);
-      expect(scorer.checkStability(441.0), false);
-      expect(scorer.checkStability(440.5), true); // 3. ardışık kararlı frame
+      expect(scorer.checkStability(441.0), true); // 2. ardışık kararlı frame
     });
 
     test('değişken pitch (konuşma) reddedilir', () {
@@ -118,7 +117,7 @@ void main() {
       scorer.checkStability(440.0);
       scorer.updateNoiseFloor(0.003);
       scorer.reset();
-      expect(scorer.noiseFloor, equals(0.008));
+      expect(scorer.noiseFloor, equals(0.003));
     });
   });
 

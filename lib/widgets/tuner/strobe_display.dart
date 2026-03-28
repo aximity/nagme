@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nagme/config/theme.dart';
 
-/// Peterson benzeri stroboskopik tuner görüntüsü.
-///
-/// Yatay bantlar cent sapmasına göre kayar:
-/// - Sola kayma = düşük (bemol)
-/// - Sağa kayma = yüksek (diyez)
-/// - Durağan = akortlu
-///
-/// Kayma hızı cent sapmasıyla orantılı — 0.1 cent hassasiyet hissi verir.
+/// Premium stroboskopik display — yumuşak kenarlar, derinlik efekti.
 class StrobeDisplay extends StatefulWidget {
   final double cents;
   final bool isActive;
@@ -33,7 +26,7 @@ class _StrobeDisplayState extends State<StrobeDisplay>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 16), // ~60fps
+      duration: const Duration(milliseconds: 16),
     )..addListener(_updateOffset);
 
     if (widget.isActive) _controller.repeat();
@@ -51,10 +44,8 @@ class _StrobeDisplayState extends State<StrobeDisplay>
 
   void _updateOffset() {
     setState(() {
-      // Cent sapması → kayma hızı. 0 cent = durağan, ±50 cent = hızlı kayma.
-      final speed = widget.cents * 0.15; // piksel/frame
+      final speed = widget.cents * 0.15;
       _offset += speed;
-      // Sonsuz döngü için mod
       if (_offset.abs() > 100) _offset = _offset % 100;
     });
   }
@@ -67,16 +58,30 @@ class _StrobeDisplayState extends State<StrobeDisplay>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      width: double.infinity,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: CustomPaint(
-          painter: _StrobePainter(
-            offset: _offset,
-            isActive: widget.isActive,
-            isInTune: widget.cents.abs() <= 3.0,
+    return RepaintBoundary(
+      child: SizedBox(
+        height: 40,
+        width: double.infinity,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: ShaderMask(
+            shaderCallback: (bounds) => const LinearGradient(
+              colors: [
+                Colors.transparent,
+                Colors.white,
+                Colors.white,
+                Colors.transparent,
+              ],
+              stops: [0.0, 0.12, 0.88, 1.0],
+            ).createShader(bounds),
+            blendMode: BlendMode.dstIn,
+            child: CustomPaint(
+              painter: _StrobePainter(
+                offset: _offset,
+                isActive: widget.isActive,
+                isInTune: widget.cents.abs() <= 3.0,
+              ),
+            ),
           ),
         ),
       ),
@@ -97,56 +102,54 @@ class _StrobePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Arka plan
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
       Paint()..color = AppColors.background,
     );
 
     if (!isActive) {
-      // İnaktif: soluk çizgiler
-      _drawBands(canvas, size, 0, AppColors.textMuted.withValues(alpha: 0.15));
+      _drawBands(canvas, size, 0, AppColors.textMuted.withValues(alpha: 0.08));
       return;
     }
 
     final color = isInTune
-        ? AppColors.inTune
-        : AppColors.textPrimary.withValues(alpha: 0.7);
+        ? AppColors.inTune.withValues(alpha: 0.7)
+        : AppColors.textPrimary.withValues(alpha: 0.5);
 
     _drawBands(canvas, size, offset, color);
 
     // Orta referans çizgisi
-    final centerPaint = Paint()
-      ..color = AppColors.inTune.withValues(alpha: 0.3)
-      ..strokeWidth = 1;
     canvas.drawLine(
       Offset(size.width / 2, 0),
       Offset(size.width / 2, size.height),
-      centerPaint,
+      Paint()
+        ..color = AppColors.inTune.withValues(alpha: 0.2)
+        ..strokeWidth = 1,
     );
   }
 
   void _drawBands(Canvas canvas, Size size, double off, Color color) {
-    final bandWidth = 20.0;
-    final gapWidth = 20.0;
-    final totalWidth = bandWidth + gapWidth;
-    final paint = Paint()..color = color;
-
-    // 4 yatay sıra
-    const rows = 4;
+    const bandWidth = 18.0;
+    const gapWidth = 18.0;
+    const totalWidth = bandWidth + gapWidth;
+    const rows = 3;
     final rowHeight = size.height / rows;
-
     for (int row = 0; row < rows; row++) {
-      // Her sıra farklı hızda kayar (derinlik hissi)
-      final rowOffset = off * (1.0 + row * 0.3);
+      final rowOffset = off * (1.0 + row * 0.25);
       final y = row * rowHeight;
+      // Derinlik efekti: orta satır daha parlak
+      final rowOpacity = row == 1 ? 1.0 : 0.6;
 
       for (double x = -totalWidth + (rowOffset % totalWidth);
           x < size.width + totalWidth;
           x += totalWidth) {
-        canvas.drawRect(
+        final rrect = RRect.fromRectAndRadius(
           Rect.fromLTWH(x, y + 2, bandWidth, rowHeight - 4),
-          paint,
+          const Radius.circular(3),
+        );
+        canvas.drawRRect(
+          rrect,
+          Paint()..color = color.withValues(alpha: color.a * rowOpacity),
         );
       }
     }

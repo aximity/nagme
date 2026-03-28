@@ -8,10 +8,10 @@ class ConfidenceScorer {
 
   int _stableFrameCount = 0;
   int _unstableStreak = 0; // Ardışık kötü frame sayısı
-  static const _requiredStableFrames = 3;
+  static const _requiredStableFrames = 1;
   static const _stabilityCentThreshold = 50.0;
 
-  double _noiseFloor = 0.008;
+  double _noiseFloor = 0.003;
   static const _noiseAdaptRate = 0.03;
 
   double _lastStablePitch = 0.0;
@@ -21,18 +21,18 @@ class ConfidenceScorer {
   double sensitivity = 0.5;
 
   /// Hassasiyete göre güven eşiği hesaplar.
-  /// Hassas (0.0) → 0.50, Orta (0.5) → 0.40, Toleranslı (1.0) → 0.25
-  double get minConfidence => 0.50 - sensitivity * 0.25;
+  /// Hassas (0.0) → 0.35, Orta (0.5) → 0.25, Toleranslı (1.0) → 0.15
+  double get minConfidence => 0.35 - sensitivity * 0.20;
 
   /// Hassasiyete göre noise gate çarpanı.
-  /// Hassas → 3.0, Toleranslı → 1.8
-  double get _noiseGateMultiplier => 3.0 - sensitivity * 1.2;
+  /// Hassas → 2.0, Toleranslı → 1.3
+  double get _noiseGateMultiplier => 2.0 - sensitivity * 0.7;
 
   void updateNoiseFloor(double rms) {
     if (rms < _noiseFloor * 2) {
       _noiseFloor = _noiseFloor * (1 - _noiseAdaptRate) +
           rms * _noiseAdaptRate;
-      if (_noiseFloor < 0.002) _noiseFloor = 0.002;
+      if (_noiseFloor < 0.001) _noiseFloor = 0.001;
     }
   }
 
@@ -47,7 +47,7 @@ class ConfidenceScorer {
 
     if (_lastStablePitch <= 0) {
       _lastStablePitch = currentPitch;
-      _stableFrameCount = 1;
+      _stableFrameCount = 0;
       return false;
     }
 
@@ -63,7 +63,7 @@ class ConfidenceScorer {
       if (_unstableStreak >= 2) {
         // 2+ ardışık kötü frame → sıfırla (muhtemelen konuşma veya yeni nota)
         _lastStablePitch = currentPitch;
-        _stableFrameCount = 1;
+        _stableFrameCount = 0;
         _unstableStreak = 0;
       }
       // 1 kötü frame → tolerans göster, sayaç korunur
@@ -112,7 +112,7 @@ class ConfidenceScorer {
 
   void reset() {
     _recentPitches.clear();
-    _noiseFloor = 0.008;
+    _noiseFloor = 0.003;
     _stableFrameCount = 0;
     _unstableStreak = 0;
     _lastStablePitch = 0.0;

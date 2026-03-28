@@ -26,6 +26,6 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.mic), findsOneWidget);
+    expect(find.byIcon(Icons.mic_rounded), findsOneWidget);
   });
 }

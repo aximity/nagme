@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:nagme/core/pitch_detector.dart';
 import 'package:nagme/core/note_calculator.dart';
 import 'package:nagme/core/signal_filter.dart';
@@ -29,7 +29,7 @@ class PitchService {
   /// Hold time: son geçerli state + timestamp.
   TunerState? _lastValidState;
   DateTime? _lastValidTime;
-  static const _holdDuration = Duration(milliseconds: 350);
+  static const _holdDuration = Duration(milliseconds: 80);
 
   /// Median filter: son 3 frekans ölçümü — outlier'ları eler.
   final List<double> _recentFreqs = [];
@@ -82,27 +82,35 @@ class PitchService {
     final buffer = Float32List.fromList(
       _accumulator.sublist(0, AppConstants.bufferSize),
     );
-    _accumulator.removeRange(0, AppConstants.bufferSize ~/ 2);
+    _accumulator.removeRange(0, AppConstants.bufferSize);
     _processBuffer(buffer);
   }
+
+  int _debugCounter = 0;
 
   void _processBuffer(Float32List buffer) {
     final sampleRate = _audioService.actualSampleRate;
     final rms = PitchDetector.rms(buffer);
+    final shouldLog = (_debugCounter++ % 20 == 0); // Her 20 buffer'da bir logla
 
-    _scorer.updateNoiseFloor(rms);
-    if (!_scorer.isAboveNoiseFloor(rms)) {
+    // Sabit sessizlik eşiği — adaptif gate Android'de sorun çıkarıyordu
+    if (rms < AppConstants.silenceThreshold) {
+      if (shouldLog) {
+        debugPrint('[NAGME] silence: rms=$rms threshold=${AppConstants.silenceThreshold}');
+      }
       _emitWithHold(const TunerState(status: TunerStatus.noSignal));
       return;
     }
 
     var frequency = _detector.detect(buffer);
     if (frequency < 0) {
+      if (shouldLog) debugPrint('[NAGME] YIN no pitch: rms=$rms');
       _emitWithHold(const TunerState(status: TunerStatus.noSignal));
       return;
     }
 
     if (frequency < _freqRange.lowHz || frequency > _freqRange.highHz) {
+      if (shouldLog) debugPrint('[NAGME] out of range: freq=$frequency range=${_freqRange.lowHz}-${_freqRange.highHz}');
       _emitWithHold(const TunerState(status: TunerStatus.noSignal));
       return;
     }
@@ -113,6 +121,7 @@ class PitchService {
 
     final isStable = _scorer.checkStability(frequency);
     if (!isStable) {
+      if (shouldLog) debugPrint('[NAGME] unstable: freq=$frequency stableFrames=${_scorer.stableFrames}');
       _emitWithHold(const TunerState(status: TunerStatus.lowConfidence));
       return;
     }
@@ -139,6 +148,10 @@ class PitchService {
       rms: rms,
     );
 
+    if (shouldLog) {
+      debugPrint('[NAGME] freq=$frequency rms=$rms confidence=$confidence (stab=$stabilityScore hnr=$hnrScore sfm=$sfmScore) min=${_scorer.minConfidence}');
+    }
+
     if (confidence < _scorer.minConfidence) {
       _emitWithHold(TunerState(
         status: TunerStatus.lowConfidence,
@@ -163,22 +176,27 @@ class PitchService {
     _controller.add(state);
   }
 
-  /// Hold time: sinyal kaybolduğunda son geçerli notayı 350ms tut.
+  /// Hold time: sinyal kaybolduğunda son geçerli notayı kısa süre tut.
   void _emitWithHold(TunerState fallbackState) {
     if (_lastValidState != null && _lastValidTime != null) {
       final elapsed = DateTime.now().difference(_lastValidTime!);
       if (elapsed < _holdDuration) {
-        // Hala hold süresi içinde — son geçerli state'i yeniden yayınla
         _controller.add(_lastValidState!);
         return;
       }
     }
+    // Sinyal kesildi — median filter'ı temizle, eski nota takılmasın
     _lastValidState = null;
     _lastValidTime = null;
+    _recentFreqs.clear();
     _controller.add(fallbackState);
   }
 
   /// Harmonik hata düzeltme (2x, 3x, 0.5x).
+  ///
+  /// Sadece algılanan frekans bir telden 150+ cent uzaktaysa ve
+  /// bir harmonik adayı 50 cent içinde bir tele denk geliyorsa düzeltir.
+  /// Bu, hoparlör harmoniklerinin yanlış eşleşmesini önler.
   double _correctHarmonicError(double frequency) {
     if (instrument.isChromatic) return frequency;
 
@@ -188,13 +206,18 @@ class PitchService {
       if (centDist < minCentDist) minCentDist = centDist;
     }
 
-    if (minCentDist < 100) return frequency;
+    // Zaten bir tele yeterince yakınsa düzeltme yapma
+    if (minCentDist < 150) return frequency;
 
     final candidates = [frequency / 2, frequency / 3, frequency * 2];
     double bestFreq = frequency;
     double bestDist = minCentDist;
 
     for (final candidate in candidates) {
+      // Adayın makul frekans aralığında olduğundan emin ol
+      if (candidate < _freqRange.lowHz || candidate > _freqRange.highHz) {
+        continue;
+      }
       for (final s in instrument.strings) {
         final centDist =
             (1200.0 * log(candidate / s.frequency) / ln2).abs();
@@ -205,7 +228,8 @@ class PitchService {
       }
     }
 
-    if (bestDist < 100 && bestFreq != frequency) return bestFreq;
+    // Sadece aday gerçekten bir tele çok yakınsa düzelt (50 cent içinde)
+    if (bestDist < 50 && bestFreq != frequency) return bestFreq;
     return frequency;
   }
 

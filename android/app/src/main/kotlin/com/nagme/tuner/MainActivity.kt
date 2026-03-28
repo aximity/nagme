@@ -1,4 +1,4 @@
-package com.example.nagme
+package com.nagme.tuner
 
 import io.flutter.embedding.android.FlutterActivity
 

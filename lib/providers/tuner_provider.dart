@@ -22,9 +22,33 @@ class TunerNotifier extends StateNotifier<TunerState> {
   StreamSubscription<TunerState>? _subscription;
   bool _busy = false; // Race condition koruması
 
-  TunerNotifier(this._ref) : super(TunerState.initial);
+  TunerNotifier(this._ref) : super(TunerState.initial) {
+    // Enstrüman, referans frekans veya hassasiyet değiştiğinde
+    // tuner aktifse otomatik yeniden başlat.
+    _ref.listen(selectedInstrumentProvider, (prev, next) {
+      _restartIfActive();
+    });
+    _ref.listen(refA4Provider, (prev, next) {
+      _restartIfActive();
+    });
+    _ref.listen(sensitivityProvider, (prev, next) {
+      _restartIfActive();
+    });
+  }
 
   bool get isActive => _pitchService != null;
+
+  /// Tuner aktifse durdur ve yeni ayarlarla yeniden başlat.
+  Future<void> _restartIfActive() async {
+    if (!isActive || _busy) return;
+    _busy = true;
+    try {
+      await _cleanup();
+    } finally {
+      _busy = false;
+    }
+    await start();
+  }
 
   Future<void> start() async {
     if (isActive || _busy) return;

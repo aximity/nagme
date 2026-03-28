@@ -38,6 +38,10 @@ class AudioService {
         autoGain: false,
         echoCancel: false,
         noiseSuppress: false,
+        androidConfig: const AndroidRecordConfig(
+          audioSource: AndroidAudioSource.mic,
+          muteAudio: false,
+        ),
       ),
     );
 
@@ -45,7 +49,11 @@ class AudioService {
 
     _subscription = stream.listen(
       (data) {
-        final float32 = _int16ToFloat32(Uint8List.fromList(data));
+        var float32 = _int16ToFloat32(Uint8List.fromList(data));
+        // Android mikrofon sinyali çok zayıf geliyor — yazılımsal kazanç uygula
+        if (!kIsWeb) {
+          float32 = _applyGain(float32, AppConstants.androidMicGain);
+        }
         if (float32.isNotEmpty) {
           _controller.add(float32);
         }
@@ -70,6 +78,14 @@ class AudioService {
     await stop();
     await _controller.close();
     _recorder.dispose();
+  }
+
+  Float32List _applyGain(Float32List buffer, double gain) {
+    final result = Float32List(buffer.length);
+    for (int i = 0; i < buffer.length; i++) {
+      result[i] = (buffer[i] * gain).clamp(-1.0, 1.0);
+    }
+    return result;
   }
 
   Float32List _int16ToFloat32(Uint8List bytes) {

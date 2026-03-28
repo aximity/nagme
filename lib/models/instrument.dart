@@ -27,6 +27,9 @@ class InstrumentTuning {
     required this.strings,
   });
 
+  /// Asset yolu: assets/instruments/{id}.png
+  String get iconAsset => 'assets/instruments/$id.png';
+
   int get stringCount => strings.length;
   bool get isChromatic => strings.isEmpty;
 }

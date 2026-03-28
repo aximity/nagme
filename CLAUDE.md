@@ -161,13 +161,19 @@ lib/
 ## MEVCUT PROJE DURUMU
 
 ### Tamamlanan
-- (henüz başlanmadı)
+- P0: Temel kromatik tuner (mikrofon → frekans → nota → gauge)
+- P1: Enstrümana özel tuning modu (8 enstrüman + kromatik)
+- P2: Premium UI redesign (spring gauge, haptic, glassmorphic, sayfa geçişleri)
+- Stitch enstrüman ikonları entegrasyonu (emoji → asset)
+- Akort değişikliklerinin anlık yansıması (provider listen)
+- Gecikme optimizasyonu (hold time, stability, accumulator)
+- Harmonik düzeltme iyileştirmesi
 
 ### Aktif Öncelik
-- **P0:** Temel kromatik tuner — mikrofon → frekans → nota → gauge
-- **P1:** Enstrümana özel tuning modu
-- **P2:** Tasarım polish + animasyonlar
 - **P3:** App Store / Play Store yayını
+- **P4:** Pitch detection'ı Isolate'e taşı (UI jank önleme)
+- **P5:** Alternatif akort sistemleri (drop D, open G, vb.)
+- **P6:** Ton üretici iyileştirmeleri
 
 ---
 
@@ -193,3 +199,37 @@ lib/
 ```
 
 Alan etiketleri: `[TUNER]`, `[AUDIO]`, `[UI]`, `[INSTRUMENT]`, `[MODEL]`, `[SERVICE]`, `[SETTINGS]`, `[FIX]`, `[TEST]`, `[DOCS]`, `[CONFIG]`
+
+---
+
+## GÜVENLİK KURALLARI (OTONOM ÇALIŞMA)
+
+### Yapabilirsin (onay gerekmez):
+- Dosya oluştur / düzenle (lib/ ve test/ altında)
+- flutter analyze çalıştır
+- flutter test çalıştır
+- Git: yeni branch oluştur (claude/ prefix)
+- Git: commit at (claude/ branch'ine)
+- pubspec.yaml'a paket ekle + flutter pub get
+- todo.md'yi güncelle
+
+### YAPAMAZSIN (asla):
+- main/master branch'e doğrudan push
+- Dosya SİLME (sadece oluştur/düzenle)
+- Mevcut çalışan dosyaların fonksiyon imzasını değiştirme
+- .env / API key / token / şifre içeren dosyalara dokunma
+- İnternet'e veri gönderme (uygulama offline)
+- 500+ satırlık tek dosya oluşturma
+
+### Takıldığında:
+- Hata 2. kez gelirse → DUR, sebep analizi yaz, sabah sor
+- Mimari karar gerekiyorsa → DUR, seçenekleri yaz, sabah sor
+- Emin değilsen → DUR, soru yaz, sabah sor
+
+### Gece çalışma raporu formatı:
+Her sabah şu özeti hazırla:
+- Tamamlanan görevler [liste]
+- Oluşturulan PR'lar [branch adı + açıklama]
+- Çalıştırılan testler [geçti/kaldı]
+- Takıldığım yerler [varsa]
+- Sıradaki görev [todo'dan]
