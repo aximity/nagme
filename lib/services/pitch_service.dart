@@ -5,6 +5,7 @@ import 'package:nagme/models/instrument.dart';
 import 'package:nagme/models/tuner_state.dart';
 import 'package:nagme/services/audio_service.dart';
 import 'package:nagme/config/constants.dart';
+import 'package:nagme/utils/ring_buffer.dart';
 
 /// Profesyonel pitch service — Isolate tabanli ses isleme.
 ///
@@ -21,7 +22,8 @@ class PitchService {
   final StreamController<TunerState> _controller =
       StreamController<TunerState>.broadcast();
 
-  final List<double> _accumulator = [];
+  /// Ring buffer: 2x bufferSize kapasitesi — overlap olmadan yeterli.
+  final RingBuffer _ringBuffer = RingBuffer(AppConstants.bufferSize * 2);
   final PitchIsolateManager _isolateManager = PitchIsolateManager();
 
   PitchService({
@@ -66,8 +68,8 @@ class PitchService {
     // Eski isolate listener'ini kaldir
     await _isolateSub?.cancel();
 
-    // Accumulator'u temizle — eski config ile biriken veri yeni isolate'e gitmesin
-    _accumulator.clear();
+    // Ring buffer'i temizle — eski config ile biriken veri yeni isolate'e gitmesin
+    _ringBuffer.clear();
 
     // Yeni config ile isolate'i yeniden baslat (mikrofon devam ediyor)
     await _isolateManager.start(_currentConfig());
@@ -83,7 +85,7 @@ class PitchService {
     _isolateSub = null;
     await _isolateManager.stop();
     await _audioService.stop();
-    _accumulator.clear();
+    _ringBuffer.clear();
     _controller.add(TunerState.initial);
   }
 
@@ -94,15 +96,12 @@ class PitchService {
     await _audioService.dispose();
   }
 
-  /// Audio verisi geldiginde buffer biriktirir ve Isolate'e gonderir.
+  /// Audio verisi geldiginde ring buffer'a yazar, yeterli birikince Isolate'e gonderir.
   void _onAudioData(Float32List data) {
-    _accumulator.addAll(data);
-    if (_accumulator.length < AppConstants.bufferSize) return;
+    _ringBuffer.write(data);
+    if (_ringBuffer.available < AppConstants.bufferSize) return;
 
-    final buffer = Float32List.fromList(
-      _accumulator.sublist(0, AppConstants.bufferSize),
-    );
-    _accumulator.removeRange(0, AppConstants.bufferSize);
+    final buffer = _ringBuffer.read(AppConstants.bufferSize);
 
     // Buffer'i Isolate'e gonder — UI thread'i bloklamaz
     _isolateManager.processBuffer(buffer);

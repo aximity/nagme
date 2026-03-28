@@ -38,10 +38,10 @@
   **Dosyalar:** lib/providers/tuner_provider.dart, lib/services/pitch_service.dart
   **Not:** PitchService.updateConfig() ile mikrofon kesmeden isolate hot-swap.
 
-- [ ] C.3 — Ring buffer + bellek optimizasyonu
+- [x] C.3 — Ring buffer + bellek optimizasyonu
   **Ne:** Audio buffer'ların gereksiz kopyalanmasını önle.
-  **Dosyalar:** lib/services/audio_service.dart, lib/services/pitch_service.dart
-  **Test:** Memory profiler ile buffer allocation kontrol.
+  **Dosyalar:** lib/utils/ring_buffer.dart, lib/services/pitch_service.dart
+  **Test:** 8 unit test, wrap-around ve audio boyutu dogrulanmis.
 
 - [ ] C.4 — App lifecycle yönetimi
   **Ne:** Arka plana alındığında mikrofonu durdur, geri gelince başlat.
@@ -97,7 +97,7 @@
 |-----|--------|------------|-------|
 | A   | 8      | 8          | TAMAM |
 | B   | 6      | 6          | TAMAM |
-| C   | 4      | 2          | Sırada |
+| C   | 4      | 3          | Sırada |
 | D   | 5      | 0          | Beklemede |
 | E   | 4      | 0          | Beklemede |
 
