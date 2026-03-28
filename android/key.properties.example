@@ -1,0 +1,11 @@
+# Release imzalama ayarlari — key.properties
+# Bu dosyayi key.properties olarak kopyalayip kendi degerlerinizi girin.
+# ONEMLI: key.properties dosyasini git'e EKLEMEYIN!
+#
+# Keystore olusturmak icin:
+# keytool -genkey -v -keystore nagme-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias nagme
+#
+storePassword=BURAYA_STORE_SIFRENIZI_GIRIN
+keyPassword=BURAYA_KEY_SIFRENIZI_GIRIN
+keyAlias=nagme
+storeFile=../nagme-release.jks

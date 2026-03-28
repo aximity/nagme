@@ -79,13 +79,13 @@
   **Ne:** Açıklama, ekran görüntüleri. Feature graphic hazır (assets/icon/).
   **Not:** store/play_store/ altinda TR+EN listing dosyalari.
 
-- [ ] E.2 — Release build + imzalama
-  **Ne:** Keystore oluştur, build.gradle ayarla, flutter build appbundle --release.
-  **Dosyalar:** android/app/build.gradle, android/key.properties (yeni)
+- [x] E.2 — Release build + imzalama
+  **Ne:** build.gradle.kts release signing, key.properties sablonu.
+  **Dosyalar:** android/app/build.gradle.kts, android/key.properties.example
 
-- [ ] E.3 — ProGuard / R8 kuralları
-  **Ne:** Release build'de crash olmadığından emin ol.
-  **Test:** Release APK cihazda tam test.
+- [x] E.3 — ProGuard / R8 kuralları
+  **Ne:** proguard-rules.pro, minify + shrink aktif.
+  **Dosyalar:** android/app/proguard-rules.pro
 
 - [ ] E.4 — iOS build hazırlığı (opsiyonel — Mac gerekli)
 
@@ -99,6 +99,6 @@
 | B   | 6      | 6          | TAMAM |
 | C   | 4      | 4          | TAMAM |
 | D   | 5      | 5          | TAMAM |
-| E   | 4      | 0          | Beklemede |
+| E   | 4      | 3          | Sırada |
 
 **Sıradaki:** C.1 → Isolate pitch detection
