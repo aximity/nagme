@@ -75,9 +75,9 @@
 
 ## Faz E — Store Yayını
 
-- [ ] E.1 — Play Store listing hazırlığı
+- [x] E.1 — Play Store listing hazırlığı
   **Ne:** Açıklama, ekran görüntüleri. Feature graphic hazır (assets/icon/).
-  **Not:** 4-6 ekran görüntüsü, kısa/uzun açıklama.
+  **Not:** store/play_store/ altinda TR+EN listing dosyalari.
 
 - [ ] E.2 — Release build + imzalama
   **Ne:** Keystore oluştur, build.gradle ayarla, flutter build appbundle --release.
