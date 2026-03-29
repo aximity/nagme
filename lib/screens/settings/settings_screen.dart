@@ -180,13 +180,22 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
 
-          const SizedBox(height: AppConstants.paddingXL),
+          const SizedBox(height: AppConstants.paddingMD),
 
           // Hakkında
-          Center(
-            child: Text(
-              'Nağme v0.1.0',
-              style: Theme.of(context).textTheme.bodyMedium,
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.info_outline_rounded,
+                  color: AppColors.textMuted),
+              title: const Text('Hakkinda'),
+              subtitle: Text('Nagme v0.1.0',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: AppColors.textMuted)),
+              trailing: const Icon(Icons.chevron_right_rounded,
+                  color: AppColors.textMuted),
+              onTap: () => context.push('/about'),
             ),
           ),
         ],
