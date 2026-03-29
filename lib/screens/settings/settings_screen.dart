@@ -187,8 +187,8 @@ class SettingsScreen extends ConsumerWidget {
             child: ListTile(
               leading: const Icon(Icons.info_outline_rounded,
                   color: AppColors.textMuted),
-              title: const Text('Hakkinda'),
-              subtitle: Text('Nagme v0.1.0',
+              title: const Text('Hakkında'),
+              subtitle: Text('Nağme v0.1.0',
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

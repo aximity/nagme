@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nagme/config/theme.dart';
 import 'package:nagme/config/constants.dart';
 import 'package:nagme/models/instrument.dart';
+import 'package:nagme/providers/settings_provider.dart';
+import 'package:nagme/utils/note_utils.dart';
 
 /// Premium tel göstergesi — dokunma animasyonu + haptic feedback.
-class StringIndicator extends StatelessWidget {
+class StringIndicator extends ConsumerWidget {
   final InstrumentTuning instrument;
   final StringTuning? activeString;
   final ValueChanged<StringTuning>? onStringTap;
@@ -20,8 +23,9 @@ class StringIndicator extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (instrument.isChromatic) return const SizedBox.shrink();
+    final notation = ref.watch(notationProvider);
 
     return Padding(
       padding:
@@ -39,6 +43,7 @@ class StringIndicator extends StatelessWidget {
             child: _StringButton(
               string: string,
               isActive: isActive,
+              notation: notation,
               onTap: () => onStringTap?.call(string),
               onLongPress: () {
                 HapticFeedback.lightImpact();
@@ -55,12 +60,14 @@ class StringIndicator extends StatelessWidget {
 class _StringButton extends StatefulWidget {
   final StringTuning string;
   final bool isActive;
+  final String notation;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
   const _StringButton({
     required this.string,
     required this.isActive,
+    required this.notation,
     this.onTap,
     this.onLongPress,
   });
@@ -128,7 +135,9 @@ class _StringButtonState extends State<_StringButton>
               ),
               child: Center(
                 child: Text(
-                  widget.string.name,
+                  widget.notation == 'turkish'
+                      ? noteNameTurkish(widget.string.name)
+                      : widget.string.name,
                   style:
                       Theme.of(context).textTheme.labelLarge?.copyWith(
                             color: widget.isActive

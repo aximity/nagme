@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nagme/config/theme.dart';
 import 'package:nagme/config/constants.dart';
 import 'package:nagme/models/tuner_state.dart';
+import 'package:nagme/providers/settings_provider.dart';
+import 'package:nagme/utils/note_utils.dart';
 
 /// Premium nota gösterimi — scale pulse + glow efekti.
-class NoteDisplay extends StatefulWidget {
+class NoteDisplay extends ConsumerStatefulWidget {
   final TunerState tunerState;
 
   const NoteDisplay({super.key, required this.tunerState});
 
   @override
-  State<NoteDisplay> createState() => _NoteDisplayState();
+  ConsumerState<NoteDisplay> createState() => _NoteDisplayState();
 }
 
-class _NoteDisplayState extends State<NoteDisplay>
+class _NoteDisplayState extends ConsumerState<NoteDisplay>
     with SingleTickerProviderStateMixin {
   late AnimationController _pulseController;
   String? _lastNoteName;
@@ -41,6 +44,11 @@ class _NoteDisplayState extends State<NoteDisplay>
   void dispose() {
     _pulseController.dispose();
     super.dispose();
+  }
+
+  String _displayName(String name) {
+    final notation = ref.watch(notationProvider);
+    return notation == 'turkish' ? noteNameTurkish(name) : name;
   }
 
   @override
@@ -74,7 +82,7 @@ class _NoteDisplayState extends State<NoteDisplay>
               // Glow efekti (akortluyken)
               if (isInTune)
                 Text(
-                  note.name,
+                  _displayName(note.name),
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                         color: AppColors.inTune.withValues(alpha: 0.15),
                         shadows: [
@@ -112,7 +120,7 @@ class _NoteDisplayState extends State<NoteDisplay>
           style: Theme.of(context).textTheme.displayLarge!.copyWith(
                 color: noteColor,
               ),
-          child: Text(note.name),
+          child: Text(_displayName(note.name)),
         ),
         const SizedBox(height: 2),
         AnimatedDefaultTextStyle(

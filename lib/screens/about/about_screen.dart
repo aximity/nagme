@@ -11,7 +11,7 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Hakkinda'),
+        title: const Text('Hakkında'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
@@ -36,7 +36,7 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(height: AppConstants.paddingMD),
 
             Text(
-              'Nagme',
+              'Nağme',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -57,9 +57,9 @@ class AboutScreen extends StatelessWidget {
             _AboutCard(
               icon: Icons.favorite_rounded,
               iconColor: AppColors.sharp,
-              title: 'Adanmis',
-              body: 'Bu uygulama, vefat eden agabeyimin anisina ve '
-                  'hayrina yapilmistir. Ruhu sad olsun.',
+              title: 'Adanmış',
+              body: 'Bu uygulama, vefat eden ağabeyimin anısına ve '
+                  'hayrına yapılmıştır. Ruhu şad olsun.',
             ),
 
             const SizedBox(height: AppConstants.paddingMD),
@@ -68,13 +68,13 @@ class AboutScreen extends StatelessWidget {
             _AboutCard(
               icon: Icons.music_note_rounded,
               iconColor: AppColors.inTune,
-              title: 'Amaci',
-              body: 'Nagme, muzisyenlerin enstrumanlarini hizli ve '
-                  'dogru bir sekilde akort edebilmesi icin tasarlanmis '
-                  'profesyonel bir kromatik tuner uygulamasidir.\n\n'
-                  'Keman, gitar, baglama, ud, viyola, cello, bas gitar '
-                  've ukulele dahil 8 enstruman destekler. '
-                  'Kromatik modda tum notalari algilar.',
+              title: 'Amacı',
+              body: 'Nağme, müzisyenlerin enstrümanlarını hızlı ve '
+                  'doğru bir şekilde akort edebilmesi için tasarlanmış '
+                  'profesyonel bir kromatik akort uygulamasıdır.\n\n'
+                  'Keman, gitar, bağlama, ud, viyola, çello, bas gitar '
+                  've ukulele dahil 8 enstrüman destekler. '
+                  'Kromatik modda tüm notaları algılar.',
             ),
 
             const SizedBox(height: AppConstants.paddingMD),
@@ -83,19 +83,19 @@ class AboutScreen extends StatelessWidget {
             _AboutCard(
               icon: Icons.verified_rounded,
               iconColor: AppColors.flat,
-              title: 'Sozumuz',
-              body: 'Nagme sonsuza kadar:\n'
-                  '• Tamamen ucretsizdir\n'
-                  '• Reklam icermez\n'
-                  '• Internet gerektirmez\n'
-                  '• Kisisel veri toplamaz',
+              title: 'Sözümüz',
+              body: 'Nağme sonsuza kadar:\n'
+                  '• Tamamen ücretsizdir\n'
+                  '• Reklam içermez\n'
+                  '• İnternet gerektirmez\n'
+                  '• Kişisel veri toplamaz',
             ),
 
             const SizedBox(height: AppConstants.paddingXL),
 
             // Alt bilgi
             Text(
-              'Turkiye\'de sevgiyle yapildi',
+              'Türkiye\'de sevgiyle yapıldı',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.textMuted,
                   ),
