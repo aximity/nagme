@@ -23,12 +23,12 @@ class PitchService {
   }) async {
     await audioService.start();
     _subscription = audioService.bufferStream.listen(
-      (buffer) => _processBuffer(
+      (buffer) => unawaited(_processBuffer(
         buffer,
         instrument: instrument,
         refA4: refA4,
         tuneThreshold: tuneThreshold,
-      ),
+      )),
       onError: (e) => _stateController.addError(e),
     );
   }

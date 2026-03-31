@@ -14,6 +14,7 @@ import 'package:nagme/widgets/tuner/tuning_status.dart';
 import 'package:nagme/widgets/tuner/string_indicator.dart';
 import 'package:nagme/widgets/tuner/waveform_painter.dart';
 import 'package:nagme/services/audio_service.dart';
+import 'package:nagme/widgets/common/bottom_nav_item.dart';
 
 class TunerScreen extends ConsumerWidget {
   const TunerScreen({super.key});
@@ -64,6 +65,18 @@ class TunerScreen extends ConsumerWidget {
           SnackBar(
             content: Text(
               'Mikrofon izni gerekli. Ayarlardan izin verin.',
+              style: GoogleFonts.manrope(),
+            ),
+            backgroundColor: AppColors.secondaryContainer,
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Bir hata oluştu: ${e.toString()}',
               style: GoogleFonts.manrope(),
             ),
             backgroundColor: AppColors.secondaryContainer,
@@ -294,18 +307,18 @@ class _BottomNav extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // Aktif: Tuner
-              _NavItem(
+              BottomNavItem(
                 icon: Icons.vibration,
                 label: 'AKORT',
                 isActive: true,
               ),
               // Boş FAB slot
               const SizedBox(width: 80),
-              // Library (henüz pasif)
-              _NavItem(
+              // Enstrüman seçimi
+              BottomNavItem(
                 icon: Icons.library_music_outlined,
                 label: 'ENSTRÜMAN',
-                isActive: false,
+                onTap: () => context.push('/instruments'),
               ),
             ],
           ),
@@ -315,46 +328,4 @@ class _BottomNav extends StatelessWidget {
   }
 }
 
-class _NavItem extends StatelessWidget {
-  const _NavItem({
-    required this.icon,
-    required this.label,
-    required this.isActive,
-  });
-  final IconData icon;
-  final String label;
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    final color =
-        isActive ? AppColors.primaryContainer : AppColors.onSurface.withValues(alpha: 0.4);
-
-    return AnimatedContainer(
-      duration: AppConstants.animFast,
-      padding: isActive
-          ? const EdgeInsets.symmetric(horizontal: 16, vertical: 8)
-          : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: isActive ? AppColors.surfaceContainerHighest : Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: color, size: 22),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: GoogleFonts.spaceGrotesk(
-              fontSize: 10,
-              letterSpacing: 1.8,
-              fontWeight: FontWeight.w500,
-              color: color,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// _NavItem kaldırıldı — lib/widgets/common/bottom_nav_item.dart kullanılıyor

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ class WaveformWidget extends ConsumerStatefulWidget {
 
 class _WaveformWidgetState extends ConsumerState<WaveformWidget> {
   Float32List? _buffer;
+  StreamSubscription<Float32List>? _subscription;
 
   @override
   void initState() {
@@ -25,12 +27,19 @@ class _WaveformWidgetState extends ConsumerState<WaveformWidget> {
   }
 
   void _startListening() {
+    _subscription?.cancel();
     final audioService = ref.read(audioServiceProvider);
-    audioService.bufferStream.listen((buf) {
+    _subscription = audioService.bufferStream.listen((buf) {
       if (mounted && widget.isActive) {
         setState(() => _buffer = buf);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 
   @override

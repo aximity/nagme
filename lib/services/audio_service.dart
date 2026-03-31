@@ -58,8 +58,8 @@ class AudioService {
     _controller.addError(error);
   }
 
-  void dispose() {
-    stop();
+  Future<void> dispose() async {
+    await stop();
     _controller.close();
   }
 }

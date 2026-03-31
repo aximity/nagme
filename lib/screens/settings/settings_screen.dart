@@ -5,6 +5,8 @@ import 'package:nagme/config/theme.dart';
 import 'package:nagme/config/constants.dart';
 import 'package:nagme/providers/settings_provider.dart';
 import 'package:nagme/providers/tone_provider.dart';
+import 'package:nagme/screens/instruments/instrument_select_screen.dart';
+import 'package:nagme/widgets/common/bottom_nav_item.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -273,18 +275,28 @@ class _SesSection extends ConsumerWidget {
         ),
       ),
       _Divider(),
-      _Row(
-        label: 'Ses Tipi',
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Sinüs',
-                style: GoogleFonts.spaceGrotesk(
-                    color: AppColors.primary, fontSize: 13)),
-            const SizedBox(width: 4),
-            const Icon(Icons.unfold_more,
-                size: 16, color: AppColors.primary),
-          ],
+      GestureDetector(
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Piyano ve gitar sesleri yakında eklenecek'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        },
+        child: _Row(
+          label: 'Ses Tipi',
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Sinüs',
+                  style: GoogleFonts.spaceGrotesk(
+                      color: AppColors.primary, fontSize: 13)),
+              const SizedBox(width: 4),
+              const Icon(Icons.unfold_more,
+                  size: 16, color: AppColors.primary),
+            ],
+          ),
         ),
       ),
     ]);
@@ -307,16 +319,34 @@ class _HakkindaSection extends StatelessWidget {
                 fontSize: 13, color: AppColors.onSurfaceVariant)),
       ),
       _Divider(),
-      _Row(
-        label: 'Geri Bildirim Gönder',
-        trailing: const Icon(Icons.chevron_right,
-            color: AppColors.onSurfaceVariant, size: 20),
+      GestureDetector(
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Geri bildirim için teşekkürler! info@kibrissanat.com adresine yazabilirsiniz.'),
+            ),
+          );
+        },
+        child: _Row(
+          label: 'Geri Bildirim Gönder',
+          trailing: const Icon(Icons.chevron_right,
+              color: AppColors.onSurfaceVariant, size: 20),
+        ),
       ),
       _Divider(),
-      _Row(
-        label: 'Değerlendir',
-        trailing: const Icon(Icons.star_outline,
-            color: AppColors.onSurfaceVariant, size: 20),
+      GestureDetector(
+        onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Play Store değerlendirmesi yakında aktif olacak.'),
+            ),
+          );
+        },
+        child: _Row(
+          label: 'Değerlendir',
+          trailing: const Icon(Icons.star_outline,
+              color: AppColors.onSurfaceVariant, size: 20),
+        ),
       ),
     ]);
   }
@@ -387,9 +417,19 @@ class _BottomNavStub extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _NavItem(icon: Icons.vibration, label: 'AKORT', isActive: false),
+              BottomNavItem(
+                icon: Icons.vibration,
+                label: 'AKORT',
+                onTap: () => Navigator.of(context).pop(),
+              ),
               const SizedBox(width: 48),
-              _NavItem(icon: Icons.library_music_outlined, label: 'ENSTRÜMAN', isActive: false),
+              BottomNavItem(
+                icon: Icons.library_music_outlined,
+                label: 'ENSTRÜMAN',
+                onTap: () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => const InstrumentSelectScreen()),
+                ),
+              ),
             ],
           ),
         ),
@@ -398,29 +438,7 @@ class _BottomNavStub extends StatelessWidget {
   }
 }
 
-class _NavItem extends StatelessWidget {
-  const _NavItem({required this.icon, required this.label, required this.isActive});
-  final IconData icon;
-  final String label;
-  final bool isActive;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = isActive
-        ? AppColors.primaryContainer
-        : AppColors.onSurface.withValues(alpha: 0.4);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, color: color, size: 22),
-        const SizedBox(height: 4),
-        Text(label,
-            style: GoogleFonts.spaceGrotesk(
-                fontSize: 10, letterSpacing: 1.8, color: color)),
-      ],
-    );
-  }
-}
+// _NavItem kaldırıldı — lib/widgets/common/bottom_nav_item.dart kullanılıyor
 
 // ─────────────────────────────────────────────
 // Ortak alt bileşenler

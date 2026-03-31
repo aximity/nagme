@@ -16,20 +16,33 @@ class InstrumentCard extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  // Stitch'teki Material Symbols ikonlarına karşılık gelen Flutter ikonları
-  static IconData _iconFor(String id) {
-    return switch (id) {
-      'violin'    => Icons.music_note,
-      'guitar'    => Icons.queue_music,
-      'bass'      => Icons.speaker,
-      'ukulele'   => Icons.waves,
-      'baglama'   => Icons.grid_4x4,
-      'oud'       => Icons.blur_on,
-      'viola'     => Icons.graphic_eq,
-      'cello'     => Icons.music_note_outlined,
-      'chromatic' => Icons.blur_circular,
-      _           => Icons.music_note,
+  static Widget _emojiFor(String id, bool isSelected) {
+    final emoji = switch (id) {
+      'violin'      => '🎻',
+      'guitar'      => '🎸',
+      'bass'        => '🎸',
+      'ukulele'     => '🪕',
+      'baglama'     => '🪕',
+      'oud'         => '🪕',
+      'viola'       => '🎻',
+      'cello'       => '🎻',
+      'trumpet'     => '🎺',
+      'trombone'    => '🎺',
+      'french_horn' => '📯',
+      'tuba'        => '📯',
+      _             => '',
     };
+
+    if (emoji.isEmpty) {
+      // Kromatik ve bilinmeyen → ikon
+      return Icon(
+        Icons.tune,
+        color: isSelected ? AppColors.primaryContainer : AppColors.tertiary,
+        size: 28,
+      );
+    }
+
+    return Text(emoji, style: const TextStyle(fontSize: 28));
   }
 
   String _tuningLabel() {
@@ -84,13 +97,7 @@ class InstrumentCard extends StatelessWidget {
                     color: AppColors.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(AppConstants.radiusS),
                   ),
-                  child: Icon(
-                    _iconFor(instrument.id),
-                    color: isSelected
-                        ? AppColors.primaryContainer
-                        : AppColors.tertiary,
-                    size: 28,
-                  ),
+                  child: _emojiFor(instrument.id, isSelected),
                 ),
 
                 const SizedBox(height: AppConstants.paddingM),
