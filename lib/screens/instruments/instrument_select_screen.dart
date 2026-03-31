@@ -28,9 +28,10 @@ class _InstrumentSelectScreenState
   }
 
   List<InstrumentTuning> get _filtered {
-    if (_query.isEmpty) return kInstruments;
+    final visible = kInstruments.where((i) => i.visible).toList();
+    if (_query.isEmpty) return visible;
     final q = _query.toLowerCase();
-    return kInstruments.where((i) =>
+    return visible.where((i) =>
         i.name.toLowerCase().contains(q) ||
         i.nameEn.toLowerCase().contains(q)).toList();
   }

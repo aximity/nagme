@@ -19,6 +19,7 @@ class InstrumentTuning {
     required this.nameEn,
     required this.icon,
     required this.strings,
+    this.visible = true,
   });
 
   final String id;                    // "violin"
@@ -26,6 +27,7 @@ class InstrumentTuning {
   final String nameEn;                // "Violin"
   final String icon;                  // emoji veya asset yolu
   final List<StringTuning> strings;
+  final bool visible;                 // false → UI'da gizli, kod hazır
 
   bool get isChromatic => strings.isEmpty;
 }
