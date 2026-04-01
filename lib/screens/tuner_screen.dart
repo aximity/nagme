@@ -4,7 +4,9 @@ import 'package:permission_handler/permission_handler.dart';
 import '../models/instrument.dart';
 import '../models/tuner_state.dart';
 import '../providers/instrument_provider.dart';
+import '../providers/settings_provider.dart';
 import '../providers/tuner_provider.dart';
+import '../services/note_calculator.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 import '../widgets/waveform_painter.dart';
@@ -116,6 +118,7 @@ class _WaveformSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tunerStateProvider);
+    final isListening = ref.watch(isListeningProvider);
     final isIdle = state.status == TunerStatus.idle;
     final color = _statusColor(state.status);
 
@@ -151,10 +154,12 @@ class _WaveformSection extends ConsumerWidget {
               ),
             ),
             if (isIdle)
-              const Center(
+              Center(
                 child: Text(
-                  'Dinleniyor...',
-                  style: TextStyle(
+                  isListening
+                      ? 'Dinleniyor...'
+                      : 'Akort etmek için mikrofona dokun',
+                  style: const TextStyle(
                     fontFamily: 'BeVietnamPro',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -205,8 +210,15 @@ class _NoteSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tunerStateProvider);
+    final notation = ref.watch(noteNotationProvider);
     final isIdle = state.status == TunerStatus.idle;
     final color = _statusColor(state.status);
+
+    final displayNote = isIdle
+        ? state.noteDisplay
+        : notation == NoteNotation.solfege
+            ? '${NoteCalculator.toTurkish(state.note)}${state.octave}'
+            : state.noteDisplay;
 
     return Column(
       children: [
@@ -216,7 +228,7 @@ class _NoteSection extends ConsumerWidget {
           textBaseline: TextBaseline.alphabetic,
           children: [
             Text(
-              state.noteDisplay,
+              displayNote,
               style: TextStyle(
                 fontFamily: 'PlusJakartaSans',
                 fontSize: 64,
@@ -293,19 +305,23 @@ class _PitchBarSection extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Tel seçici — sadece instrument değişince rebuild, tunerState'den bağımsız
+// Tel seçici — instrument + selectedString değişince rebuild
 // ---------------------------------------------------------------------------
-class _StringSelector extends StatelessWidget {
+class _StringSelector extends ConsumerWidget {
   final Instrument instrument;
 
   const _StringSelector({required this.instrument});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(selectedStringProvider);
+    final notation = ref.watch(noteNotationProvider);
     final strings = instrument.strings;
-    final uniqueStrings = <String>[];
+    // Deduplicate by name
+    final uniqueStrings = <StringTuning>[];
+    final seen = <String>{};
     for (final s in strings) {
-      if (!uniqueStrings.contains(s.name)) uniqueStrings.add(s.name);
+      if (seen.add(s.name)) uniqueStrings.add(s);
     }
     final count = uniqueStrings.length;
     final crossAxisCount = count <= 4 ? count : (count <= 6 ? count : 4);
@@ -321,20 +337,35 @@ class _StringSelector extends StatelessWidget {
       ),
       itemCount: uniqueStrings.length,
       itemBuilder: (context, index) {
-        return Container(
-          decoration: BoxDecoration(
-            color: AppColors.bgSurface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.bgElevated),
-          ),
-          child: Center(
-            child: Text(
-              uniqueStrings[index],
-              style: const TextStyle(
-                fontFamily: 'SpaceGrotesk',
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textSecondary,
+        final s = uniqueStrings[index];
+        final isSelected = selected?.name == s.name;
+        final displayName = notation == NoteNotation.solfege
+            ? NoteCalculator.toTurkish(s.name)
+            : s.name;
+
+        return GestureDetector(
+          onTap: () {
+            final notifier = ref.read(selectedStringProvider.notifier);
+            notifier.state = isSelected ? null : s;
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.bgSurface,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: isSelected ? AppColors.brandPrimary : AppColors.bgElevated,
+                width: isSelected ? 2 : 1,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                displayName,
+                style: TextStyle(
+                  fontFamily: 'SpaceGrotesk',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: isSelected ? AppColors.brandPrimary : AppColors.textSecondary,
+                ),
               ),
             ),
           ),

@@ -18,7 +18,6 @@ class SettingsScreen extends ConsumerWidget {
     final notation = ref.watch(noteNotationProvider);
     final refSound = ref.watch(referenceSoundProvider);
     final soundType = ref.watch(soundTypeProvider);
-    final darkTheme = ref.watch(darkThemeProvider);
 
     return Scaffold(
       backgroundColor: AppColors.bgBase,
@@ -80,9 +79,13 @@ class SettingsScreen extends ConsumerWidget {
             _buildCard([
               _buildSettingsRow(
                 'Koyu Tema',
-                trailing: _buildToggle(
-                  darkTheme,
-                  (v) => ref.read(darkThemeProvider.notifier).state = v,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Yakında', style: AppTypography.caption),
+                    const SizedBox(width: 8),
+                    _buildToggle(true, null),
+                  ],
                 ),
                 showDivider: false,
               ),
@@ -130,7 +133,7 @@ class SettingsScreen extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       builder: (_) => FrequencyBottomSheet(
         value: current,
-        onChanged: (v) => ref.read(referenceFreqProvider.notifier).state = v,
+        onChanged: (v) => ref.read(referenceFreqProvider.notifier).value = v,
       ),
     );
   }
@@ -145,7 +148,7 @@ class SettingsScreen extends ConsumerWidget {
         selected: current,
         labelBuilder: (v) => '± $v cent',
         onSelected: (v) =>
-            ref.read(tuningThresholdProvider.notifier).state = v,
+            ref.read(tuningThresholdProvider.notifier).value = v,
       ),
     );
   }
@@ -162,7 +165,7 @@ class SettingsScreen extends ConsumerWidget {
         labelBuilder: (v) =>
             v == NoteNotation.letter ? 'C D E F G A B' : 'Do Re Mi Fa Sol La Si',
         onSelected: (v) =>
-            ref.read(noteNotationProvider.notifier).state = v,
+            ref.read(noteNotationProvider.notifier).value = v,
       ),
     );
   }
@@ -277,15 +280,18 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildToggle(bool value, ValueChanged<bool> onChanged) {
+  Widget _buildToggle(bool value, ValueChanged<bool>? onChanged) {
+    final enabled = onChanged != null;
     return GestureDetector(
-      onTap: () => onChanged(!value),
+      onTap: enabled ? () => onChanged(!value) : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: 44,
         height: 24,
         decoration: BoxDecoration(
-          color: value ? AppColors.brandPrimary : AppColors.bgElevated,
+          color: value
+              ? (enabled ? AppColors.brandPrimary : AppColors.brandPrimary.withValues(alpha: 0.4))
+              : AppColors.bgElevated,
           borderRadius: BorderRadius.circular(99),
         ),
         child: AnimatedAlign(

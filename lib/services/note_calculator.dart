@@ -20,8 +20,31 @@ class NoteCalculator {
     'F#', 'G', 'G#', 'A', 'A#', 'B',
   ];
 
+  static const Map<String, String> _turkishNames = {
+    'C': 'Do', 'D': 'Re', 'E': 'Mi', 'F': 'Fa',
+    'G': 'Sol', 'A': 'La', 'B': 'Si',
+  };
+
+  /// İngilizce nota adını Türkçe solfeж'e çevirir.
+  /// C# → Do#, Db → Reb, A → La vb.
+  static String toTurkish(String noteName) {
+    if (noteName.length == 1) {
+      return _turkishNames[noteName] ?? noteName;
+    }
+    // C#, D#, Gb vb.
+    final base = noteName[0];
+    final suffix = noteName.substring(1);
+    return '${_turkishNames[base] ?? base}$suffix';
+  }
+
   /// A4'ün MIDI numarası = 69
   static const int _a4Midi = 69;
+
+  /// Frekansı MIDI nota numarasına çevirir (kesirli).
+  static double frequencyToMidi(double frequency, {double referenceA4 = 440.0}) {
+    if (frequency <= 0) return -1;
+    return 12 * (log(frequency / referenceA4) / ln2) + _a4Midi;
+  }
 
   /// Frekansı en yakın notaya çevirir.
   /// [referenceA4]: A4 referans frekansı (varsayılan 440 Hz)

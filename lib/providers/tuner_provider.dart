@@ -3,6 +3,7 @@ import 'dart:collection';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/instrument.dart';
 import '../models/pitch_result.dart';
 import '../models/tuner_state.dart';
 import '../services/audio_service.dart';
@@ -17,6 +18,8 @@ final audioServiceProvider = Provider<AudioService>((ref) {
 
 final isListeningProvider = StateProvider<bool>((ref) => false);
 
+final selectedStringProvider = StateProvider<StringTuning?>((ref) => null);
+
 final tunerStateProvider = StateNotifierProvider<TunerStateNotifier, TunerState>(
   (ref) => TunerStateNotifier(ref),
 );
@@ -26,6 +29,7 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
   StreamSubscription<PitchResult>? _subscription;
 
   static const int _smoothingWindow = 5;
+  static const int _stringFilterSemitones = 2;
   final Queue<double> _freqBuffer = Queue<double>();
 
   TunerStateNotifier(this._ref) : super(const TunerState());
@@ -64,6 +68,26 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
       return;
     }
 
+    final referenceA4 = _ref.read(referenceFreqProvider);
+
+    // Tel filtresi: seçili tel varsa, hedeften ±2 yarım ton dışını atla
+    final selectedString = _ref.read(selectedStringProvider);
+    if (selectedString != null) {
+      final targetMidi = NoteCalculator.frequencyToMidi(
+        selectedString.frequency,
+        referenceA4: referenceA4,
+      );
+      final detectedMidi = NoteCalculator.frequencyToMidi(
+        pitch.frequency,
+        referenceA4: referenceA4,
+      );
+      if (targetMidi > 0 &&
+          detectedMidi > 0 &&
+          (detectedMidi - targetMidi).abs() > _stringFilterSemitones) {
+        return;
+      }
+    }
+
     // Smoothing: son N geçerli frekansın medyanı
     _freqBuffer.addLast(pitch.frequency);
     if (_freqBuffer.length > _smoothingWindow) {
@@ -72,7 +96,6 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
 
     final smoothedFreq = _median(_freqBuffer);
 
-    final referenceA4 = _ref.read(referenceFreqProvider);
     final threshold = _ref.read(tuningThresholdProvider);
 
     final note = NoteCalculator.fromFrequency(
