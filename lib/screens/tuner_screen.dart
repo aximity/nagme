@@ -20,11 +20,33 @@ class TunerScreen extends ConsumerStatefulWidget {
   ConsumerState<TunerScreen> createState() => _TunerScreenState();
 }
 
-class _TunerScreenState extends ConsumerState<TunerScreen> {
+class _TunerScreenState extends ConsumerState<TunerScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _waveController;
+
+  @override
+  void initState() {
+    super.initState();
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+  }
+
   @override
   void dispose() {
+    _waveController.dispose();
     ref.read(tunerStateProvider.notifier).stopListening();
     super.dispose();
+  }
+
+  void _syncWaveAnimation(bool isListening) {
+    if (isListening && !_waveController.isAnimating) {
+      _waveController.repeat();
+    } else if (!isListening && _waveController.isAnimating) {
+      _waveController.stop();
+      _waveController.value = 0;
+    }
   }
 
   @override
@@ -32,6 +54,8 @@ class _TunerScreenState extends ConsumerState<TunerScreen> {
     final instrument = ref.watch(selectedInstrumentProvider);
     final isListening = ref.watch(isListeningProvider);
     final isChromatic = instrument.id == 'chromatic';
+
+    _syncWaveAnimation(isListening);
 
     return Scaffold(
       backgroundColor: AppColors.bgBase,
@@ -55,7 +79,7 @@ class _TunerScreenState extends ConsumerState<TunerScreen> {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
               child: Column(
                 children: [
-                  const _WaveformSection(),
+                  _WaveformSection(animation: _waveController),
                   const SizedBox(height: 32),
                   const _NoteSection(),
                   const SizedBox(height: 32),
@@ -110,10 +134,12 @@ class _TunerScreenState extends ConsumerState<TunerScreen> {
 }
 
 // ---------------------------------------------------------------------------
-// Waveform hero — sadece tunerState değişince rebuild
+// Waveform hero — AnimationBuilder ile phase animasyonu
 // ---------------------------------------------------------------------------
 class _WaveformSection extends ConsumerWidget {
-  const _WaveformSection();
+  final Animation<double> animation;
+
+  const _WaveformSection({required this.animation});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,6 +147,15 @@ class _WaveformSection extends ConsumerWidget {
     final isListening = ref.watch(isListeningProvider);
     final isIdle = state.status == TunerStatus.idle;
     final color = _statusColor(state.status);
+
+    // Amplitude: idle 0.05, listening+idle 0.10, ses algılandığında confidence'a göre
+    final double amplitude;
+    if (!isListening || isIdle) {
+      amplitude = isListening ? 0.10 : 0.05;
+    } else {
+      // 0.15 - 0.5 arası, confidence 0-1
+      amplitude = 0.15 + (state.cents.abs() / 50).clamp(0.0, 1.0) * 0.35;
+    }
 
     return RepaintBoundary(
       child: Container(
@@ -140,16 +175,22 @@ class _WaveformSection extends ConsumerWidget {
             Center(
               child: SizedBox(
                 height: 128,
-                child: CustomPaint(
-                  size: const Size(double.infinity, 128),
-                  painter: WaveformPainter(
-                    color: isIdle
-                        ? AppColors.brandPrimary.withValues(alpha: 0.2)
-                        : color.withValues(alpha: 0.8),
-                    amplitude: isIdle ? 0.05 : 0.35,
-                    showDashed: state.status == TunerStatus.flat,
-                    dashedColor: color,
-                  ),
+                child: AnimatedBuilder(
+                  animation: animation,
+                  builder: (context, _) {
+                    return CustomPaint(
+                      size: const Size(double.infinity, 128),
+                      painter: WaveformPainter(
+                        color: isIdle
+                            ? AppColors.brandPrimary.withValues(alpha: 0.2)
+                            : color.withValues(alpha: 0.8),
+                        amplitude: amplitude,
+                        phase: animation.value * 6.2832, // 2π
+                        showDashed: state.status == TunerStatus.flat,
+                        dashedColor: color,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -202,7 +243,7 @@ class _WaveformSection extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Nota gösterimi — sadece tunerState değişince rebuild
+// Nota gösterimi
 // ---------------------------------------------------------------------------
 class _NoteSection extends ConsumerWidget {
   const _NoteSection();
@@ -284,7 +325,7 @@ class _NoteSection extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// PitchBar — sadece tunerState değişince rebuild
+// PitchBar
 // ---------------------------------------------------------------------------
 class _PitchBarSection extends ConsumerWidget {
   const _PitchBarSection();
@@ -305,7 +346,7 @@ class _PitchBarSection extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Tel seçici — instrument + selectedString değişince rebuild
+// Tel seçici
 // ---------------------------------------------------------------------------
 class _StringSelector extends ConsumerWidget {
   final Instrument instrument;
@@ -317,7 +358,6 @@ class _StringSelector extends ConsumerWidget {
     final selected = ref.watch(selectedStringProvider);
     final notation = ref.watch(noteNotationProvider);
     final strings = instrument.strings;
-    // Deduplicate by name
     final uniqueStrings = <StringTuning>[];
     final seen = <String>{};
     for (final s in strings) {
@@ -376,7 +416,7 @@ class _StringSelector extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Mikrofon FAB — stateless, parent'tan veri alır
+// Mikrofon FAB
 // ---------------------------------------------------------------------------
 class _MicFab extends StatelessWidget {
   final bool isListening;
