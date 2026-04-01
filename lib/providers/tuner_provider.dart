@@ -8,6 +8,7 @@ import '../models/pitch_result.dart';
 import '../models/tuner_state.dart';
 import '../services/audio_service.dart';
 import '../services/note_calculator.dart';
+import 'instrument_provider.dart';
 import 'settings_provider.dart';
 
 final audioServiceProvider = Provider<AudioService>((ref) {
@@ -32,7 +33,12 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
   static const int _stringFilterSemitones = 2;
   final Queue<double> _freqBuffer = Queue<double>();
 
-  TunerStateNotifier(this._ref) : super(const TunerState());
+  TunerStateNotifier(this._ref) : super(const TunerState()) {
+    // Enstrüman değiştiğinde seçili teli sıfırla
+    _ref.listen(selectedInstrumentProvider, (_, __) {
+      _ref.read(selectedStringProvider.notifier).state = null;
+    });
+  }
 
   Future<void> startListening() async {
     final audioService = _ref.read(audioServiceProvider);

@@ -28,6 +28,7 @@ dev_dependencies:
   riverpod_generator: ^2.6.1
   build_runner: ^2.4.13
   flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.0
 
 flutter_launcher_icons:
   android: true
@@ -37,11 +38,17 @@ flutter_launcher_icons:
   adaptive_icon_background: "#041615"
   adaptive_icon_foreground: "assets/icon/app_icon.png"
 
+flutter_native_splash:
+  color: "#041615"
+  android_12:
+    color: "#041615"
+
 flutter:
   uses-material-design: true
   assets:
     - assets/icons/
     - assets/icon/
+    - assets/images/
   fonts:
     - family: PlusJakartaSans
       fonts:

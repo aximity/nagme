@@ -25,7 +25,7 @@ class NoteCalculator {
     'G': 'Sol', 'A': 'La', 'B': 'Si',
   };
 
-  /// İngilizce nota adını Türkçe solfeж'e çevirir.
+  /// İngilizce nota adını Türkçe solfej'e çevirir.
   /// C# → Do#, Db → Reb, A → La vb.
   static String toTurkish(String noteName) {
     if (noteName.length == 1) {
