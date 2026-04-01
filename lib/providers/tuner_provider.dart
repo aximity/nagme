@@ -8,6 +8,7 @@ import '../models/pitch_result.dart';
 import '../models/tuner_state.dart';
 import '../services/audio_service.dart';
 import '../services/note_calculator.dart';
+import '../services/tone_generator.dart';
 import 'instrument_provider.dart';
 import 'settings_provider.dart';
 
@@ -15,6 +16,12 @@ final audioServiceProvider = Provider<AudioService>((ref) {
   final service = AudioService();
   ref.onDispose(() => service.dispose());
   return service;
+});
+
+final toneGeneratorProvider = Provider<ToneGenerator>((ref) {
+  final generator = ToneGenerator();
+  ref.onDispose(() => generator.dispose());
+  return generator;
 });
 
 final isListeningProvider = StateProvider<bool>((ref) => false);

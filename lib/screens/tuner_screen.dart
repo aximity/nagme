@@ -37,6 +37,7 @@ class _TunerScreenState extends ConsumerState<TunerScreen>
   void dispose() {
     _waveController.dispose();
     ref.read(tunerStateProvider.notifier).stopListening();
+    ref.read(toneGeneratorProvider).stop();
     super.dispose();
   }
 
@@ -360,10 +361,26 @@ class _StringSelector extends ConsumerWidget {
 
   const _StringSelector({required this.instrument});
 
+  void _syncToneGenerator(
+    WidgetRef ref,
+    StringTuning? selected,
+    bool refSound,
+    SoundType soundType,
+  ) {
+    final tone = ref.read(toneGeneratorProvider);
+    if (selected != null && refSound) {
+      tone.play(selected.frequency, soundType);
+    } else {
+      tone.stop();
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(selectedStringProvider);
     final notation = ref.watch(noteNotationProvider);
+    final refSound = ref.watch(referenceSoundProvider);
+    final soundType = ref.watch(soundTypeProvider);
     final strings = instrument.strings;
     final uniqueStrings = <StringTuning>[];
     final seen = <String>{};
@@ -372,6 +389,9 @@ class _StringSelector extends ConsumerWidget {
     }
     final count = uniqueStrings.length;
     final crossAxisCount = count <= 4 ? count : (count <= 6 ? count : 4);
+
+    // Referans sesi: tel seçili + toggle açık → ses çal
+    _syncToneGenerator(ref, selected, refSound, soundType);
 
     return GridView.builder(
       shrinkWrap: true,
