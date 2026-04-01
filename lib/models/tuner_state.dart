@@ -32,11 +32,11 @@ class TunerState {
       case TunerStatus.idle:
         return '';
       case TunerStatus.flat:
-        return 'TUNE UP ↑';
+        return 'YUKARI AKORT ↑';
       case TunerStatus.sharp:
-        return 'TUNE DOWN ↓';
+        return 'AŞAĞI AKORT ↓';
       case TunerStatus.inTune:
-        return 'PERFECT ✓';
+        return 'AKORT TAMAM ✓';
     }
   }
 }

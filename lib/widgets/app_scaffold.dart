@@ -1,48 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import '../theme/app_colors.dart';
 
-class AppScaffold extends StatelessWidget {
+class AppScaffold extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   const AppScaffold({super.key, required this.navigationShell});
 
   @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
+  DateTime? _lastBackPress;
+
+  StatefulNavigationShell get navigationShell => widget.navigationShell;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.bgBase,
-          border: Border(
-            top: BorderSide(color: AppColors.bgElevated, width: 1),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        // If not on the first tab, go back to tuner tab
+        if (navigationShell.currentIndex != 0) {
+          navigationShell.goBranch(0, initialLocation: true);
+          return;
+        }
+
+        // Double-tap to exit
+        final now = DateTime.now();
+        if (_lastBackPress != null &&
+            now.difference(_lastBackPress!) < const Duration(seconds: 2)) {
+          SystemNavigator.pop();
+          return;
+        }
+        _lastBackPress = now;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Çıkmak için tekrar basın'),
+            duration: Duration(seconds: 2),
           ),
-        ),
-        child: SafeArea(
-          child: SizedBox(
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildNavItem(
-                  icon: Icons.tune,
-                  label: 'Akort',
-                  isSelected: navigationShell.currentIndex == 0,
-                  onTap: () => _onTap(0),
-                ),
-                _buildNavItem(
-                  icon: Icons.straighten,
-                  label: 'Enstrümanlar',
-                  isSelected: navigationShell.currentIndex == 1,
-                  onTap: () => _onTap(1),
-                ),
-                _buildNavItem(
-                  icon: Icons.settings,
-                  label: 'Ayarlar',
-                  isSelected: navigationShell.currentIndex == 2,
-                  onTap: () => _onTap(2),
-                ),
-              ],
+        );
+      },
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            color: AppColors.bgBase,
+            border: Border(
+              top: BorderSide(color: AppColors.bgElevated, width: 1),
+            ),
+          ),
+          child: SafeArea(
+            child: SizedBox(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(
+                    icon: Icons.tune,
+                    label: 'Akort',
+                    isSelected: navigationShell.currentIndex == 0,
+                    onTap: () => _onTap(0),
+                  ),
+                  _buildNavItem(
+                    icon: Icons.straighten,
+                    label: 'Enstrümanlar',
+                    isSelected: navigationShell.currentIndex == 1,
+                    onTap: () => _onTap(1),
+                  ),
+                  _buildNavItem(
+                    icon: Icons.settings,
+                    label: 'Ayarlar',
+                    isSelected: navigationShell.currentIndex == 2,
+                    onTap: () => _onTap(2),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
