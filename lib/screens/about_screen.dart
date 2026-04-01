@@ -98,7 +98,7 @@ class AboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 48),
 
-            // Photo placeholder
+            // Memorial placeholder
             AspectRatio(
               aspectRatio: 4 / 5,
               child: Container(
@@ -106,6 +106,39 @@ class AboutScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: const Color(0xFF1E1B19),
                   borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: AppColors.memorialWarm.withValues(alpha: 0.1),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.music_note,
+                      size: 64,
+                      color: AppColors.memorialWarm.withValues(alpha: 0.3),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Mehmet Akif Yıldız',
+                      style: TextStyle(
+                        fontFamily: 'PlusJakartaSans',
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.memorialWarm.withValues(alpha: 0.5),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '1965 – 2024',
+                      style: TextStyle(
+                        fontFamily: 'BeVietnamPro',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                        color: AppColors.memorialMuted.withValues(alpha: 0.6),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
