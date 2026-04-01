@@ -1,8 +1,121 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/tuner_state.dart';
+import 'dart:async';
+import 'dart:collection';
 
-final tunerStateProvider = StateProvider<TunerState>((ref) {
-  return const TunerState();
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/pitch_result.dart';
+import '../models/tuner_state.dart';
+import '../services/audio_service.dart';
+import '../services/note_calculator.dart';
+import 'settings_provider.dart';
+
+final audioServiceProvider = Provider<AudioService>((ref) {
+  final service = AudioService();
+  ref.onDispose(() => service.dispose());
+  return service;
 });
 
 final isListeningProvider = StateProvider<bool>((ref) => false);
+
+final tunerStateProvider = StateNotifierProvider<TunerStateNotifier, TunerState>(
+  (ref) => TunerStateNotifier(ref),
+);
+
+class TunerStateNotifier extends StateNotifier<TunerState> {
+  final Ref _ref;
+  StreamSubscription<PitchResult>? _subscription;
+
+  static const int _smoothingWindow = 5;
+  final Queue<double> _freqBuffer = Queue<double>();
+
+  TunerStateNotifier(this._ref) : super(const TunerState());
+
+  Future<void> startListening() async {
+    final audioService = _ref.read(audioServiceProvider);
+
+    await audioService.startCapture();
+    _ref.read(isListeningProvider.notifier).state = true;
+    _freqBuffer.clear();
+
+    _subscription = audioService.pitchStream.listen(
+      _onPitchResult,
+      onError: (_) => stopListening(),
+    );
+  }
+
+  Future<void> stopListening() async {
+    _subscription?.cancel();
+    _subscription = null;
+
+    final audioService = _ref.read(audioServiceProvider);
+    await audioService.stopCapture();
+
+    _ref.read(isListeningProvider.notifier).state = false;
+    _freqBuffer.clear();
+    state = const TunerState();
+  }
+
+  void _onPitchResult(PitchResult pitch) {
+    if (!pitch.isValid) {
+      _freqBuffer.clear();
+      if (state.status != TunerStatus.idle) {
+        state = const TunerState();
+      }
+      return;
+    }
+
+    // Smoothing: son N geçerli frekansın medyanı
+    _freqBuffer.addLast(pitch.frequency);
+    if (_freqBuffer.length > _smoothingWindow) {
+      _freqBuffer.removeFirst();
+    }
+
+    final smoothedFreq = _median(_freqBuffer);
+
+    final referenceA4 = _ref.read(referenceFreqProvider);
+    final threshold = _ref.read(tuningThresholdProvider);
+
+    final note = NoteCalculator.fromFrequency(
+      smoothedFreq,
+      referenceA4: referenceA4,
+    );
+
+    final TunerStatus status;
+    if (note.cents.abs() <= threshold) {
+      status = TunerStatus.inTune;
+    } else if (note.cents < 0) {
+      status = TunerStatus.flat;
+    } else {
+      status = TunerStatus.sharp;
+    }
+
+    // Gereksiz rebuild önle: aynı nota + benzer cent (±1)
+    if (state.note == note.name &&
+        state.octave == note.octave &&
+        state.status == status &&
+        (state.cents - note.cents).abs() < 1) {
+      return;
+    }
+
+    state = TunerState(
+      status: status,
+      note: note.name,
+      octave: note.octave,
+      frequency: smoothedFreq,
+      cents: note.cents,
+    );
+  }
+
+  double _median(Queue<double> values) {
+    final sorted = values.toList()..sort();
+    final mid = sorted.length ~/ 2;
+    if (sorted.length.isOdd) return sorted[mid];
+    return (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+}

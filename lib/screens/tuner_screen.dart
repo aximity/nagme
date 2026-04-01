@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -12,29 +11,25 @@ import '../widgets/waveform_painter.dart';
 import '../widgets/pitch_bar.dart';
 import '../widgets/mic_permission_dialog.dart';
 
-class TunerScreen extends ConsumerWidget {
+class TunerScreen extends ConsumerStatefulWidget {
   const TunerScreen({super.key});
 
-  Color _statusColor(TunerStatus status) {
-    switch (status) {
-      case TunerStatus.idle:
-        return AppColors.textMuted;
-      case TunerStatus.flat:
-        return AppColors.statusFlat;
-      case TunerStatus.sharp:
-        return AppColors.statusSharp;
-      case TunerStatus.inTune:
-        return AppColors.statusInTune;
-    }
+  @override
+  ConsumerState<TunerScreen> createState() => _TunerScreenState();
+}
+
+class _TunerScreenState extends ConsumerState<TunerScreen> {
+  @override
+  void dispose() {
+    ref.read(tunerStateProvider.notifier).stopListening();
+    super.dispose();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final instrument = ref.watch(selectedInstrumentProvider);
-    final tunerState = ref.watch(tunerStateProvider);
     final isListening = ref.watch(isListeningProvider);
     final isChromatic = instrument.id == 'chromatic';
-    final color = _statusColor(tunerState.status);
 
     return Scaffold(
       backgroundColor: AppColors.bgBase,
@@ -58,19 +53,13 @@ class TunerScreen extends ConsumerWidget {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
               child: Column(
                 children: [
-                  _buildWaveformHero(tunerState, color),
+                  const _WaveformSection(),
                   const SizedBox(height: 32),
-                  _buildNoteDisplay(tunerState, color),
+                  const _NoteSection(),
                   const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: PitchBar(
-                      cents: tunerState.cents,
-                      indicatorColor: color,
-                    ),
-                  ),
+                  const _PitchBarSection(),
                   const SizedBox(height: 32),
-                  if (!isChromatic) _buildStringSelector(instrument),
+                  if (!isChromatic) _StringSelector(instrument: instrument),
                 ],
               ),
             ),
@@ -79,7 +68,10 @@ class TunerScreen extends ConsumerWidget {
               left: 0,
               right: 0,
               child: Center(
-                child: _buildMicFab(context, ref, isListening),
+                child: _MicFab(
+                  isListening: isListening,
+                  onTap: _onMicTap,
+                ),
               ),
             ),
           ],
@@ -88,86 +80,133 @@ class TunerScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildWaveformHero(TunerState state, Color color) {
-    final isIdle = state.status == TunerStatus.idle;
+  Future<void> _onMicTap() async {
+    final isListening = ref.read(isListeningProvider);
+    final notifier = ref.read(tunerStateProvider.notifier);
 
-    return Container(
-      width: double.infinity,
-      height: 240,
-      decoration: BoxDecoration(
-        color: AppColors.bgSurface,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Stack(
-        children: [
-          CustomPaint(
-            size: const Size(double.infinity, 240),
-            painter: GridPainter(color: AppColors.brandDim),
-          ),
-          Center(
-            child: SizedBox(
-              height: 128,
-              child: CustomPaint(
-                size: const Size(double.infinity, 128),
-                painter: WaveformPainter(
-                  color: isIdle
-                      ? AppColors.brandPrimary.withValues(alpha: 0.2)
-                      : color.withValues(alpha: 0.8),
-                  amplitude: isIdle ? 0.05 : 0.35,
-                  showDashed: state.status == TunerStatus.flat,
-                  dashedColor: color,
+    if (isListening) {
+      await notifier.stopListening();
+      return;
+    }
+
+    // Check permission
+    var status = await Permission.microphone.status;
+    if (!status.isGranted) {
+      if (!mounted) return;
+      final result = await showDialog<bool>(
+        context: context,
+        barrierColor: AppColors.bgBase.withValues(alpha: 0.7),
+        builder: (_) => const MicPermissionDialog(),
+      );
+      if (result != true) return;
+      status = await Permission.microphone.request();
+      if (!status.isGranted) return;
+    }
+
+    await notifier.startListening();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Waveform hero — sadece tunerState değişince rebuild
+// ---------------------------------------------------------------------------
+class _WaveformSection extends ConsumerWidget {
+  const _WaveformSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(tunerStateProvider);
+    final isIdle = state.status == TunerStatus.idle;
+    final color = _statusColor(state.status);
+
+    return RepaintBoundary(
+      child: Container(
+        width: double.infinity,
+        height: 240,
+        decoration: BoxDecoration(
+          color: AppColors.bgSurface,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            CustomPaint(
+              size: const Size(double.infinity, 240),
+              painter: GridPainter(color: AppColors.brandDim),
+            ),
+            Center(
+              child: SizedBox(
+                height: 128,
+                child: CustomPaint(
+                  size: const Size(double.infinity, 128),
+                  painter: WaveformPainter(
+                    color: isIdle
+                        ? AppColors.brandPrimary.withValues(alpha: 0.2)
+                        : color.withValues(alpha: 0.8),
+                    amplitude: isIdle ? 0.05 : 0.35,
+                    showDashed: state.status == TunerStatus.flat,
+                    dashedColor: color,
+                  ),
                 ),
               ),
             ),
-          ),
-          if (isIdle)
-            const Center(
-              child: Text(
-                'Dinleniyor...',
-                style: TextStyle(
-                  fontFamily: 'BeVietnamPro',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textSecondary,
-                  letterSpacing: 3,
+            if (isIdle)
+              const Center(
+                child: Text(
+                  'Dinleniyor...',
+                  style: TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textSecondary,
+                    letterSpacing: 3,
+                  ),
                 ),
               ),
+            Positioned(
+              left: 16,
+              top: 16,
+              child: Text('♭',
+                  style: TextStyle(
+                    fontFamily: 'SpaceGrotesk',
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: state.status == TunerStatus.flat
+                        ? AppColors.statusFlat
+                        : AppColors.textMuted.withValues(alpha: 0.2),
+                  )),
             ),
-          // Flat/Sharp symbols
-          Positioned(
-            left: 16,
-            top: 16,
-            child: Text('♭',
-                style: TextStyle(
-                  fontFamily: 'SpaceGrotesk',
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  color: state.status == TunerStatus.flat
-                      ? AppColors.statusFlat
-                      : AppColors.textMuted.withValues(alpha: 0.2),
-                )),
-          ),
-          Positioned(
-            right: 16,
-            top: 16,
-            child: Text('♯',
-                style: TextStyle(
-                  fontFamily: 'SpaceGrotesk',
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  color: state.status == TunerStatus.sharp
-                      ? AppColors.statusSharp
-                      : AppColors.textMuted.withValues(alpha: 0.2),
-                )),
-          ),
-        ],
+            Positioned(
+              right: 16,
+              top: 16,
+              child: Text('♯',
+                  style: TextStyle(
+                    fontFamily: 'SpaceGrotesk',
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: state.status == TunerStatus.sharp
+                        ? AppColors.statusSharp
+                        : AppColors.textMuted.withValues(alpha: 0.2),
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildNoteDisplay(TunerState state, Color color) {
+// ---------------------------------------------------------------------------
+// Nota gösterimi — sadece tunerState değişince rebuild
+// ---------------------------------------------------------------------------
+class _NoteSection extends ConsumerWidget {
+  const _NoteSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(tunerStateProvider);
     final isIdle = state.status == TunerStatus.idle;
+    final color = _statusColor(state.status);
 
     return Column(
       children: [
@@ -230,10 +269,40 @@ class TunerScreen extends ConsumerWidget {
       ],
     );
   }
+}
 
-  Widget _buildStringSelector(Instrument instrument) {
+// ---------------------------------------------------------------------------
+// PitchBar — sadece tunerState değişince rebuild
+// ---------------------------------------------------------------------------
+class _PitchBarSection extends ConsumerWidget {
+  const _PitchBarSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(tunerStateProvider);
+    final color = _statusColor(state.status);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: PitchBar(
+        cents: state.cents,
+        indicatorColor: color,
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tel seçici — sadece instrument değişince rebuild, tunerState'den bağımsız
+// ---------------------------------------------------------------------------
+class _StringSelector extends StatelessWidget {
+  final Instrument instrument;
+
+  const _StringSelector({required this.instrument});
+
+  @override
+  Widget build(BuildContext context) {
     final strings = instrument.strings;
-    // Deduplicate string names for display
     final uniqueStrings = <String>[];
     for (final s in strings) {
       if (!uniqueStrings.contains(s.name)) uniqueStrings.add(s.name);
@@ -273,10 +342,21 @@ class TunerScreen extends ConsumerWidget {
       },
     );
   }
+}
 
-  Widget _buildMicFab(BuildContext context, WidgetRef ref, bool isListening) {
+// ---------------------------------------------------------------------------
+// Mikrofon FAB — stateless, parent'tan veri alır
+// ---------------------------------------------------------------------------
+class _MicFab extends StatelessWidget {
+  final bool isListening;
+  final VoidCallback onTap;
+
+  const _MicFab({required this.isListening, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _onMicTap(context, ref),
+      onTap: onTap,
       child: Container(
         width: 72,
         height: 72,
@@ -299,58 +379,20 @@ class TunerScreen extends ConsumerWidget {
       ),
     );
   }
+}
 
-  Future<void> _onMicTap(BuildContext context, WidgetRef ref) async {
-    final isListening = ref.read(isListeningProvider);
-
-    if (isListening) {
-      // Stop listening
-      ref.read(isListeningProvider.notifier).state = false;
-      ref.read(tunerStateProvider.notifier).state = const TunerState();
-      return;
-    }
-
-    // Check permission
-    var status = await Permission.microphone.status;
-    if (!status.isGranted) {
-      if (!context.mounted) return;
-      final result = await showDialog<bool>(
-        context: context,
-        barrierColor: AppColors.bgBase.withValues(alpha: 0.7),
-        builder: (_) => const MicPermissionDialog(),
-      );
-      if (result != true) return;
-      status = await Permission.microphone.request();
-      if (!status.isGranted) return;
-    }
-
-    // Start listening — simulate tuning for now
-    ref.read(isListeningProvider.notifier).state = true;
-    _simulateTuning(ref);
-  }
-
-  void _simulateTuning(WidgetRef ref) {
-    final rng = Random();
-    final states = [
-      const TunerState(
-          status: TunerStatus.flat,
-          note: 'A',
-          octave: 4,
-          frequency: 436.8,
-          cents: -12),
-      const TunerState(
-          status: TunerStatus.sharp,
-          note: 'A',
-          octave: 4,
-          frequency: 443.2,
-          cents: 12),
-      const TunerState(
-          status: TunerStatus.inTune,
-          note: 'A',
-          octave: 4,
-          frequency: 440.0,
-          cents: 0),
-    ];
-    ref.read(tunerStateProvider.notifier).state = states[rng.nextInt(3)];
+// ---------------------------------------------------------------------------
+// Ortak yardımcı
+// ---------------------------------------------------------------------------
+Color _statusColor(TunerStatus status) {
+  switch (status) {
+    case TunerStatus.idle:
+      return AppColors.textMuted;
+    case TunerStatus.flat:
+      return AppColors.statusFlat;
+    case TunerStatus.sharp:
+      return AppColors.statusSharp;
+    case TunerStatus.inTune:
+      return AppColors.statusInTune;
   }
 }

@@ -18,6 +18,8 @@ dependencies:
   permission_handler: ^11.3.1
   shared_preferences: ^2.3.3
   url_launcher: ^6.3.1
+  flutter_audio_capture: ^1.1.6
+  pitch_detector_dart: ^0.0.7
 
 dev_dependencies:
   flutter_test:

@@ -27,10 +27,11 @@ class WaveformPainter extends CustomPainter {
     final path = Path();
     final midY = size.height / 2;
     final amp = size.height * amplitude;
+    final wFactor = 4 * pi / size.width;
 
     path.moveTo(0, midY);
-    for (double x = 0; x <= size.width; x += 1) {
-      final y = midY + amp * sin((x / size.width * 4 * pi) + phase);
+    for (double x = 0; x <= size.width; x += 2) {
+      final y = midY + amp * sin(x * wFactor + phase);
       path.lineTo(x, y);
     }
     canvas.drawPath(path, paint);
@@ -42,13 +43,14 @@ class WaveformPainter extends CustomPainter {
         ..style = PaintingStyle.stroke;
 
       final dashedPath = Path();
+      final ampDashed = amp * 0.7;
+      final phaseDashed = phase + 0.5;
       dashedPath.moveTo(0, midY);
-      for (double x = 0; x <= size.width; x += 1) {
-        final y = midY + amp * 0.7 * sin((x / size.width * 4 * pi) + phase + 0.5);
+      for (double x = 0; x <= size.width; x += 2) {
+        final y = midY + ampDashed * sin(x * wFactor + phaseDashed);
         dashedPath.lineTo(x, y);
       }
 
-      // Draw dashed
       const dashWidth = 4.0;
       const dashSpace = 4.0;
       final metric = dashedPath.computeMetrics().first;
@@ -68,7 +70,8 @@ class WaveformPainter extends CustomPainter {
   bool shouldRepaint(covariant WaveformPainter oldDelegate) =>
       color != oldDelegate.color ||
       phase != oldDelegate.phase ||
-      amplitude != oldDelegate.amplitude;
+      amplitude != oldDelegate.amplitude ||
+      showDashed != oldDelegate.showDashed;
 }
 
 class GridPainter extends CustomPainter {
