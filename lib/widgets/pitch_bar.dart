@@ -25,7 +25,6 @@ class PitchBar extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               final trackWidth = constraints.maxWidth;
-              final dotX = trackWidth * position;
 
               return Stack(
                 clipBehavior: Clip.none,
@@ -53,11 +52,14 @@ class PitchBar extends StatelessWidget {
                       color: AppColors.brandPrimary.withValues(alpha: 0.3),
                     ),
                   ),
-                  // Indicator dot
-                  Positioned(
-                    left: dotX - 10,
+                  // Animated indicator dot
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 150),
+                    curve: Curves.easeOut,
+                    left: trackWidth * position - 10,
                     top: 2,
-                    child: Container(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 150),
                       width: 20,
                       height: 20,
                       decoration: BoxDecoration(

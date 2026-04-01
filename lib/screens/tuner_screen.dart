@@ -253,7 +253,7 @@ class _NoteSection extends ConsumerWidget {
     final state = ref.watch(tunerStateProvider);
     final notation = ref.watch(noteNotationProvider);
     final isIdle = state.status == TunerStatus.idle;
-    final color = _statusColor(state.status);
+    final targetColor = isIdle ? AppColors.textSecondary : _statusColor(state.status);
 
     final displayNote = isIdle
         ? state.noteDisplay
@@ -261,65 +261,72 @@ class _NoteSection extends ConsumerWidget {
             ? '${NoteCalculator.toTurkish(state.note)}${state.octave}'
             : state.noteDisplay;
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
+    return TweenAnimationBuilder<Color?>(
+      tween: ColorTween(end: targetColor),
+      duration: const Duration(milliseconds: 200),
+      builder: (context, color, _) {
+        final c = color ?? targetColor;
+        return Column(
           children: [
-            Text(
-              displayNote,
-              style: TextStyle(
-                fontFamily: 'PlusJakartaSans',
-                fontSize: 64,
-                fontWeight: FontWeight.w800,
-                color: isIdle ? AppColors.textSecondary : color,
-                height: 1,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Text(
+                  displayNote,
+                  style: TextStyle(
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize: 64,
+                    fontWeight: FontWeight.w800,
+                    color: c,
+                    height: 1,
+                  ),
+                ),
+                if (state.status == TunerStatus.flat)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text('♭',
+                        style: TextStyle(
+                          fontFamily: 'SpaceGrotesk',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: c,
+                        )),
+                  ),
+              ],
             ),
-            if (state.status == TunerStatus.flat)
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text('♭',
-                    style: TextStyle(
-                      fontFamily: 'SpaceGrotesk',
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: color,
-                    )),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(state.frequencyDisplay, style: AppTypography.cent),
+                const SizedBox(width: 16),
+                Text(
+                  state.centsDisplay,
+                  style: AppTypography.cent.copyWith(
+                    color: c,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            if (state.statusText.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                state.statusText,
+                style: TextStyle(
+                  fontFamily: 'PlusJakartaSans',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  color: c,
+                  letterSpacing: 3,
+                ),
               ),
+            ],
           ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(state.frequencyDisplay, style: AppTypography.cent),
-            const SizedBox(width: 16),
-            Text(
-              state.centsDisplay,
-              style: AppTypography.cent.copyWith(
-                color: isIdle ? AppColors.textSecondary : color,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
-        if (state.statusText.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          Text(
-            state.statusText,
-            style: TextStyle(
-              fontFamily: 'PlusJakartaSans',
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-              color: color,
-              letterSpacing: 3,
-            ),
-          ),
-        ],
-      ],
+        );
+      },
     );
   }
 }
