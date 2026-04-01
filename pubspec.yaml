@@ -1,8 +1,8 @@
 name: nagme
-description: "Nağme — Profesyonel kromatik tuner ve enstrüman akort uygulaması."
+description: "Nağme — Profesyonel kromatik akort uygulaması"
 publish_to: 'none'
 
-version: 2.0.0+1
+version: 2.0.0+2
 
 environment:
   sdk: ^3.7.2
