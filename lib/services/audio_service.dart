@@ -115,6 +115,7 @@ class AudioService {
   Future<void> dispose() async {
     await stopCapture();
     await _pitchController.close();
+    _initialized = false;
   }
 }
 

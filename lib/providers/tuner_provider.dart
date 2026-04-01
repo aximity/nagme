@@ -48,16 +48,24 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
   }
 
   Future<void> startListening() async {
-    final audioService = _ref.read(audioServiceProvider);
+    // Hızlı toggle koruması: önceki dinleme varsa önce durdur
+    if (_subscription != null) await stopListening();
 
-    await audioService.startCapture();
-    _ref.read(isListeningProvider.notifier).state = true;
-    _freqBuffer.clear();
+    try {
+      final audioService = _ref.read(audioServiceProvider);
 
-    _subscription = audioService.pitchStream.listen(
-      _onPitchResult,
-      onError: (_) => stopListening(),
-    );
+      await audioService.startCapture();
+      _ref.read(isListeningProvider.notifier).state = true;
+      _freqBuffer.clear();
+
+      _subscription = audioService.pitchStream.listen(
+        _onPitchResult,
+        onError: (_) => stopListening(),
+      );
+    } catch (_) {
+      _ref.read(isListeningProvider.notifier).state = false;
+      state = const TunerState();
+    }
   }
 
   Future<void> stopListening() async {
