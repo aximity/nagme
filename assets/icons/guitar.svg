@@ -1,0 +1,24 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Headstock -->
+  <path d="M46 10H54V20H46V10Z" stroke="currentColor" stroke-width="2"/>
+  <!-- Tuning pegs (3 per side = 6 total) -->
+  <path d="M44 12H42M44 15H42M44 18H42M56 12H58M56 15H58M56 18H58" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Neck with frets -->
+  <path d="M48 20V44M52 20V44" stroke="currentColor" stroke-width="2"/>
+  <line x1="48" y1="26" x2="52" y2="26" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="48" y1="31" x2="52" y2="31" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <line x1="48" y1="36" x2="52" y2="36" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+  <!-- Upper bout (small) -->
+  <path d="M48 44Q40 45 38 50Q36 55 39 58" stroke="currentColor" stroke-width="2" fill="none"/>
+  <path d="M52 44Q60 45 62 50Q64 55 61 58" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Waist (narrow - FIGURE-8) -->
+  <path d="M39 58Q42 60 42 62" stroke="currentColor" stroke-width="2" fill="none"/>
+  <path d="M61 58Q58 60 58 62" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Lower bout (large) -->
+  <path d="M42 62Q34 66 34 74Q34 82 42 86Q46 88 50 88" stroke="currentColor" stroke-width="2" fill="none"/>
+  <path d="M58 62Q66 66 66 74Q66 82 58 86Q54 88 50 88" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Sound hole -->
+  <circle cx="50" cy="70" r="6" stroke="currentColor" stroke-width="2"/>
+  <!-- Bridge -->
+  <path d="M43 80H57" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>

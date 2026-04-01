@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .dot-grid {
+            background-image: radial-gradient(circle, rgba(134, 147, 145, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .waveform-glow {
+            filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.4));
+        }
+        .mic-pulse {
+            box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.6); }
+            70% { box-shadow: 0 0 0 20px rgba(78, 205, 196, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#041615",
+                        "primary": "#6ee9e0",
+                        "tertiary-fixed": "#ffdadb",
+                        "on-tertiary": "#67001b",
+                        "on-surface": "#d2e7e3",
+                        "on-primary": "#003734",
+                        "on-tertiary-fixed": "#40000d",
+                        "on-secondary-container": "#00311f",
+                        "secondary-container": "#00a572",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#7cf6ec",
+                        "surface-tint": "#5dd9d0",
+                        "primary-container": "#4ecdc4",
+                        "on-secondary-fixed": "#002113",
+                        "outline": "#869391",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-tertiary-fixed-variant": "#92002a",
+                        "tertiary-fixed-dim": "#ffb2b7",
+                        "surface-container-lowest": "#01110f",
+                        "on-primary-fixed": "#00201e",
+                        "on-primary-container": "#00544f",
+                        "inverse-on-surface": "#213432",
+                        "surface-container": "#102321",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#00504c",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-container-high": "#1b2d2b",
+                        "tertiary-container": "#ffa0a7",
+                        "on-surface-variant": "#bcc9c7",
+                        "on-tertiary-container": "#98002c",
+                        "secondary-fixed-dim": "#4edea3",
+                        "surface-variant": "#253836",
+                        "outline-variant": "#3d4948",
+                        "background": "#041615",
+                        "surface-container-low": "#0c1f1d",
+                        "secondary": "#4edea3",
+                        "surface-container-highest": "#253836",
+                        "inverse-surface": "#d2e7e3",
+                        "surface": "#041615",
+                        "surface-bright": "#2a3d3a",
+                        "on-secondary": "#003824",
+                        "inverse-primary": "#006a65",
+                        "tertiary": "#ffc9cb",
+                        "primary-fixed-dim": "#5dd9d0",
+                        "on-background": "#d2e7e3"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Space Grotesk"],
+                        "label": ["Be Vietnam Pro"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-low min-h-screen text-on-surface font-label selection:bg-primary/30 dot-grid overflow-x-hidden">
+<!-- Top AppBar -->
+<header class="w-full top-0 sticky bg-[#041615] flex items-center justify-between px-6 h-16 w-full z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#4ECDC4]" data-icon="music_note">music_note</span>
+<h1 class="font-['Plus_Jakarta_Sans'] font-extrabold text-2xl tracking-tighter text-[#4ECDC4]">Nağme</h1>
+</div>
+<button class="hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined text-[#7FA8A3]" data-icon="settings">settings</span>
+</button>
+</header>
+<main class="max-w-lg mx-auto px-4 pt-4 pb-32 flex flex-col items-center">
+<!-- Instrument Selector Section -->
+<div class="w-full flex flex-col items-center mb-6">
+<button class="flex items-center gap-2 bg-[#132B28] border border-[#2A8F88] rounded-full px-5 py-2 text-on-surface-variant hover:bg-surface-variant transition-colors mb-3">
+<span class="text-sm font-semibold font-headline">Keman</span>
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</button>
+<div class="flex gap-4 font-body text-sm tracking-widest uppercase">
+<span class="text-on-surface-variant/50">G</span>
+<span class="text-on-surface-variant/50">D</span>
+<span class="text-primary font-bold drop-shadow-[0_0_8px_rgba(78,205,196,0.5)]">A</span>
+<span class="text-on-surface-variant/50">E</span>
+</div>
+</div>
+<!-- Waveform Hero Element -->
+<div class="w-full h-[240px] bg-[#132B28] rounded-2xl relative overflow-hidden flex flex-col items-center justify-center mb-8 border border-outline-variant/10">
+<!-- Background Dot Grid -->
+<div class="absolute inset-0 opacity-[0.03] dot-grid"></div>
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex justify-between px-4 opacity-20">
+<div class="w-[1px] h-full bg-[#1A3633]"></div>
+<div class="w-[1px] h-full bg-[#1A3633]"></div>
+<div class="w-[1px] h-full bg-[#1A3633]"></div>
+<div class="w-[1px] h-full bg-[#1A3633]"></div>
+<div class="w-[1px] h-full bg-[#1A3633]"></div>
+</div>
+<!-- Waveform SVG -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 400 240">
+<!-- Secondary thin wave -->
+<path d="M 0 120 Q 50 160 100 120 T 200 120 T 300 120 T 400 120" fill="transparent" opacity="0.4" stroke="#F43F5E" stroke-width="1"></path>
+<!-- Primary wave -->
+<path class="waveform-glow" d="M 0 120 Q 50 70 100 120 T 200 120 T 300 120 T 400 120" fill="transparent" stroke="#F43F5E" stroke-width="3"></path>
+</svg>
+<!-- Symbols -->
+<div class="absolute inset-y-0 left-6 flex items-center">
+<span class="text-4xl font-headline text-[#4A7B75] opacity-50">♭</span>
+</div>
+<div class="absolute inset-y-0 right-6 flex items-center">
+<span class="text-4xl font-headline text-[#F43F5E] drop-shadow-[0_0_10px_rgba(244,63,94,0.6)]">♯</span>
+</div>
+</div>
+<!-- Note Display Section -->
+<div class="flex flex-col items-center mb-8">
+<h2 class="font-headline font-extrabold text-[64px] leading-none text-[#E8F5F3] mb-2">A4</h2>
+<div class="flex items-center gap-2 font-body text-lg">
+<span class="text-[#7FA8A3]">443.2 Hz</span>
+<span class="text-[#7FA8A3]/30">·</span>
+<span class="text-[#F43F5E] font-bold">+12 cent</span>
+</div>
+</div>
+<!-- Pitch Bar Section -->
+<div class="w-full px-4 mb-12">
+<div class="relative w-full h-[6px] bg-[#1A3633] rounded-full">
+<!-- Center Marker -->
+<div class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[2px] h-[12px] bg-primary rounded-full"></div>
+<!-- Indicator (Sharp Position) -->
+<div class="absolute left-[70%] top-1/2 -translate-y-1/2 w-4 h-4 bg-[#F43F5E] rounded-full shadow-[0_0_12px_rgba(244,63,94,0.8)] border-2 border-[#132B28]"></div>
+</div>
+<div class="flex justify-between mt-3 font-label text-[10px] uppercase tracking-widest text-[#7FA8A3]/60">
+<span>Bemol</span>
+<span class="text-[#7FA8A3]">Akort</span>
+<span>Diyez</span>
+</div>
+</div>
+<!-- String Selector Section -->
+<div class="grid grid-cols-4 gap-3 w-full mb-12">
+<button class="bg-[#132B28] text-[#7FA8A3] py-4 rounded-xl font-body font-bold text-lg hover:bg-surface-variant transition-all">G3</button>
+<button class="bg-[#132B28] text-[#7FA8A3] py-4 rounded-xl font-body font-bold text-lg hover:bg-surface-variant transition-all">D4</button>
+<button class="bg-[#4ECDC4] text-[#0C1F1D] py-4 rounded-xl font-body font-bold text-lg shadow-[0_0_20px_rgba(78,205,196,0.3)]">A4</button>
+<button class="bg-[#132B28] text-[#7FA8A3] py-4 rounded-xl font-body font-bold text-lg hover:bg-surface-variant transition-all">E5</button>
+</div>
+<!-- Mic Button -->
+<div class="relative flex items-center justify-center">
+<div class="mic-pulse absolute w-24 h-24 rounded-full"></div>
+<button class="w-[72px] h-[72px] bg-[#4ECDC4] rounded-full flex items-center justify-center text-[#0C1F1D] shadow-lg active:scale-90 transition-transform z-10">
+<span class="material-symbols-outlined text-3xl" data-icon="mic" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full rounded-t-[16px] z-50 bg-[#0C1F1D]/60 backdrop-blur-xl shadow-[0_-4px_24px_rgba(78,205,196,0.05)]">
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center pt-3 pb-6 px-4">
+<a class="flex flex-col items-center justify-center bg-[#4ECDC4]/10 text-[#4ECDC4] rounded-2xl px-5 py-1 spring-200ms scale-110" href="#">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Tuner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] hover:text-[#4ECDC4] transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="metronome">timer</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Metronome</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] hover:text-[#4ECDC4] transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="library_music">library_music</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] hover:text-[#4ECDC4] transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Settings</span>
+</a>
+</div>
+</nav>
+</body></html>

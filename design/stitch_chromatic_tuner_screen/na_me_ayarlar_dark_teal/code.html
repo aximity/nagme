@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Space+Grotesk:wght@500;700&amp;family=Be+Vietnam+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffddaf",
+              "surface-bright": "#2a3d3b",
+              "primary": "#6ee9e0",
+              "outline-variant": "#3d4948",
+              "on-tertiary": "#432c00",
+              "tertiary-container": "#f0af3f",
+              "secondary": "#5fd9d1",
+              "inverse-on-surface": "#213432",
+              "surface-container": "#102321",
+              "surface-container-high": "#1b2d2c",
+              "on-secondary-fixed-variant": "#00504c",
+              "primary-fixed-dim": "#5dd9d0",
+              "on-background": "#d2e7e4",
+              "tertiary-fixed-dim": "#fdba49",
+              "on-tertiary-container": "#664400",
+              "surface-variant": "#263837",
+              "error": "#ffb4ab",
+              "error-container": "#93000a",
+              "outline": "#869391",
+              "secondary-container": "#02a29b",
+              "tertiary": "#ffcf87",
+              "surface": "#041615",
+              "on-tertiary-fixed": "#281800",
+              "on-primary-container": "#00544f",
+              "surface-tint": "#5dd9d0",
+              "surface-dim": "#041615",
+              "surface-container-low": "#0c1f1d",
+              "on-surface-variant": "#bcc9c7",
+              "on-secondary-container": "#00302d",
+              "primary-container": "#4ecdc4",
+              "on-tertiary-fixed-variant": "#614000",
+              "on-primary-fixed-variant": "#00504c",
+              "on-primary": "#003734",
+              "inverse-surface": "#d2e7e4",
+              "on-primary-fixed": "#00201e",
+              "on-error-container": "#ffdad6",
+              "on-secondary-fixed": "#00201e",
+              "inverse-primary": "#006a65",
+              "surface-container-highest": "#263837",
+              "background": "#041615",
+              "primary-fixed": "#7cf6ec",
+              "on-secondary": "#003734",
+              "secondary-fixed-dim": "#5fd9d1",
+              "secondary-fixed": "#7ef6ee",
+              "on-error": "#690005",
+              "surface-container-lowest": "#011110",
+              "on-surface": "#d2e7e4"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            user-select: none;
+        }
+        body {
+            background-color: #041615;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .settings-card {
+            background-color: #132B28;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .settings-row {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid #1A3633;
+        }
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+        .toggle-track {
+            width: 44px;
+            height: 24px;
+            background-color: #4ECDC4;
+            border-radius: 99px;
+            position: relative;
+            cursor: pointer;
+        }
+        .toggle-thumb {
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="flex items-center w-full px-4 h-16 bg-[#041615] border-b border-[#1A3633] fixed top-0 z-50">
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#4ECDC4] active:opacity-70 transition-opacity cursor-pointer" data-icon="arrow_back">arrow_back</span>
+<h1 class="font-['Plus_Jakarta_Sans'] font-extrabold text-[22px] tracking-tight text-[#E8F5F3]">Ayarlar</h1>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-20 pb-28 px-4 max-w-2xl mx-auto space-y-6">
+<!-- AKORT SECTION -->
+<section>
+<h2 class="font-headline font-bold text-[11px] text-[#4ECDC4] uppercase tracking-[0.2em] mb-2 px-1">AKORT</h2>
+<div class="settings-card">
+<div class="settings-row active:bg-[#1A3633] transition-colors cursor-pointer">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Referans Frekansı</span>
+<div class="flex items-center gap-2">
+<span class="text-[14px] text-[#7FA8A3]">A4 = 440 Hz</span>
+<span class="material-symbols-outlined text-[#7FA8A3] text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<div class="settings-row active:bg-[#1A3633] transition-colors cursor-pointer">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Akort Eşiği</span>
+<div class="flex items-center gap-2">
+<span class="text-[14px] text-[#7FA8A3]">± 5 cent</span>
+<span class="material-symbols-outlined text-[#7FA8A3] text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<div class="settings-row active:bg-[#1A3633] transition-colors cursor-pointer">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Nota Gösterimi</span>
+<div class="flex items-center gap-2">
+<span class="text-[14px] text-[#7FA8A3]">C D E</span>
+<span class="material-symbols-outlined text-[#7FA8A3] text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SES SECTION -->
+<section>
+<h2 class="font-headline font-bold text-[11px] text-[#4ECDC4] uppercase tracking-[0.2em] mb-2 px-1">SES</h2>
+<div class="settings-card">
+<div class="settings-row">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Referans Sesi</span>
+<div class="toggle-track">
+<div class="toggle-thumb"></div>
+</div>
+</div>
+<div class="settings-row active:bg-[#1A3633] transition-colors cursor-pointer">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Ses Tipi</span>
+<div class="flex items-center gap-2">
+<span class="text-[14px] text-[#7FA8A3]">Sinüs</span>
+<span class="material-symbols-outlined text-[#7FA8A3] text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- GÖRÜNÜM SECTION -->
+<section>
+<h2 class="font-headline font-bold text-[11px] text-[#4ECDC4] uppercase tracking-[0.2em] mb-2 px-1">GÖRÜNÜM</h2>
+<div class="settings-card">
+<div class="settings-row">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Koyu Tema</span>
+<div class="toggle-track">
+<div class="toggle-thumb"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- HAKKINDA SECTION -->
+<section>
+<h2 class="font-headline font-bold text-[11px] text-[#4ECDC4] uppercase tracking-[0.2em] mb-2 px-1">HAKKINDA</h2>
+<div class="settings-card">
+<div class="settings-row active:bg-[#1A3633] transition-colors cursor-pointer">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Nağme Hakkında</span>
+<span class="material-symbols-outlined text-[#7FA8A3] text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="settings-row">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Sürüm</span>
+<span class="text-[14px] text-[#7FA8A3]">2.0.0</span>
+</div>
+<div class="settings-row active:bg-[#1A3633] transition-colors cursor-pointer">
+<span class="text-[14px] font-medium text-[#E8F5F3]">Geri Bildirim</span>
+<span class="material-symbols-outlined text-[#7FA8A3] text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-6 pb-safe bg-[#041615] shadow-lg border-t border-[#1A3633]">
+<div class="flex flex-col items-center justify-center text-[#4A7B75] hover:text-[#6EE7DF] active:scale-95 duration-150 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="tune">tune</span>
+<span class="font-['Be_Vietnam_Pro'] font-medium text-[11px]">Akort</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#4A7B75] hover:text-[#6EE7DF] active:scale-95 duration-150 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="piano">piano</span>
+<span class="font-['Be_Vietnam_Pro'] font-medium text-[11px]">Enstrümanlar</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#4ECDC4] font-bold active:scale-95 duration-150 ease-in-out cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-['Be_Vietnam_Pro'] font-medium text-[11px]">Ayarlar</span>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nağme - Hakkında</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:ital,wght@0,300;0,400;1,300;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#ffddaf",
+              "secondary-container": "#825900",
+              "on-secondary-fixed-variant": "#604000",
+              "secondary-fixed-dim": "#f5bd63",
+              "surface-tint": "#fdba49",
+              "on-primary-fixed": "#281800",
+              "on-tertiary": "#362f29",
+              "on-secondary": "#432c00",
+              "surface-container-lowest": "#100e0c",
+              "tertiary-container": "#bdb2a9",
+              "on-secondary-container": "#ffd69a",
+              "on-tertiary-fixed": "#211a15",
+              "surface-container-low": "#1e1b19",
+              "error": "#ffb4ab",
+              "surface-container-high": "#2d2927",
+              "on-primary-container": "#5f3f00",
+              "secondary": "#f5bd63",
+              "inverse-on-surface": "#33302d",
+              "on-surface": "#e9e1dd",
+              "inverse-primary": "#805600",
+              "surface-variant": "#383432",
+              "surface-container-highest": "#383432",
+              "on-primary-fixed-variant": "#614000",
+              "on-surface-variant": "#d5c4af",
+              "surface-dim": "#161311",
+              "inverse-surface": "#e9e1dd",
+              "error-container": "#93000a",
+              "on-secondary-fixed": "#281800",
+              "outline-variant": "#504535",
+              "primary-container": "#e8a838",
+              "primary": "#ffc66b",
+              "secondary-fixed": "#ffddae",
+              "on-primary": "#432c00",
+              "surface-bright": "#3c3836",
+              "surface": "#161311",
+              "on-background": "#e9e1dd",
+              "on-error": "#690005",
+              "tertiary": "#dacdc4",
+              "background": "#161311",
+              "outline": "#9d8e7c",
+              "on-tertiary-fixed-variant": "#4d453e",
+              "tertiary-fixed": "#ede0d7",
+              "surface-container": "#221f1d",
+              "primary-fixed-dim": "#fdba49",
+              "tertiary-fixed-dim": "#d0c4bb",
+              "on-error-container": "#ffdad6",
+              "on-tertiary-container": "#4c443e"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 48;
+      }
+      .glow-amber {
+        filter: drop-shadow(0 0 8px rgba(232, 168, 56, 0.4));
+      }
+      .bg-memorial-gradient {
+        background: radial-gradient(circle at center, rgba(232, 168, 56, 0.05) 0%, transparent 70%);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#161311]/60 dark:bg-[#161311]/60 backdrop-blur-xl">
+<nav class="flex items-center justify-between px-6 w-full max-w-none h-20">
+<div class="flex items-center">
+<button class="text-[#E8A838] hover:opacity-80 transition-opacity duration-500">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+</div>
+<div class="absolute left-1/2 -translate-x-1/2">
+<h1 class="font-plus-jakarta-sans font-extrabold tracking-tight text-[22px] text-[#E8A838] dark:text-[#FFC66B]">Nağme</h1>
+</div>
+<div class="w-6"></div> <!-- Spacer for balance -->
+</nav>
+</header>
+<main class="flex-grow pt-32 pb-20 px-8 max-w-2xl mx-auto w-full bg-memorial-gradient">
+<!-- Memorial Icon & Line -->
+<section class="flex flex-col items-center mb-12">
+<div class="text-[#E8A838] mb-4 glow-amber">
+<span class="material-symbols-outlined !text-[48px]" style="font-variation-settings: 'wght' 100;">favorite</span>
+</div>
+<div class="w-[1px] h-10 bg-gradient-to-b from-[#E8A838] to-transparent opacity-40"></div>
+</section>
+<!-- Main Dedication -->
+<section class="text-center mb-8">
+<h2 class="font-headline font-bold text-[24px] leading-tight text-on-surface mb-8">
+                Bu uygulama, müziğe olan sevgisiyle hayatımıza anlam katan bir insanın anısına geliştirilmiştir.
+            </h2>
+<!-- Minimalist Divider -->
+<div class="flex justify-center mb-8">
+<div class="w-8 h-[2px] bg-[#E8A838] opacity-30"></div>
+</div>
+<!-- Secondary Text -->
+<p class="font-body font-light italic text-[16px] text-muted-warm-gray text-[#8A8078] leading-relaxed">
+                Nağme, sadece bir akort aracı değil; onun anısına bırakılmış bir hayrattır.
+            </p>
+</section>
+<!-- Image Space (Asymmetric Layout) -->
+<section class="my-16 relative">
+<div class="aspect-[4/5] w-full rounded-xl overflow-hidden shadow-2xl">
+<img alt="Nostalgic image of music" class="w-full h-full object-cover opacity-60" data-alt="vintage classical sheet music and an old wooden violin on a dark walnut table with soft warm candlelight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-wWGkS-3Kep_I9hOtt3XgTqnbtuClyF_i_lAHfE4r8XagJyoulJw1AmLH23IcvGDUSjrHmvGozxexjl_GCNZOsK5xeendqo-yVsjgxYvxf2qzgrKRODqjpxrGfyGACBM3sz8-5hUxxidzlsTOt2s060tTbOq15AoP-gYdScSfuWYGH4IYBvmdAvLPNPp12khN15EYh3gbqcxIn9v4ysQyI3yqTZ-YXC0eto1mLf65k7ivfbg19Ed4npaWEHh1Xag9oVaTmO3HRxWl"/>
+</div>
+<!-- Offset Overlay Card (Asymmetry) -->
+<div class="absolute -bottom-6 -right-4 md:-right-8 bg-surface-container-low p-6 rounded-xl border border-outline-variant/10 shadow-lg max-w-[280px]">
+<p class="font-body text-[14px] italic text-[#8A8078] leading-relaxed">
+                    "Sessizliğin içinde bile bir melodi vardır."
+                </p>
+</div>
+</section>
+<!-- Footer Info Block -->
+<section class="mt-24 space-y-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-6 md:space-y-0 text-center md:text-left">
+<div>
+<span class="block text-[10px] font-bold tracking-[0.2em] text-[#E8A838]/60 mb-1 uppercase">Geliştirici</span>
+<span class="text-[#8A8078] font-light">Ahmet</span>
+</div>
+<div>
+<span class="block text-[10px] font-bold tracking-[0.2em] text-[#E8A838]/60 mb-1 uppercase">Durum</span>
+<span class="text-[#8A8078] font-light">Tamamen Ücretsiz</span>
+</div>
+<div>
+<span class="block text-[10px] font-bold tracking-[0.2em] text-[#E8A838]/60 mb-1 uppercase">Kullanım</span>
+<span class="text-[#8A8078] font-light">Reklamsız / Çevrimdışı</span>
+</div>
+</div>
+<!-- Closing Icon -->
+<div class="flex justify-center pt-8">
+<span class="material-symbols-outlined text-[#E8A838]/60 !text-[18px]">favorite</span>
+</div>
+</section>
+</main>
+<!-- Visual Texture Overlay -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAMoNsKsUi9yxMnKpcRx6efOOIWNb3LShj4DXOx3zYB9icj9kMF0dWCTZhfTJcEDGuO2GveAfwz3dMhhzrGVfGiEChpZ-AfXO6p-9vHV0pkKgWJhirLANIm11rNsQNn1xg1vP3iT5DiWzYcZGgJt_L9AnS5E3VZidtu0ucdlYGUbfn9TbIYRrbd8eeZP3ppMJg2U6Ymx9r95yjQdH-XjutG5QsAwoWfpYtu9V5krcQDWn31RwNG5x3PN_hLmrJyxvlVCMDozsbkZVhb');"></div>
+</body></html>

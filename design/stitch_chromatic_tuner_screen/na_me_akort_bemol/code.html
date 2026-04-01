@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Space+Grotesk:wght@500;700&amp;family=Be+Vietnam+Pro:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#5dd9d0",
+              "on-secondary-fixed": "#00201e",
+              "error": "#ffb4ab",
+              "on-surface-variant": "#bcc9c7",
+              "surface-container-high": "#1b2d2c",
+              "surface-container": "#102321",
+              "surface-container-lowest": "#011110",
+              "surface-container-low": "#0c1f1d",
+              "surface-dim": "#041615",
+              "on-tertiary-container": "#664400",
+              "surface-variant": "#263837",
+              "secondary-fixed-dim": "#5fd9d1",
+              "outline-variant": "#3d4948",
+              "on-error-container": "#ffdad6",
+              "surface": "#041615",
+              "background": "#041615",
+              "on-primary-fixed-variant": "#00504c",
+              "primary-fixed": "#7cf6ec",
+              "tertiary-fixed": "#ffddaf",
+              "outline": "#869391",
+              "on-primary": "#003734",
+              "inverse-on-surface": "#213432",
+              "secondary-fixed": "#7ef6ee",
+              "primary-container": "#4ecdc4",
+              "on-secondary-fixed-variant": "#00504c",
+              "error-container": "#93000a",
+              "primary-fixed-dim": "#5dd9d0",
+              "on-surface": "#d2e7e4",
+              "tertiary-container": "#f0af3f",
+              "surface-bright": "#2a3d3b",
+              "inverse-primary": "#006a65",
+              "surface-container-highest": "#263837",
+              "on-primary-container": "#00544f",
+              "tertiary-fixed-dim": "#fdba49",
+              "secondary": "#5fd9d1",
+              "secondary-container": "#02a29b",
+              "on-background": "#d2e7e4",
+              "on-tertiary-fixed": "#281800",
+              "inverse-surface": "#d2e7e4",
+              "on-primary-fixed": "#00201e",
+              "on-tertiary-fixed-variant": "#614000",
+              "on-secondary-container": "#00302d",
+              "on-secondary": "#003734",
+              "on-error": "#690005",
+              "tertiary": "#ffcf87",
+              "primary": "#6ee9e0",
+              "on-tertiary": "#432c00",
+              "status-flat": "#F59E0B"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"],
+              "grotesk": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .waveform-grid {
+            background-image: linear-gradient(to right, rgba(26, 54, 51, 0.5) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(26, 54, 51, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-[#041615] border-b border-[#1A3633] flex items-center justify-center h-16 px-4">
+<h1 class="text-[#4ECDC4] font-['Plus_Jakarta_Sans'] font-extrabold text-[22px] tracking-tight">Nağme</h1>
+</header>
+<main class="flex-1 mt-16 pb-32 px-4 flex flex-col items-center max-w-lg mx-auto w-full">
+<!-- Waveform Hero -->
+<section class="w-full h-[240px] bg-[#132B28] rounded-[24px] relative overflow-hidden mt-6 flex items-center justify-center">
+<div class="absolute inset-0 waveform-grid"></div>
+<!-- SVG Amber Waveform (FLAT state) -->
+<svg class="relative z-10 w-full h-32" preserveaspectratio="none" viewbox="0 0 400 100">
+<path class="opacity-80" d="M0,50 Q100,0 200,50 T400,50" fill="none" stroke="#F59E0B" stroke-linecap="round" stroke-width="3"></path>
+<path class="opacity-40" d="M0,50 Q100,10 200,50 T400,50" fill="none" stroke="#F59E0B" stroke-dasharray="4 4" stroke-width="1.5"></path>
+</svg>
+<!-- Status Overlay Symbols -->
+<div class="absolute top-4 left-4 flex gap-4">
+<span class="text-status-flat font-grotesk font-bold text-3xl">♭</span>
+<span class="text-[#1A3633] font-grotesk font-bold text-3xl">♯</span>
+</div>
+<!-- Glow Effect -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#F59E0B10] to-transparent pointer-events-none"></div>
+</section>
+<!-- Note Display Cluster -->
+<section class="flex flex-col items-center mt-8 text-center">
+<div class="flex items-baseline gap-2">
+<span class="text-[64px] font-headline font-extrabold text-white leading-none">A4</span>
+<span class="text-status-flat font-grotesk text-2xl font-bold">♭</span>
+</div>
+<div class="flex gap-4 mt-2 font-grotesk">
+<span class="text-text-secondary text-lg">436.8 Hz</span>
+<span class="text-status-flat text-lg font-bold">-12 cent</span>
+</div>
+<p class="mt-4 text-status-flat font-label font-medium uppercase tracking-[0.2em] animate-pulse">Tune Up</p>
+</section>
+<!-- Pitch Bar -->
+<section class="w-full mt-8 px-2">
+<div class="relative h-[6px] w-full bg-[#1A3633] rounded-full overflow-visible">
+<!-- Target Center Notch -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-4 w-[2px] bg-[#4ECDC4] z-10"></div>
+<!-- Indicator Dot (35% left for Flat state) -->
+<div class="absolute left-[35%] top-1/2 -translate-y-1/2 h-5 w-5 bg-status-flat rounded-full shadow-[0_0_12px_rgba(245,158,11,0.6)] border-2 border-surface z-20 transition-all duration-300"></div>
+<!-- Active Track Trace -->
+<div class="absolute right-[65%] left-0 h-full bg-status-flat rounded-full opacity-30"></div>
+</div>
+<div class="flex justify-between mt-3 text-[10px] font-grotesk text-text-muted uppercase tracking-widest">
+<span>Low</span>
+<span>In Tune</span>
+<span>High</span>
+</div>
+</section>
+<!-- String Selector -->
+<section class="w-full mt-10 grid grid-cols-4 gap-3">
+<button class="bg-[#132B28] rounded-xl py-4 flex flex-col items-center group transition-colors">
+<span class="text-text-secondary font-grotesk font-bold group-hover:text-primary">G3</span>
+</button>
+<button class="bg-[#132B28] rounded-xl py-4 flex flex-col items-center group transition-colors">
+<span class="text-text-secondary font-grotesk font-bold group-hover:text-primary">D4</span>
+</button>
+<!-- Active State -->
+<button class="bg-[#4ECDC4] rounded-xl py-4 flex flex-col items-center shadow-[0_0_20px_rgba(78,205,196,0.2)]">
+<span class="text-[#0C1F1D] font-grotesk font-bold">A4</span>
+</button>
+<button class="bg-[#132B28] rounded-xl py-4 flex flex-col items-center group transition-colors">
+<span class="text-text-secondary font-grotesk font-bold group-hover:text-primary">E5</span>
+</button>
+</section>
+</main>
+<!-- Microphone FAB (Floating Action Button) -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 z-40">
+<button class="w-[72px] h-[72px] bg-[#4ECDC4] rounded-full flex items-center justify-center text-[#0C1F1D] shadow-xl active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">mic</span>
+<!-- Pulsing Halo effect -->
+<div class="absolute inset-0 rounded-full bg-[#4ECDC4] opacity-20 animate-ping -z-10"></div>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe bg-[#041615] border-t border-[#1A3633] z-50 shadow-2xl">
+<a class="flex flex-col items-center justify-center text-[#4ECDC4] p-2 hover:text-[#6EE7DF] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">tune</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Akort</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] p-2 hover:text-[#6EE7DF] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">straighten</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Enstrümanlar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] p-2 hover:text-[#6EE7DF] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Ayarlar</span>
+</a>
+</nav>
+</body></html>

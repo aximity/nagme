@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nağme - Mikrofon İzni</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Space+Grotesk:wght@500;700&amp;family=Be+Vietnam+Pro:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-variant": "#263837",
+              "surface-tint": "#5dd9d0",
+              "inverse-surface": "#d2e7e4",
+              "surface-bright": "#2a3d3b",
+              "outline": "#869391",
+              "on-error-container": "#ffdad6",
+              "primary": "#6ee9e0",
+              "on-tertiary": "#432c00",
+              "surface-dim": "#041615",
+              "secondary-fixed-dim": "#5fd9d1",
+              "on-secondary-container": "#00302d",
+              "on-background": "#d2e7e4",
+              "on-tertiary-container": "#664400",
+              "on-surface-variant": "#bcc9c7",
+              "primary-container": "#4ecdc4",
+              "secondary-container": "#02a29b",
+              "on-primary": "#003734",
+              "inverse-primary": "#006a65",
+              "on-secondary-fixed-variant": "#00504c",
+              "tertiary-container": "#f0af3f",
+              "outline-variant": "#3d4948",
+              "on-surface": "#d2e7e4",
+              "surface-container-high": "#1b2d2c",
+              "secondary": "#5fd9d1",
+              "tertiary-fixed": "#ffddaf",
+              "surface-container-highest": "#263837",
+              "error": "#ffb4ab",
+              "on-error": "#690005",
+              "primary-fixed-dim": "#5dd9d0",
+              "on-primary-fixed": "#00201e",
+              "on-secondary-fixed": "#00201e",
+              "secondary-fixed": "#7ef6ee",
+              "surface-container-low": "#0c1f1d",
+              "on-primary-fixed-variant": "#00504c",
+              "on-tertiary-fixed": "#281800",
+              "on-secondary": "#003734",
+              "on-primary-container": "#00544f",
+              "on-tertiary-fixed-variant": "#614000",
+              "error-container": "#93000a",
+              "surface-container": "#102321",
+              "surface-container-lowest": "#011110",
+              "background": "#041615",
+              "surface": "#041615",
+              "primary-fixed": "#7cf6ec",
+              "inverse-on-surface": "#213432",
+              "tertiary-fixed-dim": "#fdba49",
+              "tertiary": "#ffcf87"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-dim text-on-background font-body select-none overflow-hidden">
+<!-- Top App Bar (Shared Component) -->
+<header class="fixed top-0 w-full z-40 bg-[#041615] border-b border-[#1A3633] flex items-center justify-between px-4 h-16 w-full">
+<button class="text-[#7FA8A3] hover:bg-[#132B28] transition-colors active:scale-95 duration-150 p-2 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-extrabold text-[22px] tracking-tight text-[#4ECDC4]">Nağme</h1>
+<div class="w-10 h-10 flex items-center justify-center">
+<!-- Spacer for centering -->
+</div>
+</header>
+<!-- Background Tuner Screen (Idle State) -->
+<main class="min-h-screen pt-16 pb-16 flex flex-col items-center justify-center relative px-6">
+<!-- Waveform Container (Idle) -->
+<div class="w-full max-w-md aspect-[4/3] bg-[#132B28] rounded-[24px] relative overflow-hidden flex items-center justify-center mb-8 border border-[#1A3633]">
+<div class="absolute inset-0 bg-noise pointer-events-none"></div>
+<!-- Flat waveform simulation -->
+<svg class="w-full h-32 opacity-20" preserveaspectratio="none" viewbox="0 0 400 100">
+<path d="M0 50 Q 100 50, 200 50 T 400 50" fill="none" stroke="#4ECDC4" stroke-width="2"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-[#7FA8A3] text-sm font-medium tracking-widest uppercase">Dinleniyor...</span>
+</div>
+</div>
+<!-- Note Display (Idle) -->
+<div class="text-center space-y-2 mb-12">
+<div class="text-[64px] font-['Plus_Jakarta_Sans'] font-extrabold text-[#7FA8A3] opacity-30 leading-none">--</div>
+<div class="font-['Space_Grotesk'] text-[#7FA8A3] opacity-50 flex items-center justify-center gap-4">
+<span>0.00 Hz</span>
+<span class="w-1 h-1 bg-[#2A8F88] rounded-full"></span>
+<span>±0 cent</span>
+</div>
+</div>
+<!-- Pitch Bar (Idle) -->
+<div class="w-full max-w-xs h-1.5 bg-[#1A3633] rounded-full relative mb-12">
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#7FA8A3] rounded-full border-2 border-[#041615]"></div>
+</div>
+<!-- String Selector (Idle) -->
+<div class="grid grid-cols-4 gap-3 w-full max-w-sm">
+<div class="bg-[#132B28] border border-[#1A3633] rounded-xl p-4 text-center">
+<span class="block font-['Space_Grotesk'] text-[#7FA8A3]">E</span>
+</div>
+<div class="bg-[#132B28] border border-[#1A3633] rounded-xl p-4 text-center">
+<span class="block font-['Space_Grotesk'] text-[#7FA8A3]">A</span>
+</div>
+<div class="bg-[#132B28] border border-[#1A3633] rounded-xl p-4 text-center">
+<span class="block font-['Space_Grotesk'] text-[#7FA8A3]">D</span>
+</div>
+<div class="bg-[#132B28] border border-[#1A3633] rounded-xl p-4 text-center">
+<span class="block font-['Space_Grotesk'] text-[#7FA8A3]">G</span>
+</div>
+</div>
+</main>
+<!-- Microphone FAB (Behind overlay) -->
+<div class="fixed bottom-24 right-6">
+<button class="w-[72px] h-[72px] rounded-full bg-[#1A3633] text-[#7FA8A3] flex items-center justify-center shadow-2xl border border-[#2A8F88]">
+<span class="material-symbols-outlined text-3xl">mic</span>
+</button>
+</div>
+<!-- Bottom Navigation Bar (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full z-40 flex justify-around items-center px-4 pb-2 h-16 bg-[#041615] border-t border-[#1A3633] shadow-lg">
+<button class="flex flex-col items-center justify-center text-[#4ECDC4] font-bold py-1 hover:text-[#6EE7DF] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+<span class="font-['Be_Vietnam_Pro'] font-medium text-[11px]">Akort</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#7FA8A3] py-1 hover:text-[#6EE7DF] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="straighten">straighten</span>
+<span class="font-['Be_Vietnam_Pro'] font-medium text-[11px]">Enstrümanlar</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#7FA8A3] py-1 hover:text-[#6EE7DF] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Be_Vietnam_Pro'] font-medium text-[11px]">Ayarlar</span>
+</button>
+</nav>
+<!-- PERMISSION OVERLAY LAYER -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center px-6">
+<!-- Background Dim Overlay -->
+<div class="absolute inset-0 bg-[#041615] opacity-70 backdrop-blur-sm"></div>
+<!-- Dialog Card -->
+<div class="relative bg-[#132B28] border border-[#1A3633] rounded-[24px] p-8 w-full max-w-[340px] flex flex-col items-center text-center shadow-2xl">
+<!-- Icon -->
+<div class="w-16 h-16 rounded-full bg-[#1A3633] flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[48px] text-[#4ECDC4]" style="font-variation-settings: 'FILL' 1;">mic</span>
+</div>
+<!-- Title -->
+<h2 class="font-['Plus_Jakarta_Sans'] font-bold text-[18px] text-[#E8F5F3] mb-3">
+                Mikrofon İzni Gerekli
+            </h2>
+<!-- Description -->
+<p class="font-['Be_Vietnam_Pro'] font-normal text-[14px] text-[#7FA8A3] leading-relaxed mb-8">
+                Nağme, enstrümanınızın sesini duyabilmek için mikrofon erişimine ihtiyaç duyar. Ses veriniz kaydedilmez ve cihazınızdan çıkmaz.
+            </p>
+<!-- Buttons -->
+<div class="w-full space-y-3">
+<button class="w-full h-12 bg-[#4ECDC4] text-[#0C1F1D] font-bold rounded-[12px] hover:bg-[#6EE7DF] active:scale-[0.98] transition-all">
+                    İzin Ver
+                </button>
+<button class="w-full h-12 bg-transparent border border-[#1A3633] text-[#7FA8A3] font-medium rounded-[12px] hover:bg-[#1A3633] active:scale-[0.98] transition-all">
+                    Şimdi Değil
+                </button>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,31 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Scroll -->
+  <path d="M50 10C48 10 47 11 47 13C47 15 49 16 50 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- Pegbox -->
+  <path d="M48 15V22H52V15" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Pegs -->
+  <line x1="46" y1="17" x2="48" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="52" y1="19" x2="54" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Neck -->
+  <path d="M49 22V40M51 22V40" stroke="currentColor" stroke-width="2"/>
+  <!-- Upper bout -->
+  <path d="M47 40Q39 43 39 50" stroke="currentColor" stroke-width="2" fill="none"/>
+  <path d="M53 40Q61 43 61 50" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- C-bout (waist) -->
+  <path d="M39 50Q43 53 43 56" stroke="currentColor" stroke-width="2" fill="none"/>
+  <path d="M61 50Q57 53 57 56" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Lower bout -->
+  <path d="M43 56Q37 60 38 70Q39 78 46 82" stroke="currentColor" stroke-width="2" fill="none"/>
+  <path d="M57 56Q63 60 62 70Q61 78 54 82" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Bottom -->
+  <path d="M46 82Q50 84 54 82" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- F-holes -->
+  <path d="M44 54Q43 60 45 66" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M56 54Q57 60 55 66" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Bridge -->
+  <line x1="45" y1="63" x2="55" y2="63" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Tailpiece -->
+  <path d="M48 72L50 80L52 72" stroke="currentColor" stroke-width="1.5" fill="none"/>
+  <!-- Chin rest -->
+  <path d="M44 79Q41 81 41 84" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

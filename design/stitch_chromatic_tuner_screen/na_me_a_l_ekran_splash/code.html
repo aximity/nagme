@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nağme - Splash Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&amp;family=Be+Vietnam+Pro:wght@400;500&amp;family=Space+Grotesk:wght@500;700&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#7cf6ec",
+              "on-secondary-container": "#00302d",
+              "primary": "#6ee9e0",
+              "surface-bright": "#2a3d3b",
+              "error-container": "#93000a",
+              "secondary-fixed": "#7ef6ee",
+              "surface-container-high": "#1b2d2c",
+              "on-secondary-fixed": "#00201e",
+              "on-primary": "#003734",
+              "surface-container-low": "#0c1f1d",
+              "secondary-container": "#02a29b",
+              "on-error": "#690005",
+              "inverse-surface": "#d2e7e4",
+              "tertiary-fixed": "#ffddaf",
+              "on-secondary-fixed-variant": "#00504c",
+              "on-primary-fixed": "#00201e",
+              "surface-container-lowest": "#011110",
+              "on-background": "#d2e7e4",
+              "error": "#ffb4ab",
+              "secondary-fixed-dim": "#5fd9d1",
+              "on-primary-fixed-variant": "#00504c",
+              "surface": "#041615",
+              "primary-container": "#4ecdc4",
+              "outline-variant": "#3d4948",
+              "background": "#041615",
+              "outline": "#869391",
+              "tertiary-fixed-dim": "#fdba49",
+              "on-primary-container": "#00544f",
+              "on-surface-variant": "#bcc9c7",
+              "surface-variant": "#263837",
+              "primary-fixed-dim": "#5dd9d0",
+              "on-tertiary-fixed-variant": "#614000",
+              "tertiary": "#ffcf87",
+              "on-tertiary-fixed": "#281800",
+              "on-error-container": "#ffdad6",
+              "tertiary-container": "#f0af3f",
+              "on-tertiary-container": "#664400",
+              "on-tertiary": "#432c00",
+              "surface-dim": "#041615",
+              "inverse-primary": "#006a65",
+              "surface-tint": "#5dd9d0",
+              "on-secondary": "#003734",
+              "secondary": "#5fd9d1",
+              "inverse-on-surface": "#213432",
+              "surface-container-highest": "#263837",
+              "surface-container": "#102321",
+              "on-surface": "#d2e7e4"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #041615;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .splash-gradient {
+            background: radial-gradient(circle at center, rgba(78, 205, 196, 0.05) 0%, rgba(4, 22, 21, 1) 70%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            font-size: 80px;
+            color: #4ECDC4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="splash-gradient font-body">
+<!-- Splash Content Container -->
+<main class="flex flex-col items-center justify-center">
+<!-- Center Icon -->
+<div class="flex items-center justify-center mb-4">
+<span class="material-symbols-outlined" data-icon="music_note" data-weight="thin">
+                music_note
+            </span>
+</div>
+<!-- App Name -->
+<h1 class="font-headline font-extrabold text-[40px] text-primary-container leading-none">
+            Nağme
+        </h1>
+<!-- Subtitle / Brand Tag -->
+<p class="mt-2 font-body text-[14px] text-[#4A7B75] uppercase tracking-[0.2em]">
+            KROMATİK AKORT
+        </p>
+</main>
+<!-- Bottom Indicator -->
+<div class="fixed bottom-12 left-1/2 -translate-x-1/2">
+<div class="w-[60px] h-[1px] bg-primary-container opacity-15"></div>
+</div>
+<!-- Hidden Image Data for AI Consistency Reference -->
+<div class="hidden">
+<img data-alt="Smooth radial gradient flowing from deep teal #041615 center to pitch black edges with 5 percent opacity turquoise glow center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3LDuPbFs4Z_3nP-H3abWH41t0sKtIcEpeU27BYPYfYij6L7byrmDXsa_EXDOFDy-EDTXlVnFMZGTpaTC0kQyPduoGp3vg2x579YLZLcvUbUqMCWdp6xTSkX-LLMdXWo33W0mxM6Q282n47C7h9Is8TtZYznj2ZeU-AOGam-xYpnA-19LEjdaizbDuFwYT3K1DCXD2GcL0FC2XUqcdQ6Ip1iTFdrjk07pk5mvYoT8GFnuit5siOh-85bpmp1WrZq_nS-rnWSQB__pd"/>
+</div>
+</body></html>

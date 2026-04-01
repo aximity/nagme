@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nağme — Enstrüman Seç</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#7cf6ec",
+                        "tertiary-fixed": "#ffddaf",
+                        "surface-container-highest": "#263837",
+                        "on-surface": "#d2e7e4",
+                        "on-secondary-fixed-variant": "#00504c",
+                        "secondary": "#5fd9d1",
+                        "secondary-fixed-dim": "#5fd9d1",
+                        "on-primary": "#003734",
+                        "surface-container-high": "#1b2d2c",
+                        "inverse-primary": "#006a65",
+                        "surface-variant": "#263837",
+                        "on-tertiary": "#432c00",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#00504c",
+                        "tertiary-fixed-dim": "#fdba49",
+                        "surface": "#041615",
+                        "secondary-container": "#02a29b",
+                        "primary-container": "#4ecdc4",
+                        "on-surface-variant": "#bcc9c7",
+                        "outline-variant": "#3d4948",
+                        "surface-container": "#102321",
+                        "outline": "#869391",
+                        "on-tertiary-container": "#664400",
+                        "on-secondary-container": "#00302d",
+                        "primary": "#6ee9e0",
+                        "inverse-on-surface": "#213432",
+                        "surface-bright": "#2a3d3b",
+                        "surface-container-lowest": "#011110",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#281800",
+                        "inverse-surface": "#d2e7e4",
+                        "on-secondary-fixed": "#00201e",
+                        "background": "#041615",
+                        "on-primary-fixed": "#00201e",
+                        "primary-fixed-dim": "#5dd9d0",
+                        "on-primary-container": "#00544f",
+                        "secondary-fixed": "#7ef6ee",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-low": "#0c1f1d",
+                        "tertiary-container": "#f0af3f",
+                        "surface-tint": "#5dd9d0",
+                        "surface-dim": "#041615",
+                        "tertiary": "#ffcf87",
+                        "on-background": "#d2e7e4",
+                        "on-tertiary-fixed-variant": "#614000",
+                        "on-secondary": "#003734"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Be Vietnam Pro"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .dot-grid {
+            background-image: radial-gradient(circle, #1A3633 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-low text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#041615] border-b border-[#1A3633] flex items-center px-4 h-16 w-full">
+<div class="flex items-center justify-between w-full">
+<button class="w-10 h-10 flex items-center justify-center text-[#4ECDC4] active:scale-95 duration-150 transition-colors hover:bg-[#132B28] rounded-full">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-extrabold text-[22px] tracking-tight text-[#E8F5F3]">Enstrüman Seç</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content -->
+<main class="min-h-screen pt-20 pb-28 px-4 dot-grid bg-[#0C1F1D]">
+<!-- Instrument Grid -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<!-- 1. Kromatik -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="graphic_eq">graphic_eq</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Kromatik</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">Serbest Mod</span>
+</div>
+<!-- 2. Keman (SELECTED) -->
+<div class="bg-[#132B28] rounded-3xl border-2 border-[#4ECDC4] p-5 flex flex-col items-center justify-center text-center relative shadow-[0_0_15px_rgba(78,205,196,0.2)] active:scale-[0.98]">
+<div class="absolute top-3 right-3 bg-[#10B981] w-5 h-5 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-white font-bold" data-icon="check">check</span>
+</div>
+<div class="mb-3 text-[#4ECDC4]">
+<span class="material-symbols-outlined text-4xl" data-icon="violin">piano</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#4ECDC4]">Keman</span>
+<span class="font-body text-[11px] text-[#4ECDC4] mt-1">4 tel</span>
+</div>
+<!-- 3. Gitar -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="guitar">piano</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Gitar</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">6 tel</span>
+</div>
+<!-- 4. Bas Gitar -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="bass_guitar">bottom_drawer</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Bas Gitar</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">4 tel</span>
+</div>
+<!-- 5. Ukulele -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="music_note">music_note</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Ukulele</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">4 tel</span>
+</div>
+<!-- 6. Bağlama -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="music_note_variant">music_note</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Bağlama</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">7 tel</span>
+</div>
+<!-- 7. Ud -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="music_video">music_video</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Ud</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">11 tel</span>
+</div>
+<!-- 8. Viyola -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="violin">piano</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Viyola</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">4 tel</span>
+</div>
+<!-- 9. Çello -->
+<div class="bg-[#132B28] rounded-3xl border border-[#1A3633] p-5 flex flex-col items-center justify-center text-center transition-all hover:border-[#2A8F88] active:scale-[0.98]">
+<div class="mb-3 text-[#4A7B75]">
+<span class="material-symbols-outlined text-4xl" data-icon="music_note">music_note</span>
+</div>
+<span class="font-headline font-bold text-[15px] text-[#E8F5F3]">Çello</span>
+<span class="font-body text-[11px] text-[#4A7B75] mt-1">4 tel</span>
+</div>
+</div>
+<!-- Info Card -->
+<section class="bg-[#1b2d2c] rounded-3xl p-5 border border-[#2A8F88]/30 flex gap-4 items-start mb-8">
+<div class="bg-[#4ECDC4]/10 p-3 rounded-2xl">
+<span class="material-symbols-outlined text-[#4ECDC4]" data-icon="info">info</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-base text-[#4ECDC4] mb-1">Akort Yardımcısı</h3>
+<p class="font-body text-xs text-[#7FA8A3] leading-relaxed">
+                    Seçtiğiniz enstrümanın tel yapısına uygun hassas frekans analizi yapılır. Her enstrüman için özel optimize edilmiş algoritmalar kullanılır.
+                </p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-[#041615] border-t border-[#1A3633] shadow-lg flex justify-around items-center h-20 pb-safe px-6">
+<a class="flex flex-col items-center justify-center text-[#4A7B75] hover:text-[#6EE7DF] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="tune">tune</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Akort</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4ECDC4] bg-[#132B28]/50 rounded-xl px-4 py-1.5 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="straighten" style="font-variation-settings: 'FILL' 1;">straighten</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-bold">Enstrümanlar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] hover:text-[#6EE7DF] active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Ayarlar</span>
+</a>
+</nav>
+</body></html>

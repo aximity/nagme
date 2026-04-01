@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nağme — Akort</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&amp;family=Space+Grotesk:wght@500;700&amp;family=Be+Vietnam+Pro:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#5dd9d0",
+              "on-secondary-fixed": "#00201e",
+              "error": "#ffb4ab",
+              "on-surface-variant": "#bcc9c7",
+              "surface-container-high": "#1b2d2c",
+              "surface-container": "#102321",
+              "surface-container-lowest": "#011110",
+              "surface-container-low": "#0c1f1d",
+              "surface-dim": "#041615",
+              "on-tertiary-container": "#664400",
+              "surface-variant": "#263837",
+              "secondary-fixed-dim": "#5fd9d1",
+              "outline-variant": "#3d4948",
+              "on-error-container": "#ffdad6",
+              "surface": "#041615",
+              "background": "#041615",
+              "on-primary-fixed-variant": "#00504c",
+              "primary-fixed": "#7cf6ec",
+              "tertiary-fixed": "#ffddaf",
+              "outline": "#869391",
+              "on-primary": "#003734",
+              "inverse-on-surface": "#213432",
+              "secondary-fixed": "#7ef6ee",
+              "primary-container": "#4ecdc4",
+              "on-secondary-fixed-variant": "#00504c",
+              "error-container": "#93000a",
+              "primary-fixed-dim": "#5dd9d0",
+              "on-surface": "#d2e7e4",
+              "tertiary-container": "#f0af3f",
+              "surface-bright": "#2a3d3b",
+              "inverse-primary": "#006a65",
+              "surface-container-highest": "#263837",
+              "on-primary-container": "#00544f",
+              "tertiary-fixed-dim": "#fdba49",
+              "secondary": "#5fd9d1",
+              "secondary-container": "#02a29b",
+              "on-background": "#d2e7e4",
+              "on-tertiary-fixed": "#281800",
+              "inverse-surface": "#d2e7e4",
+              "on-primary-fixed": "#00201e",
+              "on-tertiary-fixed-variant": "#614000",
+              "on-secondary-container": "#00302d",
+              "on-secondary": "#003734",
+              "on-error": "#690005",
+              "tertiary": "#ffcf87",
+              "primary": "#6ee9e0",
+              "on-tertiary": "#432c00",
+              "status-in-tune": "#10B981",
+              "status-sharp": "#F43F5E",
+              "status-flat": "#F59E0B"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"],
+              "mono": ["Space Grotesk"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .mic-pulse {
+            box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(78, 205, 196, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(78, 205, 196, 0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="bg-[#041615] flex items-center justify-center w-full px-4 h-16 border-b border-[#1A3633] fixed top-0 z-50">
+<h1 class="font-['Plus_Jakarta_Sans'] font-extrabold text-[22px] text-[#4ECDC4] tracking-tight">Nağme</h1>
+</header>
+<!-- Main Content (Tuner Screen) -->
+<main class="flex-1 mt-16 mb-20 px-4 py-6 flex flex-col items-center justify-between max-w-md mx-auto w-full">
+<!-- Waveform Container -->
+<div class="w-full h-[240px] bg-[#132B28] rounded-2xl relative overflow-hidden flex items-center justify-center">
+<!-- Grid Lines -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(#2A8F88 1px, transparent 1px), linear-gradient(90deg, #2A8F88 1px, transparent 1px); background-size: 40px 40px;"></div>
+<!-- SVG Waveform (Static Smooth Sine Wave for In-Tune State) -->
+<svg class="w-full h-32 text-status-in-tune drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" preserveaspectratio="none" viewbox="0 0 400 100">
+<path d="M0,50 Q25,10 50,50 T100,50 T150,50 T200,50 T250,50 T300,50 T350,50 T400,50" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke"></path>
+</svg>
+<!-- Flat/Sharp Muted Symbols -->
+<div class="absolute inset-x-0 bottom-4 px-6 flex justify-between items-center opacity-20 text-[#7FA8A3]">
+<span class="text-3xl font-mono">♭</span>
+<span class="text-3xl font-mono">♯</span>
+</div>
+</div>
+<!-- Note Display Area -->
+<div class="flex flex-col items-center gap-2 py-8">
+<span class="font-['Plus_Jakarta_Sans'] font-extrabold text-[64px] text-status-in-tune leading-none">A4</span>
+<div class="flex flex-col items-center gap-1">
+<span class="font-mono text-xl text-on-surface-variant tracking-wider">440.0 Hz</span>
+<span class="font-mono text-sm text-status-in-tune font-bold">+0 cent</span>
+</div>
+<span class="font-['Plus_Jakarta_Sans'] font-extrabold text-sm tracking-[0.2em] text-status-in-tune mt-2">PERFECT</span>
+</div>
+<!-- Pitch Bar -->
+<div class="w-full px-4 mb-8">
+<div class="relative h-6 flex items-center">
+<!-- Track -->
+<div class="w-full h-[6px] bg-[#1A3633] rounded-full overflow-hidden">
+<div class="absolute left-1/2 top-0 h-full w-[2px] bg-status-in-tune/30"></div>
+</div>
+<!-- Indicator Dot (Centered for In-Tune) -->
+<div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-status-in-tune rounded-full ring-4 ring-status-in-tune/20 shadow-[0_0_12px_rgba(16,185,129,0.6)]"></div>
+</div>
+</div>
+<!-- String Selector -->
+<div class="grid grid-cols-4 gap-3 w-full mb-12">
+<button class="h-14 bg-[#132B28] rounded-xl flex items-center justify-center font-mono text-on-surface-variant hover:bg-surface-variant transition-colors">G3</button>
+<button class="h-14 bg-[#132B28] rounded-xl flex items-center justify-center font-mono text-on-surface-variant hover:bg-surface-variant transition-colors">D4</button>
+<button class="h-14 bg-[#4ECDC4] rounded-xl flex items-center justify-center font-mono text-[#0C1F1D] font-bold ring-2 ring-[#4ECDC4]/50">A4</button>
+<button class="h-14 bg-[#132B28] rounded-xl flex items-center justify-center font-mono text-on-surface-variant hover:bg-surface-variant transition-colors">E5</button>
+</div>
+</main>
+<!-- Microphone FAB -->
+<button class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[72px] h-[72px] bg-[#4ECDC4] rounded-full flex items-center justify-center text-[#0C1F1D] mic-pulse z-40">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="bg-[#041615] border-t border-[#1A3633] fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe shadow-2xl z-50">
+<a class="flex flex-col items-center justify-center text-[#4ECDC4] p-2" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">tune</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Akort</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] p-2 hover:text-[#6EE7DF] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">straighten</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Enstrümanlar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A7B75] p-2 hover:text-[#6EE7DF] transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-['Be_Vietnam_Pro'] text-[11px] font-medium">Ayarlar</span>
+</a>
+</nav>
+</body></html>
