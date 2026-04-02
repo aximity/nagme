@@ -140,6 +140,8 @@ class AboutScreen extends StatelessWidget {
             _buildInfoItem('DURUM', 'Tamamen Ücretsiz'),
             const SizedBox(height: 24),
             _buildInfoItem('KULLANIM', 'Reklamsız / Çevrimdışı'),
+            const SizedBox(height: 24),
+            _buildInfoItem('SÜRÜM', '2.0.0'),
             const SizedBox(height: 32),
 
             // Closing heart

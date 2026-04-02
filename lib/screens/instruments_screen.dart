@@ -15,7 +15,7 @@ class InstrumentsScreen extends ConsumerWidget {
     final selected = ref.watch(selectedInstrumentProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.bgPrimary,
+      backgroundColor: AppColors.bgBase,
       appBar: AppBar(
         backgroundColor: AppColors.bgBase,
         leading: IconButton(
