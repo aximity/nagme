@@ -73,6 +73,17 @@ class AboutScreen extends StatelessWidget {
                 height: 1.4,
               ),
             ),
+            const SizedBox(height: 12),
+            const Text(
+              'ö. 24.03.2026',
+              style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontSize: 14,
+                fontWeight: FontWeight.w300,
+                color: AppColors.memorialMuted,
+                letterSpacing: 1,
+              ),
+            ),
             const SizedBox(height: 32),
 
             // Divider
@@ -98,52 +109,6 @@ class AboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 48),
 
-            // Memorial placeholder
-            AspectRatio(
-              aspectRatio: 4 / 5,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E1B19),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.memorialWarm.withValues(alpha: 0.1),
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.music_note,
-                      size: 64,
-                      color: AppColors.memorialWarm.withValues(alpha: 0.3),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Mehmet Akif Yıldız',
-                      style: TextStyle(
-                        fontFamily: 'PlusJakartaSans',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.memorialWarm.withValues(alpha: 0.5),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '1965 – 2024',
-                      style: TextStyle(
-                        fontFamily: 'BeVietnamPro',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.memorialMuted.withValues(alpha: 0.6),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-
             // Quote card
             Container(
               width: double.infinity,
@@ -156,7 +121,7 @@ class AboutScreen extends StatelessWidget {
                 ),
               ),
               child: const Text(
-                '"Sessizliğin içinde bile bir melodi vardır."',
+                '"Her nağme, bir duanın melodisidir."',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'BeVietnamPro',
