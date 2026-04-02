@@ -18,6 +18,10 @@ class InstrumentsScreen extends ConsumerWidget {
       backgroundColor: AppColors.bgPrimary,
       appBar: AppBar(
         backgroundColor: AppColors.bgBase,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textSecondary),
+          onPressed: () => context.go('/tuner'),
+        ),
         title: Text('Enstrüman Seç', style: AppTypography.heading2),
         centerTitle: true,
       ),
@@ -29,10 +33,10 @@ class InstrumentsScreen extends ConsumerWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.95,
+                crossAxisCount: 3,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 1.0,
               ),
               itemCount: Instruments.all.length,
               itemBuilder: (context, index) {
@@ -75,7 +79,7 @@ class InstrumentsScreen extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.bgSurface,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? AppColors.brandPrimary : AppColors.bgElevated,
             width: isSelected ? 2 : 1,
@@ -97,8 +101,8 @@ class InstrumentsScreen extends ConsumerWidget {
                 children: [
                   SvgPicture.asset(
                     instrument.iconAsset,
-                    width: 36,
-                    height: 36,
+                    width: 28,
+                    height: 28,
                     colorFilter: ColorFilter.mode(
                       iconColor,
                       BlendMode.srcIn,
@@ -109,7 +113,7 @@ class InstrumentsScreen extends ConsumerWidget {
                     instrument.name,
                     style: TextStyle(
                       fontFamily: 'PlusJakartaSans',
-                      fontSize: 15,
+                      fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: isSelected
                           ? AppColors.brandPrimary
@@ -121,7 +125,7 @@ class InstrumentsScreen extends ConsumerWidget {
                     _stringCount(instrument),
                     style: TextStyle(
                       fontFamily: 'BeVietnamPro',
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: FontWeight.w500,
                       color: isSelected
                           ? AppColors.brandPrimary
@@ -133,18 +137,18 @@ class InstrumentsScreen extends ConsumerWidget {
             ),
             if (isSelected)
               Positioned(
-                top: 12,
-                right: 12,
+                top: 8,
+                right: 8,
                 child: Container(
-                  width: 20,
-                  height: 20,
+                  width: 16,
+                  height: 16,
                   decoration: const BoxDecoration(
                     color: AppColors.statusInTune,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.check,
-                    size: 14,
+                    size: 10,
                     color: Colors.white,
                   ),
                 ),

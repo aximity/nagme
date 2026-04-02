@@ -23,6 +23,10 @@ class SettingsScreen extends ConsumerWidget {
       backgroundColor: AppColors.bgBase,
       appBar: AppBar(
         backgroundColor: AppColors.bgBase,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textSecondary),
+          onPressed: () => context.go('/tuner'),
+        ),
         title: Text('Ayarlar', style: AppTypography.heading2),
         centerTitle: false,
       ),
