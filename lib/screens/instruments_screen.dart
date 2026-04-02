@@ -60,7 +60,12 @@ class InstrumentsScreen extends ConsumerWidget {
 
   String _stringCount(Instrument instrument) {
     if (instrument.id == 'chromatic') return 'Serbest Mod';
-    return '${instrument.strings.length} tel';
+    final totalStrings = instrument.strings.length;
+    final uniqueNotes = instrument.strings.map((s) => s.name).toSet().length;
+    if (totalStrings == uniqueNotes) {
+      return '$totalStrings tel';
+    }
+    return '$totalStrings tel · $uniqueNotes akort';
   }
 
   Widget _buildInstrumentCard(

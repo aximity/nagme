@@ -148,18 +148,18 @@ abstract final class Instruments {
     iconAsset: 'assets/icons/baglama.svg',
     category: InstrumentCategory.fretted,
     strings: [
-      // Üst grup (2 tel)
+      // Alt tel grubu (3 tel) — Mi/E
+      StringTuning(name: 'E3', frequency: 164.81, octave: 3),
+      StringTuning(name: 'E3', frequency: 164.81, octave: 3),
+      StringTuning(name: 'E3', frequency: 164.81, octave: 3),
+      // Orta tel grubu (2 tel) — La/A
       StringTuning(name: 'A3', frequency: 220.00, octave: 3),
       StringTuning(name: 'A3', frequency: 220.00, octave: 3),
-      // Orta grup (2 tel)
-      StringTuning(name: 'D3', frequency: 146.83, octave: 3),
-      StringTuning(name: 'D4', frequency: 293.66, octave: 4),
-      // Alt grup (3 tel)
-      StringTuning(name: 'G3', frequency: 196.00, octave: 3),
-      StringTuning(name: 'G3', frequency: 196.00, octave: 3),
-      StringTuning(name: 'G4', frequency: 392.00, octave: 4),
+      // Üst tel grubu (2 tel) — Si/B
+      StringTuning(name: 'B3', frequency: 246.94, octave: 3),
+      StringTuning(name: 'B3', frequency: 246.94, octave: 3),
     ],
-    minFrequency: 110.0,
+    minFrequency: 130.0,
     maxFrequency: 1760.0,
     yinThreshold: 0.15,
   );
@@ -170,25 +170,25 @@ abstract final class Instruments {
     iconAsset: 'assets/icons/ud.svg',
     category: InstrumentCategory.fretted,
     strings: [
-      // Kurs 1 (tek tel)
-      StringTuning(name: 'C2', frequency: 65.41, octave: 2),
-      // Kurs 2 (çift tel)
-      StringTuning(name: 'D2', frequency: 73.42, octave: 2),
-      StringTuning(name: 'D2', frequency: 73.42, octave: 2),
-      // Kurs 3 (çift tel)
-      StringTuning(name: 'G2', frequency: 98.00, octave: 2),
-      StringTuning(name: 'G2', frequency: 98.00, octave: 2),
-      // Kurs 4 (çift tel)
-      StringTuning(name: 'A2', frequency: 110.00, octave: 2),
-      StringTuning(name: 'A2', frequency: 110.00, octave: 2),
+      // Bam teli (tek tel) — Türk Klasik Fa#
+      StringTuning(name: 'F#1', frequency: 46.25, octave: 1),
       // Kurs 5 (çift tel)
+      StringTuning(name: 'B1', frequency: 61.74, octave: 1),
+      StringTuning(name: 'B1', frequency: 61.74, octave: 1),
+      // Kurs 4 (çift tel)
+      StringTuning(name: 'E2', frequency: 82.41, octave: 2),
+      StringTuning(name: 'E2', frequency: 82.41, octave: 2),
+      // Kurs 3 (çift tel)
+      StringTuning(name: 'A2', frequency: 110.00, octave: 2),
+      StringTuning(name: 'A2', frequency: 110.00, octave: 2),
+      // Kurs 2 (çift tel)
       StringTuning(name: 'D3', frequency: 146.83, octave: 3),
       StringTuning(name: 'D3', frequency: 146.83, octave: 3),
-      // Kurs 6 (çift tel)
+      // Kurs 1 (çift tel)
       StringTuning(name: 'G3', frequency: 196.00, octave: 3),
       StringTuning(name: 'G3', frequency: 196.00, octave: 3),
     ],
-    minFrequency: 73.0,
+    minFrequency: 46.0,
     maxFrequency: 880.0,
     yinThreshold: 0.16,
   );
