@@ -6,6 +6,9 @@ class Instrument {
   final String iconAsset;
   final InstrumentCategory category;
   final List<StringTuning> strings;
+  final double? minFrequency;   // Hz — bu enstrümanın en düşük frekansı
+  final double? maxFrequency;   // Hz — bu enstrümanın en yüksek frekansı
+  final double? yinThreshold;   // YIN confidence threshold (düşük = daha hassas)
 
   const Instrument({
     required this.id,
@@ -13,6 +16,9 @@ class Instrument {
     required this.iconAsset,
     required this.category,
     required this.strings,
+    this.minFrequency,
+    this.maxFrequency,
+    this.yinThreshold,
   });
 }
 
@@ -36,7 +42,7 @@ abstract final class Instruments {
     iconAsset: 'assets/icons/waveform.svg',
     category: InstrumentCategory.fretted,
     strings: [],
-  );
+  );  // filtre yok — tüm frekanslar
 
   static const guitar = Instrument(
     id: 'guitar',
@@ -51,6 +57,9 @@ abstract final class Instruments {
       StringTuning(name: 'B3', frequency: 246.94, octave: 3),
       StringTuning(name: 'E4', frequency: 329.63, octave: 4),
     ],
+    minFrequency: 82.0,
+    maxFrequency: 1175.0,
+    yinThreshold: 0.15,
   );
 
   static const violin = Instrument(
@@ -64,6 +73,9 @@ abstract final class Instruments {
       StringTuning(name: 'A4', frequency: 440.00, octave: 4),
       StringTuning(name: 'E5', frequency: 659.26, octave: 5),
     ],
+    minFrequency: 196.0,
+    maxFrequency: 2637.0,
+    yinThreshold: 0.12,
   );
 
   static const viola = Instrument(
@@ -77,6 +89,9 @@ abstract final class Instruments {
       StringTuning(name: 'D4', frequency: 293.66, octave: 4),
       StringTuning(name: 'A4', frequency: 440.00, octave: 4),
     ],
+    minFrequency: 131.0,
+    maxFrequency: 1760.0,
+    yinThreshold: 0.13,
   );
 
   static const cello = Instrument(
@@ -90,6 +105,9 @@ abstract final class Instruments {
       StringTuning(name: 'D3', frequency: 146.83, octave: 3),
       StringTuning(name: 'A3', frequency: 220.00, octave: 3),
     ],
+    minFrequency: 65.0,
+    maxFrequency: 1047.0,
+    yinThreshold: 0.14,
   );
 
   static const bass = Instrument(
@@ -103,6 +121,9 @@ abstract final class Instruments {
       StringTuning(name: 'D2', frequency: 73.42, octave: 2),
       StringTuning(name: 'G2', frequency: 98.00, octave: 2),
     ],
+    minFrequency: 41.0,
+    maxFrequency: 392.0,
+    yinThreshold: 0.18,
   );
 
   static const ukulele = Instrument(
@@ -116,6 +137,9 @@ abstract final class Instruments {
       StringTuning(name: 'E4', frequency: 329.63, octave: 4),
       StringTuning(name: 'A4', frequency: 440.00, octave: 4),
     ],
+    minFrequency: 262.0,
+    maxFrequency: 1175.0,
+    yinThreshold: 0.12,
   );
 
   static const baglama = Instrument(
@@ -135,6 +159,9 @@ abstract final class Instruments {
       StringTuning(name: 'G3', frequency: 196.00, octave: 3),
       StringTuning(name: 'G4', frequency: 392.00, octave: 4),
     ],
+    minFrequency: 110.0,
+    maxFrequency: 1760.0,
+    yinThreshold: 0.15,
   );
 
   static const ud = Instrument(
@@ -161,6 +188,9 @@ abstract final class Instruments {
       StringTuning(name: 'G3', frequency: 196.00, octave: 3),
       StringTuning(name: 'G3', frequency: 196.00, octave: 3),
     ],
+    minFrequency: 73.0,
+    maxFrequency: 880.0,
+    yinThreshold: 0.16,
   );
 
   static const all = [

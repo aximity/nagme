@@ -53,8 +53,13 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
 
     try {
       final audioService = _ref.read(audioServiceProvider);
+      final instrument = _ref.read(selectedInstrumentProvider);
 
-      await audioService.startCapture();
+      await audioService.startCapture(
+        minFreq: instrument.minFrequency,
+        maxFreq: instrument.maxFrequency,
+        confidenceThreshold: instrument.yinThreshold ?? 0.5,
+      );
       _ref.read(isListeningProvider.notifier).state = true;
       _freqBuffer.clear();
 

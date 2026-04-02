@@ -39,6 +39,9 @@ class AudioService {
   bool _initialized = false;
   bool _isProcessing = false;
   DateTime _lastEmit = DateTime(0);
+  double? _minFreq;
+  double? _maxFreq;
+  double _confidenceThreshold = 0.5;
 
   Stream<PitchResult> get pitchStream => _pitchController.stream;
   bool get isCapturing => _isCapturing;
@@ -54,10 +57,17 @@ class AudioService {
     _initialized = true;
   }
 
-  Future<void> startCapture() async {
+  Future<void> startCapture({
+    double? minFreq,
+    double? maxFreq,
+    double confidenceThreshold = 0.5,
+  }) async {
     if (_isCapturing) return;
     if (!_initialized) await init();
 
+    _minFreq = minFreq;
+    _maxFreq = maxFreq;
+    _confidenceThreshold = confidenceThreshold;
     _isCapturing = true;
     _isProcessing = false;
     _lastEmit = DateTime(0);
@@ -97,6 +107,36 @@ class AudioService {
     }).then((result) {
       _isProcessing = false;
       if (!_isCapturing) return;
+
+      // Confidence filtresi (enstrümana özel threshold)
+      if (result.frequency > 0 && result.confidence < _confidenceThreshold) {
+        _pitchController.add(PitchResult(
+          frequency: 0,
+          confidence: 0,
+          timestamp: result.timestamp,
+        ));
+        return;
+      }
+
+      // Frekans aralığı filtresi
+      if (result.frequency > 0) {
+        if (_minFreq != null && result.frequency < _minFreq!) {
+          _pitchController.add(PitchResult(
+            frequency: 0,
+            confidence: 0,
+            timestamp: result.timestamp,
+          ));
+          return;
+        }
+        if (_maxFreq != null && result.frequency > _maxFreq!) {
+          _pitchController.add(PitchResult(
+            frequency: 0,
+            confidence: 0,
+            timestamp: result.timestamp,
+          ));
+          return;
+        }
+      }
 
       _lastEmit = DateTime.now();
       _pitchController.add(result);

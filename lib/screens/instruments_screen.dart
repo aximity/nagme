@@ -51,7 +51,7 @@ class InstrumentsScreen extends ConsumerWidget {
               },
             ),
             const SizedBox(height: 24),
-            _buildInfoCard(),
+            _buildInfoCard(selected),
           ],
         ),
       ),
@@ -159,7 +159,11 @@ class InstrumentsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildInfoCard() {
+  Widget _buildInfoCard(Instrument selected) {
+    final rangeText = selected.minFrequency != null
+        ? '${selected.minFrequency!.round()} – ${selected.maxFrequency!.round()} Hz aralığında optimize edilmiştir'
+        : 'Tüm frekans aralığı aktif';
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -185,11 +189,11 @@ class InstrumentsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 16),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Akort Yardımcısı',
                   style: TextStyle(
                     fontFamily: 'PlusJakartaSans',
@@ -198,8 +202,8 @@ class InstrumentsScreen extends ConsumerWidget {
                     color: AppColors.brandPrimary,
                   ),
                 ),
-                SizedBox(height: 4),
-                Text(
+                const SizedBox(height: 4),
+                const Text(
                   'Seçtiğiniz enstrümanın tel yapısına uygun hassas frekans analizi yapılır. Her enstrüman için özel optimize edilmiş algoritmalar kullanılır.',
                   style: TextStyle(
                     fontFamily: 'BeVietnamPro',
@@ -207,6 +211,16 @@ class InstrumentsScreen extends ConsumerWidget {
                     fontWeight: FontWeight.w500,
                     color: AppColors.textSecondary,
                     height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  rangeText,
+                  style: const TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textMuted,
                   ),
                 ),
               ],
