@@ -28,8 +28,8 @@ Future<PitchResult> _detectPitch(Map<String, dynamic> params) async {
 
 class AudioService {
   static const int sampleRate = 44100;
-  static const int bufferSize = 2048;
   static const int _throttleMs = 50;
+  int _bufferSize = 2048;
 
   final FlutterAudioCapture _audioCapture = FlutterAudioCapture();
   final StreamController<PitchResult> _pitchController =
@@ -61,6 +61,7 @@ class AudioService {
     double? minFreq,
     double? maxFreq,
     double confidenceThreshold = 0.5,
+    int bufferSize = 2048,
   }) async {
     if (_isCapturing) return;
     if (!_initialized) await init();
@@ -68,6 +69,7 @@ class AudioService {
     _minFreq = minFreq;
     _maxFreq = maxFreq;
     _confidenceThreshold = confidenceThreshold;
+    _bufferSize = bufferSize;
     _isCapturing = true;
     _isProcessing = false;
     _lastEmit = DateTime(0);
@@ -76,7 +78,7 @@ class AudioService {
       _onAudioData,
       _onAudioError,
       sampleRate: sampleRate,
-      bufferSize: bufferSize,
+      bufferSize: _bufferSize,
       androidAudioSource: ANDROID_AUDIOSRC_MIC,
     );
   }
@@ -91,7 +93,7 @@ class AudioService {
   void _onAudioData(Float32List buffer) {
     if (!_isCapturing) return;
     if (_isProcessing) return;
-    if (buffer.length < bufferSize) return;
+    if (buffer.length < _bufferSize) return;
 
     final now = DateTime.now();
     if (now.difference(_lastEmit).inMilliseconds < _throttleMs) return;
@@ -103,7 +105,7 @@ class AudioService {
     compute(_detectPitch, {
       'buffer': buffer.toList(),
       'sampleRate': sampleRate,
-      'bufferSize': bufferSize,
+      'bufferSize': _bufferSize,
     }).then((result) {
       _isProcessing = false;
       if (!_isCapturing) return;
@@ -138,8 +140,25 @@ class AudioService {
         }
       }
 
+      // Oktav hatası düzeltme: algılanan frekans maxFreq'in üstündeyse
+      // ve yarısı aralık içindeyse, oktav hatası var demektir
+      double correctedFreq = result.frequency;
+      if (correctedFreq > 0 && _maxFreq != null && _minFreq != null) {
+        while (correctedFreq > _maxFreq! && correctedFreq / 2 >= _minFreq!) {
+          correctedFreq /= 2;
+        }
+        // Tersi: frekans minFreq'in altındaysa ve 2 katı aralık içindeyse
+        while (correctedFreq > 0 && correctedFreq < _minFreq! && correctedFreq * 2 <= _maxFreq!) {
+          correctedFreq *= 2;
+        }
+      }
+
       _lastEmit = DateTime.now();
-      _pitchController.add(result);
+      _pitchController.add(PitchResult(
+        frequency: correctedFreq,
+        confidence: result.confidence,
+        timestamp: result.timestamp,
+      ));
     }).catchError((e) {
       _isProcessing = false;
     });

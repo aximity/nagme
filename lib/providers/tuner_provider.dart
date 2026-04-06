@@ -36,14 +36,18 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
   final Ref _ref;
   StreamSubscription<PitchResult>? _subscription;
 
-  static const int _smoothingWindow = 5;
+  int _smoothingWindow = 5;
   static const int _stringFilterSemitones = 2;
   final Queue<double> _freqBuffer = Queue<double>();
 
   TunerStateNotifier(this._ref) : super(const TunerState()) {
-    // Enstrüman değiştiğinde seçili teli sıfırla
-    _ref.listen(selectedInstrumentProvider, (_, __) {
+    final instrument = _ref.read(selectedInstrumentProvider);
+    _smoothingWindow = instrument.smoothingWindow ?? 5;
+
+    // Enstrüman değiştiğinde seçili teli sıfırla ve smoothing güncelle
+    _ref.listen(selectedInstrumentProvider, (_, instrument) {
       _ref.read(selectedStringProvider.notifier).state = null;
+      _smoothingWindow = instrument.smoothingWindow ?? 5;
     });
   }
 
@@ -61,6 +65,7 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
         minFreq: instrument.minFrequency,
         maxFreq: instrument.maxFrequency,
         confidenceThreshold: instrument.yinThreshold ?? 0.5,
+        bufferSize: instrument.preferredBufferSize ?? 2048,
       );
       _ref.read(isListeningProvider.notifier).state = true;
       _freqBuffer.clear();

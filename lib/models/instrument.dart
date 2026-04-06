@@ -6,9 +6,11 @@ class Instrument {
   final String iconAsset;
   final InstrumentCategory category;
   final List<StringTuning> strings;
-  final double? minFrequency;   // Hz — bu enstrümanın en düşük frekansı
-  final double? maxFrequency;   // Hz — bu enstrümanın en yüksek frekansı
-  final double? yinThreshold;   // YIN confidence threshold (düşük = daha hassas)
+  final double? minFrequency;      // Hz — bu enstrümanın en düşük frekansı
+  final double? maxFrequency;      // Hz — bu enstrümanın en yüksek frekansı
+  final double? yinThreshold;      // YIN confidence threshold (düşük = daha hassas)
+  final int? preferredBufferSize;  // Adaptif buffer boyutu (null → 2048)
+  final int? smoothingWindow;      // Medyan smoothing penceresi (null → 5)
 
   const Instrument({
     required this.id,
@@ -19,6 +21,8 @@ class Instrument {
     this.minFrequency,
     this.maxFrequency,
     this.yinThreshold,
+    this.preferredBufferSize,
+    this.smoothingWindow,
   });
 }
 
@@ -42,7 +46,7 @@ abstract final class Instruments {
     iconAsset: 'assets/icons/waveform.svg',
     category: InstrumentCategory.fretted,
     strings: [],
-  );  // filtre yok — tüm frekanslar
+  ); // filtre yok — tüm frekanslar, varsayılan buffer/smoothing
 
   static const guitar = Instrument(
     id: 'guitar',
@@ -60,6 +64,8 @@ abstract final class Instruments {
     minFrequency: 82.0,
     maxFrequency: 1175.0,
     yinThreshold: 0.15,
+    preferredBufferSize: 2048,
+    smoothingWindow: 3,
   );
 
   static const violin = Instrument(
@@ -76,6 +82,8 @@ abstract final class Instruments {
     minFrequency: 196.0,
     maxFrequency: 2637.0,
     yinThreshold: 0.12,
+    preferredBufferSize: 1024,
+    smoothingWindow: 7,
   );
 
   static const viola = Instrument(
@@ -92,6 +100,8 @@ abstract final class Instruments {
     minFrequency: 131.0,
     maxFrequency: 1760.0,
     yinThreshold: 0.13,
+    preferredBufferSize: 2048,
+    smoothingWindow: 7,
   );
 
   static const cello = Instrument(
@@ -108,6 +118,8 @@ abstract final class Instruments {
     minFrequency: 65.0,
     maxFrequency: 1047.0,
     yinThreshold: 0.14,
+    preferredBufferSize: 4096,
+    smoothingWindow: 7,
   );
 
   static const bass = Instrument(
@@ -124,6 +136,8 @@ abstract final class Instruments {
     minFrequency: 41.0,
     maxFrequency: 392.0,
     yinThreshold: 0.18,
+    preferredBufferSize: 4096,
+    smoothingWindow: 5,
   );
 
   static const ukulele = Instrument(
@@ -140,6 +154,8 @@ abstract final class Instruments {
     minFrequency: 262.0,
     maxFrequency: 1175.0,
     yinThreshold: 0.12,
+    preferredBufferSize: 1024,
+    smoothingWindow: 3,
   );
 
   static const baglama = Instrument(
@@ -162,6 +178,8 @@ abstract final class Instruments {
     minFrequency: 130.0,
     maxFrequency: 1760.0,
     yinThreshold: 0.15,
+    preferredBufferSize: 2048,
+    smoothingWindow: 3,
   );
 
   static const ud = Instrument(
@@ -191,6 +209,8 @@ abstract final class Instruments {
     minFrequency: 46.0,
     maxFrequency: 880.0,
     yinThreshold: 0.16,
+    preferredBufferSize: 4096,
+    smoothingWindow: 5,
   );
 
   static const all = [
