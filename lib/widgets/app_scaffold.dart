@@ -61,19 +61,22 @@ class _AppScaffoldState extends State<AppScaffold> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _buildNavItem(
-                    icon: Icons.tune,
+                    icon: Icons.tune_outlined,
+                    selectedIcon: Icons.tune,
                     label: 'Akort',
                     isSelected: navigationShell.currentIndex == 0,
                     onTap: () => _onTap(0),
                   ),
                   _buildNavItem(
-                    icon: Icons.straighten,
+                    icon: Icons.straighten_outlined,
+                    selectedIcon: Icons.straighten,
                     label: 'Enstrümanlar',
                     isSelected: navigationShell.currentIndex == 1,
                     onTap: () => _onTap(1),
                   ),
                   _buildNavItem(
-                    icon: Icons.settings,
+                    icon: Icons.settings_outlined,
+                    selectedIcon: Icons.settings,
                     label: 'Ayarlar',
                     isSelected: navigationShell.currentIndex == 2,
                     onTap: () => _onTap(2),
@@ -96,6 +99,7 @@ class _AppScaffoldState extends State<AppScaffold> {
 
   Widget _buildNavItem({
     required IconData icon,
+    required IconData selectedIcon,
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
@@ -117,7 +121,7 @@ class _AppScaffoldState extends State<AppScaffold> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              isSelected ? icon : icon,
+              isSelected ? selectedIcon : icon,
               color: color,
               size: 24,
             ),
