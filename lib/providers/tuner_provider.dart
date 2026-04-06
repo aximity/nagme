@@ -52,6 +52,8 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
     if (_subscription != null) await stopListening();
 
     try {
+      _ref.read(toneGeneratorProvider).stop();
+
       final audioService = _ref.read(audioServiceProvider);
       final instrument = _ref.read(selectedInstrumentProvider);
 

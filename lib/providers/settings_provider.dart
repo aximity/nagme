@@ -38,11 +38,21 @@ final noteNotationProvider =
 
 // --- Referans Sesi ---
 
-final referenceSoundProvider = StateProvider<bool>((ref) => true);
+final referenceSoundProvider =
+    StateNotifierProvider<_PersistentBool, bool>(
+  (ref) => _PersistentBool(
+    ref.watch(sharedPrefsProvider),
+    key: 'referenceSound',
+    defaultValue: true,
+  ),
+);
 
 // --- Ses Tipi ---
 
-final soundTypeProvider = StateProvider<SoundType>((ref) => SoundType.sine);
+final soundTypeProvider =
+    StateNotifierProvider<_PersistentSoundType, SoundType>(
+  (ref) => _PersistentSoundType(ref.watch(sharedPrefsProvider)),
+);
 
 // ---------------------------------------------------------------------------
 // Persistent StateNotifier'lar
@@ -71,6 +81,43 @@ class _PersistentInt extends StateNotifier<int> {
   set value(int v) {
     state = v;
     _prefs.setInt(key, v);
+  }
+}
+
+class _PersistentBool extends StateNotifier<bool> {
+  final SharedPreferences _prefs;
+  final String key;
+
+  _PersistentBool(this._prefs, {required this.key, required bool defaultValue})
+      : super(_prefs.getBool(key) ?? defaultValue);
+
+  set value(bool v) {
+    state = v;
+    _prefs.setBool(key, v);
+  }
+}
+
+class _PersistentSoundType extends StateNotifier<SoundType> {
+  final SharedPreferences _prefs;
+  static const _key = 'soundType';
+
+  _PersistentSoundType(this._prefs)
+      : super(_fromString(_prefs.getString(_key)));
+
+  static SoundType _fromString(String? s) {
+    switch (s) {
+      case 'square':
+        return SoundType.square;
+      case 'triangle':
+        return SoundType.triangle;
+      default:
+        return SoundType.sine;
+    }
+  }
+
+  set value(SoundType v) {
+    state = v;
+    _prefs.setString(_key, v.name);
   }
 }
 

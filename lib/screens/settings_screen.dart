@@ -66,7 +66,7 @@ class SettingsScreen extends ConsumerWidget {
                 'Referans Sesi',
                 trailing: _buildToggle(
                   refSound,
-                  (v) => ref.read(referenceSoundProvider.notifier).state = v,
+                  (v) => ref.read(referenceSoundProvider.notifier).value = v,
                 ),
               ),
               _buildSettingsRow(
@@ -184,7 +184,7 @@ class SettingsScreen extends ConsumerWidget {
         options: SoundType.values,
         selected: current,
         labelBuilder: _soundTypeLabel,
-        onSelected: (v) => ref.read(soundTypeProvider.notifier).state = v,
+        onSelected: (v) => ref.read(soundTypeProvider.notifier).value = v,
       ),
     );
   }

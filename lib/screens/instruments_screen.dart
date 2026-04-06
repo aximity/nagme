@@ -78,7 +78,7 @@ class InstrumentsScreen extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () {
-        ref.read(selectedInstrumentProvider.notifier).state = instrument;
+        ref.read(selectedInstrumentProvider.notifier).value = instrument;
         context.go('/tuner');
       },
       child: Container(

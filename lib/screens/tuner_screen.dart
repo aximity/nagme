@@ -284,16 +284,18 @@ class _NoteSection extends ConsumerWidget {
                     height: 1,
                   ),
                 ),
-                if (state.status == TunerStatus.flat)
+                if (state.status == TunerStatus.flat || state.status == TunerStatus.sharp)
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
-                    child: Text('♭',
-                        style: TextStyle(
-                          fontFamily: 'SpaceGrotesk',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: c,
-                        )),
+                    child: Text(
+                      state.status == TunerStatus.flat ? '♭' : '♯',
+                      style: TextStyle(
+                        fontFamily: 'SpaceGrotesk',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: c,
+                      ),
+                    ),
                   ),
               ],
             ),
@@ -390,8 +392,13 @@ class _StringSelector extends ConsumerWidget {
     final count = uniqueStrings.length;
     final crossAxisCount = count <= 4 ? count : (count <= 6 ? count : 4);
 
-    // Referans sesi: tel seçili + toggle açık → ses çal
-    _syncToneGenerator(ref, selected, refSound, soundType);
+    // Referans sesi: mikrofon açıkken sustur, kapalıyken çal
+    final isListening = ref.watch(isListeningProvider);
+    if (isListening) {
+      ref.read(toneGeneratorProvider).stop();
+    } else {
+      _syncToneGenerator(ref, selected, refSound, soundType);
+    }
 
     return GridView.builder(
       shrinkWrap: true,

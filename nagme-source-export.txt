@@ -1,0 +1,3107 @@
+=== lib/main.dart ===
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'providers/settings_provider.dart';
+import 'router.dart';
+import 'theme/app_theme.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPrefsProvider.overrideWithValue(prefs),
+      ],
+      child: const NagmeApp(),
+    ),
+  );
+}
+
+class NagmeApp extends StatelessWidget {
+  const NagmeApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      title: 'Nağme',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.dark,
+      routerConfig: router,
+    );
+  }
+}
+=== lib/models/instrument.dart ===
+enum InstrumentCategory { strings, fretted }
+
+class Instrument {
+  final String id;
+  final String name;
+  final String iconAsset;
+  final InstrumentCategory category;
+  final List<StringTuning> strings;
+  final double? minFrequency;   // Hz — bu enstrümanın en düşük frekansı
+  final double? maxFrequency;   // Hz — bu enstrümanın en yüksek frekansı
+  final double? yinThreshold;   // YIN confidence threshold (düşük = daha hassas)
+
+  const Instrument({
+    required this.id,
+    required this.name,
+    required this.iconAsset,
+    required this.category,
+    required this.strings,
+    this.minFrequency,
+    this.maxFrequency,
+    this.yinThreshold,
+  });
+}
+
+class StringTuning {
+  final String name;
+  final double frequency;
+  final int octave;
+
+  const StringTuning({
+    required this.name,
+    required this.frequency,
+    required this.octave,
+  });
+}
+
+// Standart akortlar
+abstract final class Instruments {
+  static const chromatic = Instrument(
+    id: 'chromatic',
+    name: 'Kromatik',
+    iconAsset: 'assets/icons/waveform.svg',
+    category: InstrumentCategory.fretted,
+    strings: [],
+  );  // filtre yok — tüm frekanslar
+
+  static const guitar = Instrument(
+    id: 'guitar',
+    name: 'Gitar',
+    iconAsset: 'assets/icons/guitar.svg',
+    category: InstrumentCategory.fretted,
+    strings: [
+      StringTuning(name: 'E2', frequency: 82.41, octave: 2),
+      StringTuning(name: 'A2', frequency: 110.00, octave: 2),
+      StringTuning(name: 'D3', frequency: 146.83, octave: 3),
+      StringTuning(name: 'G3', frequency: 196.00, octave: 3),
+      StringTuning(name: 'B3', frequency: 246.94, octave: 3),
+      StringTuning(name: 'E4', frequency: 329.63, octave: 4),
+    ],
+    minFrequency: 82.0,
+    maxFrequency: 1175.0,
+    yinThreshold: 0.15,
+  );
+
+  static const violin = Instrument(
+    id: 'violin',
+    name: 'Keman',
+    iconAsset: 'assets/icons/violin.svg',
+    category: InstrumentCategory.strings,
+    strings: [
+      StringTuning(name: 'G3', frequency: 196.00, octave: 3),
+      StringTuning(name: 'D4', frequency: 293.66, octave: 4),
+      StringTuning(name: 'A4', frequency: 440.00, octave: 4),
+      StringTuning(name: 'E5', frequency: 659.26, octave: 5),
+    ],
+    minFrequency: 196.0,
+    maxFrequency: 2637.0,
+    yinThreshold: 0.12,
+  );
+
+  static const viola = Instrument(
+    id: 'viola',
+    name: 'Viyola',
+    iconAsset: 'assets/icons/viola.svg',
+    category: InstrumentCategory.strings,
+    strings: [
+      StringTuning(name: 'C3', frequency: 130.81, octave: 3),
+      StringTuning(name: 'G3', frequency: 196.00, octave: 3),
+      StringTuning(name: 'D4', frequency: 293.66, octave: 4),
+      StringTuning(name: 'A4', frequency: 440.00, octave: 4),
+    ],
+    minFrequency: 131.0,
+    maxFrequency: 1760.0,
+    yinThreshold: 0.13,
+  );
+
+  static const cello = Instrument(
+    id: 'cello',
+    name: 'Çello',
+    iconAsset: 'assets/icons/cello.svg',
+    category: InstrumentCategory.strings,
+    strings: [
+      StringTuning(name: 'C2', frequency: 65.41, octave: 2),
+      StringTuning(name: 'G2', frequency: 98.00, octave: 2),
+      StringTuning(name: 'D3', frequency: 146.83, octave: 3),
+      StringTuning(name: 'A3', frequency: 220.00, octave: 3),
+    ],
+    minFrequency: 65.0,
+    maxFrequency: 1047.0,
+    yinThreshold: 0.14,
+  );
+
+  static const bass = Instrument(
+    id: 'bass',
+    name: 'Bas Gitar',
+    iconAsset: 'assets/icons/bass.svg',
+    category: InstrumentCategory.fretted,
+    strings: [
+      StringTuning(name: 'E1', frequency: 41.20, octave: 1),
+      StringTuning(name: 'A1', frequency: 55.00, octave: 1),
+      StringTuning(name: 'D2', frequency: 73.42, octave: 2),
+      StringTuning(name: 'G2', frequency: 98.00, octave: 2),
+    ],
+    minFrequency: 41.0,
+    maxFrequency: 392.0,
+    yinThreshold: 0.18,
+  );
+
+  static const ukulele = Instrument(
+    id: 'ukulele',
+    name: 'Ukulele',
+    iconAsset: 'assets/icons/ukulele.svg',
+    category: InstrumentCategory.fretted,
+    strings: [
+      StringTuning(name: 'G4', frequency: 392.00, octave: 4),
+      StringTuning(name: 'C4', frequency: 261.63, octave: 4),
+      StringTuning(name: 'E4', frequency: 329.63, octave: 4),
+      StringTuning(name: 'A4', frequency: 440.00, octave: 4),
+    ],
+    minFrequency: 262.0,
+    maxFrequency: 1175.0,
+    yinThreshold: 0.12,
+  );
+
+  static const baglama = Instrument(
+    id: 'baglama',
+    name: 'Bağlama',
+    iconAsset: 'assets/icons/baglama.svg',
+    category: InstrumentCategory.fretted,
+    strings: [
+      // Alt tel grubu (3 tel) — Mi/E
+      StringTuning(name: 'E3', frequency: 164.81, octave: 3),
+      StringTuning(name: 'E3', frequency: 164.81, octave: 3),
+      StringTuning(name: 'E3', frequency: 164.81, octave: 3),
+      // Orta tel grubu (2 tel) — La/A
+      StringTuning(name: 'A3', frequency: 220.00, octave: 3),
+      StringTuning(name: 'A3', frequency: 220.00, octave: 3),
+      // Üst tel grubu (2 tel) — Si/B
+      StringTuning(name: 'B3', frequency: 246.94, octave: 3),
+      StringTuning(name: 'B3', frequency: 246.94, octave: 3),
+    ],
+    minFrequency: 130.0,
+    maxFrequency: 1760.0,
+    yinThreshold: 0.15,
+  );
+
+  static const ud = Instrument(
+    id: 'ud',
+    name: 'Ud',
+    iconAsset: 'assets/icons/ud.svg',
+    category: InstrumentCategory.fretted,
+    strings: [
+      // Bam teli (tek tel) — Türk Klasik Fa#
+      StringTuning(name: 'F#1', frequency: 46.25, octave: 1),
+      // Kurs 5 (çift tel)
+      StringTuning(name: 'B1', frequency: 61.74, octave: 1),
+      StringTuning(name: 'B1', frequency: 61.74, octave: 1),
+      // Kurs 4 (çift tel)
+      StringTuning(name: 'E2', frequency: 82.41, octave: 2),
+      StringTuning(name: 'E2', frequency: 82.41, octave: 2),
+      // Kurs 3 (çift tel)
+      StringTuning(name: 'A2', frequency: 110.00, octave: 2),
+      StringTuning(name: 'A2', frequency: 110.00, octave: 2),
+      // Kurs 2 (çift tel)
+      StringTuning(name: 'D3', frequency: 146.83, octave: 3),
+      StringTuning(name: 'D3', frequency: 146.83, octave: 3),
+      // Kurs 1 (çift tel)
+      StringTuning(name: 'G3', frequency: 196.00, octave: 3),
+      StringTuning(name: 'G3', frequency: 196.00, octave: 3),
+    ],
+    minFrequency: 46.0,
+    maxFrequency: 880.0,
+    yinThreshold: 0.16,
+  );
+
+  static const all = [
+    chromatic, violin, guitar, bass, ukulele, baglama, ud, viola, cello,
+  ];
+}
+=== lib/models/pitch_result.dart ===
+class PitchResult {
+  final double frequency;
+  final double confidence;
+  final DateTime timestamp;
+
+  const PitchResult({
+    required this.frequency,
+    required this.confidence,
+    required this.timestamp,
+  });
+
+  bool get isValid => frequency > 0 && confidence > 0.5;
+
+  @override
+  String toString() =>
+      'PitchResult(freq: ${frequency.toStringAsFixed(1)} Hz, conf: ${confidence.toStringAsFixed(2)})';
+}
+=== lib/models/tuner_state.dart ===
+enum TunerStatus { idle, flat, sharp, inTune }
+
+enum NoteNotation { letter, solfege }
+
+enum SoundType { sine, square, triangle }
+
+class TunerState {
+  final TunerStatus status;
+  final String note;
+  final int octave;
+  final double frequency;
+  final double cents;
+
+  const TunerState({
+    this.status = TunerStatus.idle,
+    this.note = '--',
+    this.octave = 0,
+    this.frequency = 0,
+    this.cents = 0,
+  });
+
+  String get noteDisplay => status == TunerStatus.idle ? '--' : '$note$octave';
+  String get frequencyDisplay =>
+      status == TunerStatus.idle ? '--- Hz' : '${frequency.toStringAsFixed(1)} Hz';
+  String get centsDisplay {
+    if (status == TunerStatus.idle) return '±0 cent';
+    final sign = cents >= 0 ? '+' : '';
+    return '$sign${cents.round()} cent';
+  }
+  String get statusText {
+    switch (status) {
+      case TunerStatus.idle:
+        return '';
+      case TunerStatus.flat:
+        return 'YUKARI AKORT ↑';
+      case TunerStatus.sharp:
+        return 'AŞAĞI AKORT ↓';
+      case TunerStatus.inTune:
+        return 'AKORT TAMAM ✓';
+    }
+  }
+}
+=== lib/providers/instrument_provider.dart ===
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/instrument.dart';
+
+final selectedInstrumentProvider = StateProvider<Instrument>((ref) {
+  return Instruments.violin;
+});
+=== lib/providers/settings_provider.dart ===
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../models/tuner_state.dart';
+
+// SharedPreferences instance — main.dart'ta override edilir
+final sharedPrefsProvider = Provider<SharedPreferences>(
+  (_) => throw UnimplementedError('SharedPreferences not initialized'),
+);
+
+// --- Referans Frekansı ---
+
+final referenceFreqProvider =
+    StateNotifierProvider<_PersistentDouble, double>(
+  (ref) => _PersistentDouble(
+    ref.watch(sharedPrefsProvider),
+    key: 'referenceFreq',
+    defaultValue: 440.0,
+  ),
+);
+
+// --- Akort Eşiği ---
+
+final tuningThresholdProvider =
+    StateNotifierProvider<_PersistentInt, int>(
+  (ref) => _PersistentInt(
+    ref.watch(sharedPrefsProvider),
+    key: 'tuningThreshold',
+    defaultValue: 5,
+  ),
+);
+
+// --- Nota Gösterimi ---
+
+final noteNotationProvider =
+    StateNotifierProvider<_PersistentNotation, NoteNotation>(
+  (ref) => _PersistentNotation(ref.watch(sharedPrefsProvider)),
+);
+
+// --- Referans Sesi ---
+
+final referenceSoundProvider = StateProvider<bool>((ref) => true);
+
+// --- Ses Tipi ---
+
+final soundTypeProvider = StateProvider<SoundType>((ref) => SoundType.sine);
+
+// ---------------------------------------------------------------------------
+// Persistent StateNotifier'lar
+// ---------------------------------------------------------------------------
+
+class _PersistentDouble extends StateNotifier<double> {
+  final SharedPreferences _prefs;
+  final String key;
+
+  _PersistentDouble(this._prefs, {required this.key, required double defaultValue})
+      : super(_prefs.getDouble(key) ?? defaultValue);
+
+  set value(double v) {
+    state = v;
+    _prefs.setDouble(key, v);
+  }
+}
+
+class _PersistentInt extends StateNotifier<int> {
+  final SharedPreferences _prefs;
+  final String key;
+
+  _PersistentInt(this._prefs, {required this.key, required int defaultValue})
+      : super(_prefs.getInt(key) ?? defaultValue);
+
+  set value(int v) {
+    state = v;
+    _prefs.setInt(key, v);
+  }
+}
+
+class _PersistentNotation extends StateNotifier<NoteNotation> {
+  final SharedPreferences _prefs;
+  static const _key = 'noteNotation';
+
+  _PersistentNotation(this._prefs)
+      : super(
+          _prefs.getString(_key) == 'solfege'
+              ? NoteNotation.solfege
+              : NoteNotation.letter,
+        );
+
+  set value(NoteNotation v) {
+    state = v;
+    _prefs.setString(_key, v == NoteNotation.solfege ? 'solfege' : 'letter');
+  }
+}
+=== lib/providers/tuner_provider.dart ===
+import 'dart:async';
+import 'dart:collection';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/instrument.dart';
+import '../models/pitch_result.dart';
+import '../models/tuner_state.dart';
+import '../services/audio_service.dart';
+import '../services/note_calculator.dart';
+import '../services/tone_generator.dart';
+import 'instrument_provider.dart';
+import 'settings_provider.dart';
+
+final audioServiceProvider = Provider<AudioService>((ref) {
+  final service = AudioService();
+  ref.onDispose(() => service.dispose());
+  return service;
+});
+
+final toneGeneratorProvider = Provider<ToneGenerator>((ref) {
+  final generator = ToneGenerator();
+  ref.onDispose(() => generator.dispose());
+  return generator;
+});
+
+final isListeningProvider = StateProvider<bool>((ref) => false);
+
+final selectedStringProvider = StateProvider<StringTuning?>((ref) => null);
+
+final tunerStateProvider = StateNotifierProvider<TunerStateNotifier, TunerState>(
+  (ref) => TunerStateNotifier(ref),
+);
+
+class TunerStateNotifier extends StateNotifier<TunerState> {
+  final Ref _ref;
+  StreamSubscription<PitchResult>? _subscription;
+
+  static const int _smoothingWindow = 5;
+  static const int _stringFilterSemitones = 2;
+  final Queue<double> _freqBuffer = Queue<double>();
+
+  TunerStateNotifier(this._ref) : super(const TunerState()) {
+    // Enstrüman değiştiğinde seçili teli sıfırla
+    _ref.listen(selectedInstrumentProvider, (_, __) {
+      _ref.read(selectedStringProvider.notifier).state = null;
+    });
+  }
+
+  Future<void> startListening() async {
+    // Hızlı toggle koruması: önceki dinleme varsa önce durdur
+    if (_subscription != null) await stopListening();
+
+    try {
+      final audioService = _ref.read(audioServiceProvider);
+      final instrument = _ref.read(selectedInstrumentProvider);
+
+      await audioService.startCapture(
+        minFreq: instrument.minFrequency,
+        maxFreq: instrument.maxFrequency,
+        confidenceThreshold: instrument.yinThreshold ?? 0.5,
+      );
+      _ref.read(isListeningProvider.notifier).state = true;
+      _freqBuffer.clear();
+
+      _subscription = audioService.pitchStream.listen(
+        _onPitchResult,
+        onError: (_) => stopListening(),
+      );
+    } catch (_) {
+      _ref.read(isListeningProvider.notifier).state = false;
+      state = const TunerState();
+    }
+  }
+
+  Future<void> stopListening() async {
+    _subscription?.cancel();
+    _subscription = null;
+
+    final audioService = _ref.read(audioServiceProvider);
+    await audioService.stopCapture();
+
+    _ref.read(isListeningProvider.notifier).state = false;
+    _freqBuffer.clear();
+    state = const TunerState();
+  }
+
+  void _onPitchResult(PitchResult pitch) {
+    if (!pitch.isValid) {
+      _freqBuffer.clear();
+      if (state.status != TunerStatus.idle) {
+        state = const TunerState();
+      }
+      return;
+    }
+
+    final referenceA4 = _ref.read(referenceFreqProvider);
+
+    // Tel filtresi: seçili tel varsa, hedeften ±2 yarım ton dışını atla
+    final selectedString = _ref.read(selectedStringProvider);
+    if (selectedString != null) {
+      final targetMidi = NoteCalculator.frequencyToMidi(
+        selectedString.frequency,
+        referenceA4: referenceA4,
+      );
+      final detectedMidi = NoteCalculator.frequencyToMidi(
+        pitch.frequency,
+        referenceA4: referenceA4,
+      );
+      if (targetMidi > 0 &&
+          detectedMidi > 0 &&
+          (detectedMidi - targetMidi).abs() > _stringFilterSemitones) {
+        return;
+      }
+    }
+
+    // Smoothing: son N geçerli frekansın medyanı
+    _freqBuffer.addLast(pitch.frequency);
+    if (_freqBuffer.length > _smoothingWindow) {
+      _freqBuffer.removeFirst();
+    }
+
+    final smoothedFreq = _median(_freqBuffer);
+
+    final threshold = _ref.read(tuningThresholdProvider);
+
+    final note = NoteCalculator.fromFrequency(
+      smoothedFreq,
+      referenceA4: referenceA4,
+    );
+
+    final TunerStatus status;
+    if (note.cents.abs() <= threshold) {
+      status = TunerStatus.inTune;
+    } else if (note.cents < 0) {
+      status = TunerStatus.flat;
+    } else {
+      status = TunerStatus.sharp;
+    }
+
+    // Gereksiz rebuild önle: aynı nota + benzer cent (±1)
+    if (state.note == note.name &&
+        state.octave == note.octave &&
+        state.status == status &&
+        (state.cents - note.cents).abs() < 1) {
+      return;
+    }
+
+    state = TunerState(
+      status: status,
+      note: note.name,
+      octave: note.octave,
+      frequency: smoothedFreq,
+      cents: note.cents,
+    );
+  }
+
+  double _median(Queue<double> values) {
+    final sorted = values.toList()..sort();
+    final mid = sorted.length ~/ 2;
+    if (sorted.length.isOdd) return sorted[mid];
+    return (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+}
+=== lib/router.dart ===
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'screens/splash_screen.dart';
+import 'screens/tuner_screen.dart';
+import 'screens/instruments_screen.dart';
+import 'screens/settings_screen.dart';
+import 'screens/about_screen.dart';
+import 'widgets/app_scaffold.dart';
+
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
+final router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
+  initialLocation: '/splash',
+  routes: [
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => const SplashScreen(),
+    ),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return AppScaffold(navigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/tuner',
+              builder: (context, state) => const TunerScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/instruments',
+              builder: (context, state) => const InstrumentsScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/settings',
+              builder: (context, state) => const SettingsScreen(),
+            ),
+          ],
+        ),
+      ],
+    ),
+    GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
+      path: '/about',
+      builder: (context, state) => const AboutScreen(),
+    ),
+  ],
+);
+=== lib/screens/about_screen.dart ===
+import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
+
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.memorialBg,
+      appBar: AppBar(
+        backgroundColor: AppColors.memorialBg.withValues(alpha: 0.6),
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.memorialWarm),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Nağme',
+          style: TextStyle(
+            fontFamily: 'PlusJakartaSans',
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            color: AppColors.memorialText,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            // Heart icon
+            Icon(
+              Icons.favorite,
+              size: 48,
+              color: AppColors.memorialWarm,
+              shadows: [
+                Shadow(
+                  color: AppColors.memorialWarm.withValues(alpha: 0.4),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // Divider line
+            Container(
+              width: 1,
+              height: 40,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.memorialWarm.withValues(alpha: 0.4),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 32),
+
+            // Main dedication text
+            const Text(
+              'Bu uygulama, Mehmet Akif Yıldız\'ın anısına geliştirilmiştir.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'PlusJakartaSans',
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFFE9E1DD),
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'ö. 24.03.2026',
+              style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontSize: 14,
+                fontWeight: FontWeight.w300,
+                color: AppColors.memorialMuted,
+                letterSpacing: 1,
+              ),
+            ),
+            const SizedBox(height: 32),
+
+            // Divider
+            Container(
+              width: 32,
+              height: 2,
+              color: AppColors.memorialWarm.withValues(alpha: 0.3),
+            ),
+            const SizedBox(height: 32),
+
+            // Secondary text
+            const Text(
+              'Nağme, sadece bir akort aracı değil; onun ruhuna bırakılmış küçük bir hayrattır.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontSize: 16,
+                fontWeight: FontWeight.w300,
+                fontStyle: FontStyle.italic,
+                color: AppColors.memorialMuted,
+                height: 1.6,
+              ),
+            ),
+            const SizedBox(height: 48),
+
+            // Quote card
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: const Color(0xFF221F1D),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFF504535).withValues(alpha: 0.1),
+                ),
+              ),
+              child: const Text(
+                '"Her nağme, bir duanın melodisidir."',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'BeVietnamPro',
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                  color: AppColors.memorialMuted,
+                  height: 1.5,
+                ),
+              ),
+            ),
+            const SizedBox(height: 64),
+
+            // Footer info
+            _buildInfoItem('GELİŞTİRİCİ', 'Ahmet'),
+            const SizedBox(height: 24),
+            _buildInfoItem('DURUM', 'Tamamen Ücretsiz'),
+            const SizedBox(height: 24),
+            _buildInfoItem('KULLANIM', 'Reklamsız / Çevrimdışı'),
+            const SizedBox(height: 24),
+            _buildInfoItem('SÜRÜM', '2.0.0'),
+            const SizedBox(height: 32),
+
+            // Closing heart
+            Icon(
+              Icons.favorite,
+              size: 18,
+              color: AppColors.memorialWarm.withValues(alpha: 0.6),
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoItem(String label, String value) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'BeVietnamPro',
+            fontSize: 10,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 3,
+            color: AppColors.memorialWarm.withValues(alpha: 0.6),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            fontFamily: 'BeVietnamPro',
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+            color: AppColors.memorialMuted,
+          ),
+        ),
+      ],
+    );
+  }
+}
+=== lib/screens/instruments_screen.dart ===
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import '../models/instrument.dart';
+import '../providers/instrument_provider.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
+
+class InstrumentsScreen extends ConsumerWidget {
+  const InstrumentsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(selectedInstrumentProvider);
+
+    return Scaffold(
+      backgroundColor: AppColors.bgBase,
+      appBar: AppBar(
+        backgroundColor: AppColors.bgBase,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textSecondary),
+          onPressed: () => context.go('/tuner'),
+        ),
+        title: Text('Enstrüman Seç', style: AppTypography.heading2),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        child: Column(
+          children: [
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 1.0,
+              ),
+              itemCount: Instruments.all.length,
+              itemBuilder: (context, index) {
+                final instrument = Instruments.all[index];
+                final isSelected = instrument.id == selected.id;
+                return _buildInstrumentCard(
+                  context,
+                  ref,
+                  instrument,
+                  isSelected,
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+            _buildInfoCard(selected),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _stringCount(Instrument instrument) {
+    if (instrument.id == 'chromatic') return 'Serbest Mod';
+    final totalStrings = instrument.strings.length;
+    final uniqueNotes = instrument.strings.map((s) => s.name).toSet().length;
+    if (totalStrings == uniqueNotes) {
+      return '$totalStrings tel';
+    }
+    return '$totalStrings tel · $uniqueNotes akort';
+  }
+
+  Widget _buildInstrumentCard(
+    BuildContext context,
+    WidgetRef ref,
+    Instrument instrument,
+    bool isSelected,
+  ) {
+    final iconColor = isSelected ? AppColors.brandPrimary : AppColors.textMuted;
+
+    return GestureDetector(
+      onTap: () {
+        ref.read(selectedInstrumentProvider.notifier).state = instrument;
+        context.go('/tuner');
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.bgSurface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? AppColors.brandPrimary : AppColors.bgElevated,
+            width: isSelected ? 2 : 1,
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: AppColors.brandPrimary.withValues(alpha: 0.2),
+                    blurRadius: 15,
+                  )
+                ]
+              : null,
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    instrument.iconAsset,
+                    width: 28,
+                    height: 28,
+                    colorFilter: ColorFilter.mode(
+                      iconColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    instrument.name,
+                    style: TextStyle(
+                      fontFamily: 'PlusJakartaSans',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: isSelected
+                          ? AppColors.brandPrimary
+                          : AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    _stringCount(instrument),
+                    style: TextStyle(
+                      fontFamily: 'BeVietnamPro',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: isSelected
+                          ? AppColors.brandPrimary
+                          : AppColors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Container(
+                  width: 16,
+                  height: 16,
+                  decoration: const BoxDecoration(
+                    color: AppColors.statusInTune,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.check,
+                    size: 10,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(Instrument selected) {
+    final rangeText = selected.minFrequency != null
+        ? '${selected.minFrequency!.round()} – ${selected.maxFrequency!.round()} Hz aralığında optimize edilmiştir'
+        : 'Tüm frekans aralığı aktif';
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1B2D2C),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: AppColors.brandDim.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.brandPrimary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Icon(
+              Icons.info_outline,
+              color: AppColors.brandPrimary,
+              size: 24,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Akort Yardımcısı',
+                  style: TextStyle(
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.brandPrimary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'Seçtiğiniz enstrümanın tel yapısına uygun hassas frekans analizi yapılır. Her enstrüman için özel optimize edilmiş algoritmalar kullanılır.',
+                  style: TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textSecondary,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  rangeText,
+                  style: const TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+=== lib/screens/settings_screen.dart ===
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../models/tuner_state.dart';
+import '../providers/settings_provider.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
+import '../widgets/settings_bottom_sheet.dart';
+
+class SettingsScreen extends ConsumerWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final refFreq = ref.watch(referenceFreqProvider);
+    final threshold = ref.watch(tuningThresholdProvider);
+    final notation = ref.watch(noteNotationProvider);
+    final refSound = ref.watch(referenceSoundProvider);
+    final soundType = ref.watch(soundTypeProvider);
+
+    return Scaffold(
+      backgroundColor: AppColors.bgBase,
+      appBar: AppBar(
+        backgroundColor: AppColors.bgBase,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textSecondary),
+          onPressed: () => context.go('/tuner'),
+        ),
+        title: Text('Ayarlar', style: AppTypography.heading2),
+        centerTitle: false,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // AKORT
+            _buildSectionHeader('AKORT'),
+            _buildCard([
+              _buildSettingsRow(
+                'Referans Frekansı',
+                trailing: _buildValueChevron('A4 = ${refFreq.round()} Hz'),
+                onTap: () => _showFrequencySheet(context, ref, refFreq),
+              ),
+              _buildSettingsRow(
+                'Akort Eşiği',
+                trailing: _buildValueChevron('± $threshold cent'),
+                onTap: () => _showThresholdSheet(context, ref, threshold),
+              ),
+              _buildSettingsRow(
+                'Nota Gösterimi',
+                trailing: _buildValueChevron(
+                  notation == NoteNotation.letter ? 'C D E' : 'Do Re Mi',
+                ),
+                onTap: () => _showNotationSheet(context, ref, notation),
+                showDivider: false,
+              ),
+            ]),
+            const SizedBox(height: 24),
+
+            // SES
+            _buildSectionHeader('SES'),
+            _buildCard([
+              _buildSettingsRow(
+                'Referans Sesi',
+                trailing: _buildToggle(
+                  refSound,
+                  (v) => ref.read(referenceSoundProvider.notifier).state = v,
+                ),
+              ),
+              _buildSettingsRow(
+                'Ses Tipi',
+                trailing: _buildValueChevron(_soundTypeLabel(soundType)),
+                onTap: () => _showSoundTypeSheet(context, ref, soundType),
+                showDivider: false,
+              ),
+            ]),
+            const SizedBox(height: 24),
+
+            // GÖRÜNÜM
+            _buildSectionHeader('GÖRÜNÜM'),
+            _buildCard([
+              _buildSettingsRow(
+                'Koyu Tema',
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('Yakında', style: AppTypography.caption),
+                    const SizedBox(width: 8),
+                    _buildToggle(true, null),
+                  ],
+                ),
+                showDivider: false,
+              ),
+            ]),
+            const SizedBox(height: 24),
+
+            // HAKKINDA
+            _buildSectionHeader('HAKKINDA'),
+            _buildCard([
+              _buildSettingsRow(
+                'Nağme Hakkında',
+                trailing: const Icon(
+                  Icons.chevron_right,
+                  color: AppColors.textSecondary,
+                  size: 20,
+                ),
+                onTap: () => context.push('/about'),
+              ),
+              _buildSettingsRow(
+                'Sürüm',
+                trailing: Text('2.0.0', style: AppTypography.bodySecondary),
+              ),
+              _buildSettingsRow(
+                'Geri Bildirim',
+                trailing: const Icon(
+                  Icons.chevron_right,
+                  color: AppColors.textSecondary,
+                  size: 20,
+                ),
+                onTap: () => _sendFeedback(),
+                showDivider: false,
+              ),
+            ]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // --- Bottom Sheets ---
+
+  void _showFrequencySheet(BuildContext context, WidgetRef ref, double current) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => FrequencyBottomSheet(
+        value: current,
+        onChanged: (v) => ref.read(referenceFreqProvider.notifier).value = v,
+      ),
+    );
+  }
+
+  void _showThresholdSheet(BuildContext context, WidgetRef ref, int current) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => SettingsBottomSheet<int>(
+        title: 'Akort Eşiği',
+        options: const [1, 2, 3, 5, 10],
+        selected: current,
+        labelBuilder: (v) => '± $v cent',
+        onSelected: (v) =>
+            ref.read(tuningThresholdProvider.notifier).value = v,
+      ),
+    );
+  }
+
+  void _showNotationSheet(
+      BuildContext context, WidgetRef ref, NoteNotation current) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => SettingsBottomSheet<NoteNotation>(
+        title: 'Nota Gösterimi',
+        options: NoteNotation.values,
+        selected: current,
+        labelBuilder: (v) =>
+            v == NoteNotation.letter ? 'C D E F G A B' : 'Do Re Mi Fa Sol La Si',
+        onSelected: (v) =>
+            ref.read(noteNotationProvider.notifier).value = v,
+      ),
+    );
+  }
+
+  void _showSoundTypeSheet(
+      BuildContext context, WidgetRef ref, SoundType current) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => SettingsBottomSheet<SoundType>(
+        title: 'Ses Tipi',
+        options: SoundType.values,
+        selected: current,
+        labelBuilder: _soundTypeLabel,
+        onSelected: (v) => ref.read(soundTypeProvider.notifier).state = v,
+      ),
+    );
+  }
+
+  String _soundTypeLabel(SoundType t) {
+    switch (t) {
+      case SoundType.sine:
+        return 'Sinüs';
+      case SoundType.square:
+        return 'Kare';
+      case SoundType.triangle:
+        return 'Üçgen';
+    }
+  }
+
+  Future<void> _sendFeedback() async {
+    final uri = Uri.parse('mailto:info@aximity.dev?subject=Nağme Geri Bildirim');
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+
+  // --- Shared Widgets ---
+
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 8),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontFamily: 'PlusJakartaSans',
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: AppColors.brandPrimary,
+          letterSpacing: 2.2,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(List<Widget> children) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.bgSurface,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(children: children),
+    );
+  }
+
+  Widget _buildSettingsRow(
+    String title, {
+    Widget? trailing,
+    bool showDivider = true,
+    VoidCallback? onTap,
+  }) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 52,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(title, style: AppTypography.body),
+                if (trailing != null) trailing,
+              ],
+            ),
+          ),
+        ),
+        if (showDivider)
+          const Divider(
+            height: 1,
+            color: AppColors.bgElevated,
+            indent: 16,
+            endIndent: 16,
+          ),
+      ],
+    );
+  }
+
+  Widget _buildValueChevron(String value) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(value, style: AppTypography.bodySecondary),
+        const SizedBox(width: 8),
+        const Icon(
+          Icons.chevron_right,
+          color: AppColors.textSecondary,
+          size: 20,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildToggle(bool value, ValueChanged<bool>? onChanged) {
+    final enabled = onChanged != null;
+    return GestureDetector(
+      onTap: enabled ? () => onChanged(!value) : null,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: 44,
+        height: 24,
+        decoration: BoxDecoration(
+          color: value
+              ? (enabled ? AppColors.brandPrimary : AppColors.brandPrimary.withValues(alpha: 0.4))
+              : AppColors.bgElevated,
+          borderRadius: BorderRadius.circular(99),
+        ),
+        child: AnimatedAlign(
+          duration: const Duration(milliseconds: 200),
+          alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            margin: const EdgeInsets.all(3),
+            width: 18,
+            height: 18,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+=== lib/screens/splash_screen.dart ===
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../theme/app_colors.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      if (mounted) context.go('/tuner');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.bgBase,
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Text(
+              'Nağme',
+              style: TextStyle(
+                fontFamily: 'PlusJakartaSans',
+                fontSize: 48,
+                fontWeight: FontWeight.w800,
+                color: AppColors.brandPrimary,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'KROMATİK AKORT',
+              style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textMuted,
+                letterSpacing: 3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+=== lib/screens/tuner_screen.dart ===
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
+import '../models/instrument.dart';
+import '../models/tuner_state.dart';
+import '../providers/instrument_provider.dart';
+import '../providers/settings_provider.dart';
+import '../providers/tuner_provider.dart';
+import '../services/note_calculator.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
+import '../widgets/waveform_painter.dart';
+import '../widgets/pitch_bar.dart';
+import '../widgets/mic_permission_dialog.dart';
+
+class TunerScreen extends ConsumerStatefulWidget {
+  const TunerScreen({super.key});
+
+  @override
+  ConsumerState<TunerScreen> createState() => _TunerScreenState();
+}
+
+class _TunerScreenState extends ConsumerState<TunerScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _waveController;
+
+  @override
+  void initState() {
+    super.initState();
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+  }
+
+  @override
+  void dispose() {
+    _waveController.dispose();
+    ref.read(tunerStateProvider.notifier).stopListening();
+    ref.read(toneGeneratorProvider).stop();
+    super.dispose();
+  }
+
+  void _syncWaveAnimation(bool isListening) {
+    if (isListening && !_waveController.isAnimating) {
+      _waveController.repeat();
+    } else if (!isListening && _waveController.isAnimating) {
+      _waveController.stop();
+      _waveController.value = 0;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final instrument = ref.watch(selectedInstrumentProvider);
+    final isListening = ref.watch(isListeningProvider);
+    final isChromatic = instrument.id == 'chromatic';
+
+    _syncWaveAnimation(isListening);
+
+    return Scaffold(
+      backgroundColor: AppColors.bgBase,
+      appBar: AppBar(
+        backgroundColor: AppColors.bgBase,
+        centerTitle: true,
+        title: const Text(
+          'Nağme',
+          style: TextStyle(
+            fontFamily: 'PlusJakartaSans',
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            color: AppColors.brandPrimary,
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+              child: Column(
+                children: [
+                  _WaveformSection(animation: _waveController),
+                  const SizedBox(height: 32),
+                  const _NoteSection(),
+                  const SizedBox(height: 32),
+                  const _PitchBarSection(),
+                  const SizedBox(height: 32),
+                  if (!isChromatic) _StringSelector(instrument: instrument),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 16,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: _MicFab(
+                  isListening: isListening,
+                  onTap: _onMicTap,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onMicTap() async {
+    final isListening = ref.read(isListeningProvider);
+    final notifier = ref.read(tunerStateProvider.notifier);
+
+    if (isListening) {
+      await notifier.stopListening();
+      return;
+    }
+
+    // Check permission
+    var status = await Permission.microphone.status;
+    if (!status.isGranted) {
+      if (!mounted) return;
+      final result = await showDialog<bool>(
+        context: context,
+        barrierColor: AppColors.bgBase.withValues(alpha: 0.7),
+        builder: (_) => const MicPermissionDialog(),
+      );
+      if (result != true) return;
+      status = await Permission.microphone.request();
+      if (!status.isGranted) return;
+    }
+
+    await notifier.startListening();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Waveform hero — AnimationBuilder ile phase animasyonu
+// ---------------------------------------------------------------------------
+class _WaveformSection extends ConsumerWidget {
+  final Animation<double> animation;
+
+  const _WaveformSection({required this.animation});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(tunerStateProvider);
+    final isListening = ref.watch(isListeningProvider);
+    final isIdle = state.status == TunerStatus.idle;
+    final color = _statusColor(state.status);
+
+    // Amplitude: idle 0.05, listening+idle 0.10, ses algılandığında confidence'a göre
+    final double amplitude;
+    if (!isListening || isIdle) {
+      amplitude = isListening ? 0.10 : 0.05;
+    } else {
+      // 0.15 - 0.5 arası, confidence 0-1
+      amplitude = 0.15 + (state.cents.abs() / 50).clamp(0.0, 1.0) * 0.35;
+    }
+
+    return RepaintBoundary(
+      child: Container(
+        width: double.infinity,
+        height: 240,
+        decoration: BoxDecoration(
+          color: AppColors.bgSurface,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            CustomPaint(
+              size: const Size(double.infinity, 240),
+              painter: GridPainter(color: AppColors.brandDim),
+            ),
+            Center(
+              child: SizedBox(
+                height: 128,
+                child: AnimatedBuilder(
+                  animation: animation,
+                  builder: (context, _) {
+                    return CustomPaint(
+                      size: const Size(double.infinity, 128),
+                      painter: WaveformPainter(
+                        color: isIdle
+                            ? AppColors.brandPrimary.withValues(alpha: 0.2)
+                            : color.withValues(alpha: 0.8),
+                        amplitude: amplitude,
+                        phase: animation.value * 6.2832, // 2π
+                        showDashed: state.status == TunerStatus.flat,
+                        dashedColor: color,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            if (isIdle)
+              Center(
+                child: Text(
+                  isListening
+                      ? 'Dinleniyor...'
+                      : 'Akort etmek için mikrofona dokun',
+                  style: const TextStyle(
+                    fontFamily: 'BeVietnamPro',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textSecondary,
+                    letterSpacing: 3,
+                  ),
+                ),
+              ),
+            Positioned(
+              left: 16,
+              top: 16,
+              child: Text('♭',
+                  style: TextStyle(
+                    fontFamily: 'SpaceGrotesk',
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: state.status == TunerStatus.flat
+                        ? AppColors.statusFlat
+                        : AppColors.textMuted.withValues(alpha: 0.2),
+                  )),
+            ),
+            Positioned(
+              right: 16,
+              top: 16,
+              child: Text('♯',
+                  style: TextStyle(
+                    fontFamily: 'SpaceGrotesk',
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: state.status == TunerStatus.sharp
+                        ? AppColors.statusSharp
+                        : AppColors.textMuted.withValues(alpha: 0.2),
+                  )),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Nota gösterimi
+// ---------------------------------------------------------------------------
+class _NoteSection extends ConsumerWidget {
+  const _NoteSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(tunerStateProvider);
+    final notation = ref.watch(noteNotationProvider);
+    final isIdle = state.status == TunerStatus.idle;
+    final targetColor = isIdle ? AppColors.textSecondary : _statusColor(state.status);
+
+    final displayNote = isIdle
+        ? state.noteDisplay
+        : notation == NoteNotation.solfege
+            ? '${NoteCalculator.toTurkish(state.note)}${state.octave}'
+            : state.noteDisplay;
+
+    return TweenAnimationBuilder<Color?>(
+      tween: ColorTween(end: targetColor),
+      duration: const Duration(milliseconds: 200),
+      builder: (context, color, _) {
+        final c = color ?? targetColor;
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Text(
+                  displayNote,
+                  style: TextStyle(
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize: 64,
+                    fontWeight: FontWeight.w800,
+                    color: c,
+                    height: 1,
+                  ),
+                ),
+                if (state.status == TunerStatus.flat)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text('♭',
+                        style: TextStyle(
+                          fontFamily: 'SpaceGrotesk',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: c,
+                        )),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(state.frequencyDisplay, style: AppTypography.cent),
+                const SizedBox(width: 16),
+                Text(
+                  state.centsDisplay,
+                  style: AppTypography.cent.copyWith(
+                    color: c,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            if (state.statusText.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                state.statusText,
+                style: TextStyle(
+                  fontFamily: 'PlusJakartaSans',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  color: c,
+                  letterSpacing: 3,
+                ),
+              ),
+            ],
+          ],
+        );
+      },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// PitchBar
+// ---------------------------------------------------------------------------
+class _PitchBarSection extends ConsumerWidget {
+  const _PitchBarSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(tunerStateProvider);
+    final color = _statusColor(state.status);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: PitchBar(
+        cents: state.cents,
+        indicatorColor: color,
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Tel seçici
+// ---------------------------------------------------------------------------
+class _StringSelector extends ConsumerWidget {
+  final Instrument instrument;
+
+  const _StringSelector({required this.instrument});
+
+  void _syncToneGenerator(
+    WidgetRef ref,
+    StringTuning? selected,
+    bool refSound,
+    SoundType soundType,
+  ) {
+    final tone = ref.read(toneGeneratorProvider);
+    if (selected != null && refSound) {
+      tone.play(selected.frequency, soundType);
+    } else {
+      tone.stop();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(selectedStringProvider);
+    final notation = ref.watch(noteNotationProvider);
+    final refSound = ref.watch(referenceSoundProvider);
+    final soundType = ref.watch(soundTypeProvider);
+    final strings = instrument.strings;
+    final uniqueStrings = <StringTuning>[];
+    final seen = <String>{};
+    for (final s in strings) {
+      if (seen.add(s.name)) uniqueStrings.add(s);
+    }
+    final count = uniqueStrings.length;
+    final crossAxisCount = count <= 4 ? count : (count <= 6 ? count : 4);
+
+    // Referans sesi: tel seçili + toggle açık → ses çal
+    _syncToneGenerator(ref, selected, refSound, soundType);
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount.clamp(1, 6),
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 1.6,
+      ),
+      itemCount: uniqueStrings.length,
+      itemBuilder: (context, index) {
+        final s = uniqueStrings[index];
+        final isSelected = selected?.name == s.name;
+        final displayName = notation == NoteNotation.solfege
+            ? NoteCalculator.toTurkish(s.name)
+            : s.name;
+
+        return GestureDetector(
+          onTap: () {
+            final notifier = ref.read(selectedStringProvider.notifier);
+            notifier.state = isSelected ? null : s;
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.bgSurface,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: isSelected ? AppColors.brandPrimary : AppColors.bgElevated,
+                width: isSelected ? 2 : 1,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                displayName,
+                style: TextStyle(
+                  fontFamily: 'SpaceGrotesk',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: isSelected ? AppColors.brandPrimary : AppColors.textSecondary,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mikrofon FAB
+// ---------------------------------------------------------------------------
+class _MicFab extends StatelessWidget {
+  final bool isListening;
+  final VoidCallback onTap;
+
+  const _MicFab({required this.isListening, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 72,
+        height: 72,
+        decoration: BoxDecoration(
+          color: isListening ? AppColors.statusSharp : AppColors.brandPrimary,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: (isListening ? AppColors.statusSharp : AppColors.brandPrimary)
+                  .withValues(alpha: 0.3),
+              blurRadius: 20,
+            ),
+          ],
+        ),
+        child: Icon(
+          isListening ? Icons.stop : Icons.mic,
+          size: 32,
+          color: isListening ? Colors.white : AppColors.brandOn,
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Ortak yardımcı
+// ---------------------------------------------------------------------------
+Color _statusColor(TunerStatus status) {
+  switch (status) {
+    case TunerStatus.idle:
+      return AppColors.textMuted;
+    case TunerStatus.flat:
+      return AppColors.statusFlat;
+    case TunerStatus.sharp:
+      return AppColors.statusSharp;
+    case TunerStatus.inTune:
+      return AppColors.statusInTune;
+  }
+}
+=== lib/services/audio_service.dart ===
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter_audio_capture/flutter_audio_capture.dart';
+import 'package:pitch_detector_dart/pitch_detector.dart';
+
+import '../models/pitch_result.dart';
+
+// compute() için top-level fonksiyon — isolate'de çalışır
+Future<PitchResult> _detectPitch(Map<String, dynamic> params) async {
+  final buffer = params['buffer'] as List<double>;
+  final sampleRate = params['sampleRate'] as int;
+  final bufferSize = params['bufferSize'] as int;
+
+  final detector = PitchDetector(
+    audioSampleRate: sampleRate.toDouble(),
+    bufferSize: bufferSize,
+  );
+
+  final result = await detector.getPitchFromFloatBuffer(buffer);
+
+  return PitchResult(
+    frequency: result.pitched ? result.pitch : 0,
+    confidence: result.probability,
+    timestamp: DateTime.now(),
+  );
+}
+
+class AudioService {
+  static const int sampleRate = 44100;
+  static const int bufferSize = 2048;
+  static const int _throttleMs = 50;
+
+  final FlutterAudioCapture _audioCapture = FlutterAudioCapture();
+  final StreamController<PitchResult> _pitchController =
+      StreamController<PitchResult>.broadcast();
+
+  bool _isCapturing = false;
+  bool _initialized = false;
+  bool _isProcessing = false;
+  DateTime _lastEmit = DateTime(0);
+  double? _minFreq;
+  double? _maxFreq;
+  double _confidenceThreshold = 0.5;
+
+  Stream<PitchResult> get pitchStream => _pitchController.stream;
+  bool get isCapturing => _isCapturing;
+
+  Future<void> init() async {
+    if (_initialized) return;
+
+    final result = await _audioCapture.init();
+    if (result != true) {
+      throw AudioServiceException('Mikrofon başlatılamadı');
+    }
+
+    _initialized = true;
+  }
+
+  Future<void> startCapture({
+    double? minFreq,
+    double? maxFreq,
+    double confidenceThreshold = 0.5,
+  }) async {
+    if (_isCapturing) return;
+    if (!_initialized) await init();
+
+    _minFreq = minFreq;
+    _maxFreq = maxFreq;
+    _confidenceThreshold = confidenceThreshold;
+    _isCapturing = true;
+    _isProcessing = false;
+    _lastEmit = DateTime(0);
+
+    await _audioCapture.start(
+      _onAudioData,
+      _onAudioError,
+      sampleRate: sampleRate,
+      bufferSize: bufferSize,
+      androidAudioSource: ANDROID_AUDIOSRC_MIC,
+    );
+  }
+
+  Future<void> stopCapture() async {
+    if (!_isCapturing) return;
+    _isCapturing = false;
+    _isProcessing = false;
+    await _audioCapture.stop();
+  }
+
+  void _onAudioData(Float32List buffer) {
+    if (!_isCapturing) return;
+    if (_isProcessing) return;
+    if (buffer.length < bufferSize) return;
+
+    final now = DateTime.now();
+    if (now.difference(_lastEmit).inMilliseconds < _throttleMs) return;
+
+    _isProcessing = true;
+
+    // buffer.toList() burada gerekli: Float32List'i isolate'e göndermek için
+    // standart List<double>'a çeviriyoruz
+    compute(_detectPitch, {
+      'buffer': buffer.toList(),
+      'sampleRate': sampleRate,
+      'bufferSize': bufferSize,
+    }).then((result) {
+      _isProcessing = false;
+      if (!_isCapturing) return;
+
+      // Confidence filtresi (enstrümana özel threshold)
+      if (result.frequency > 0 && result.confidence < _confidenceThreshold) {
+        _pitchController.add(PitchResult(
+          frequency: 0,
+          confidence: 0,
+          timestamp: result.timestamp,
+        ));
+        return;
+      }
+
+      // Frekans aralığı filtresi
+      if (result.frequency > 0) {
+        if (_minFreq != null && result.frequency < _minFreq!) {
+          _pitchController.add(PitchResult(
+            frequency: 0,
+            confidence: 0,
+            timestamp: result.timestamp,
+          ));
+          return;
+        }
+        if (_maxFreq != null && result.frequency > _maxFreq!) {
+          _pitchController.add(PitchResult(
+            frequency: 0,
+            confidence: 0,
+            timestamp: result.timestamp,
+          ));
+          return;
+        }
+      }
+
+      _lastEmit = DateTime.now();
+      _pitchController.add(result);
+    }).catchError((e) {
+      _isProcessing = false;
+    });
+  }
+
+  void _onAudioError(Object error) {
+    if (!_isCapturing) return;
+    _pitchController.addError(
+      AudioServiceException('Ses yakalama hatası: $error'),
+    );
+  }
+
+  Future<void> dispose() async {
+    await stopCapture();
+    await _pitchController.close();
+    _initialized = false;
+  }
+}
+
+class AudioServiceException implements Exception {
+  final String message;
+  const AudioServiceException(this.message);
+
+  @override
+  String toString() => 'AudioServiceException: $message';
+}
+=== lib/services/note_calculator.dart ===
+import 'dart:math';
+
+class NoteInfo {
+  final String name;
+  final int octave;
+  final double cents;
+  final double expectedFrequency;
+
+  const NoteInfo({
+    required this.name,
+    required this.octave,
+    required this.cents,
+    required this.expectedFrequency,
+  });
+}
+
+class NoteCalculator {
+  static const List<String> _noteNames = [
+    'C', 'C#', 'D', 'D#', 'E', 'F',
+    'F#', 'G', 'G#', 'A', 'A#', 'B',
+  ];
+
+  static const Map<String, String> _turkishNames = {
+    'C': 'Do', 'D': 'Re', 'E': 'Mi', 'F': 'Fa',
+    'G': 'Sol', 'A': 'La', 'B': 'Si',
+  };
+
+  /// İngilizce nota adını Türkçe solfej'e çevirir.
+  /// C# → Do#, Db → Reb, A → La vb.
+  static String toTurkish(String noteName) {
+    if (noteName.length == 1) {
+      return _turkishNames[noteName] ?? noteName;
+    }
+    // C#, D#, Gb vb.
+    final base = noteName[0];
+    final suffix = noteName.substring(1);
+    return '${_turkishNames[base] ?? base}$suffix';
+  }
+
+  /// A4'ün MIDI numarası = 69
+  static const int _a4Midi = 69;
+
+  /// Frekansı MIDI nota numarasına çevirir (kesirli).
+  static double frequencyToMidi(double frequency, {double referenceA4 = 440.0}) {
+    if (frequency <= 0) return -1;
+    return 12 * (log(frequency / referenceA4) / ln2) + _a4Midi;
+  }
+
+  /// Frekansı en yakın notaya çevirir.
+  /// [referenceA4]: A4 referans frekansı (varsayılan 440 Hz)
+  static NoteInfo fromFrequency(double frequency, {double referenceA4 = 440.0}) {
+    if (frequency <= 0) {
+      return const NoteInfo(name: '--', octave: 0, cents: 0, expectedFrequency: 0);
+    }
+
+    // Frekans → MIDI nota numarası (kesirli)
+    final double midiNote = 12 * (log(frequency / referenceA4) / ln2) + _a4Midi;
+
+    // En yakın tam MIDI nota numarası
+    final int nearestMidi = midiNote.round();
+
+    // Cent sapması: gerçek - en yakın
+    final double cents = (midiNote - nearestMidi) * 100;
+
+    // Nota adı ve oktav
+    final int noteIndex = nearestMidi % 12;
+    final int octave = (nearestMidi ~/ 12) - 1;
+
+    // En yakın notanın beklenen frekansı
+    final double expectedFreq =
+        referenceA4 * pow(2, (nearestMidi - _a4Midi) / 12);
+
+    return NoteInfo(
+      name: _noteNames[noteIndex],
+      octave: octave,
+      cents: cents.clamp(-50.0, 50.0),
+      expectedFrequency: expectedFreq,
+    );
+  }
+}
+=== lib/services/tone_generator.dart ===
+import 'dart:math';
+import 'dart:typed_data';
+
+import 'package:just_audio/just_audio.dart';
+
+import '../models/tuner_state.dart';
+
+class ToneGenerator {
+  final AudioPlayer _player = AudioPlayer();
+  bool _isPlaying = false;
+  double _currentFrequency = 0;
+  SoundType _currentType = SoundType.sine;
+
+  bool get isPlaying => _isPlaying;
+
+  Future<void> play(double frequency, SoundType type) async {
+    if (_isPlaying &&
+        (_currentFrequency - frequency).abs() < 0.01 &&
+        _currentType == type) {
+      return;
+    }
+
+    await stop();
+
+    _currentFrequency = frequency;
+    _currentType = type;
+
+    final wavBytes = _generateWav(frequency, type);
+    final source = _WavAudioSource(wavBytes);
+
+    await _player.setAudioSource(source);
+    await _player.setLoopMode(LoopMode.one);
+    await _player.setVolume(0.5);
+    await _player.play();
+    _isPlaying = true;
+  }
+
+  Future<void> stop() async {
+    if (!_isPlaying) return;
+    _isPlaying = false;
+    await _player.stop();
+  }
+
+  Future<void> dispose() async {
+    await stop();
+    await _player.dispose();
+  }
+
+  /// 1 saniyelik WAV dosyası üretir (44100 Hz, 16-bit mono)
+  Uint8List _generateWav(double frequency, SoundType type) {
+    const sampleRate = 44100;
+    const duration = 1; // saniye
+    const numSamples = sampleRate * duration;
+    const bitsPerSample = 16;
+    const numChannels = 1;
+    const byteRate = sampleRate * numChannels * bitsPerSample ~/ 8;
+    const blockAlign = numChannels * bitsPerSample ~/ 8;
+    const dataSize = numSamples * blockAlign;
+    const fileSize = 36 + dataSize;
+
+    final buffer = ByteData(44 + dataSize);
+    var offset = 0;
+
+    // RIFF header
+    void writeString(String s) {
+      for (var i = 0; i < s.length; i++) {
+        buffer.setUint8(offset++, s.codeUnitAt(i));
+      }
+    }
+
+    writeString('RIFF');
+    buffer.setUint32(offset, fileSize, Endian.little);
+    offset += 4;
+    writeString('WAVE');
+
+    // fmt chunk
+    writeString('fmt ');
+    buffer.setUint32(offset, 16, Endian.little);
+    offset += 4;
+    buffer.setUint16(offset, 1, Endian.little);
+    offset += 2; // PCM
+    buffer.setUint16(offset, numChannels, Endian.little);
+    offset += 2;
+    buffer.setUint32(offset, sampleRate, Endian.little);
+    offset += 4;
+    buffer.setUint32(offset, byteRate, Endian.little);
+    offset += 4;
+    buffer.setUint16(offset, blockAlign, Endian.little);
+    offset += 2;
+    buffer.setUint16(offset, bitsPerSample, Endian.little);
+    offset += 2;
+
+    // data chunk
+    writeString('data');
+    buffer.setUint32(offset, dataSize, Endian.little);
+    offset += 4;
+
+    // Generate samples
+    for (var i = 0; i < numSamples; i++) {
+      final t = i / sampleRate;
+      double sample;
+
+      switch (type) {
+        case SoundType.sine:
+          sample = sin(2 * pi * frequency * t);
+        case SoundType.square:
+          sample = sin(2 * pi * frequency * t) >= 0 ? 1.0 : -1.0;
+        case SoundType.triangle:
+          final phase = (frequency * t) % 1.0;
+          sample = 4 * (phase < 0.5 ? phase : 1.0 - phase) - 1.0;
+      }
+
+      // Fade in/out to avoid clicks (10ms)
+      const fadeLen = sampleRate * 0.01;
+      if (i < fadeLen) {
+        sample *= i / fadeLen;
+      } else if (i > numSamples - fadeLen) {
+        sample *= (numSamples - i) / fadeLen;
+      }
+
+      final intSample = (sample * 32767 * 0.7).round().clamp(-32768, 32767);
+      buffer.setInt16(offset, intSample, Endian.little);
+      offset += 2;
+    }
+
+    return buffer.buffer.asUint8List();
+  }
+}
+
+class _WavAudioSource extends StreamAudioSource {
+  final Uint8List _wavBytes;
+
+  _WavAudioSource(this._wavBytes);
+
+  @override
+  Future<StreamAudioResponse> request([int? start, int? end]) async {
+    final s = start ?? 0;
+    final e = end ?? _wavBytes.length;
+    return StreamAudioResponse(
+      sourceLength: _wavBytes.length,
+      contentLength: e - s,
+      offset: s,
+      stream: Stream.value(_wavBytes.sublist(s, e)),
+      contentType: 'audio/wav',
+    );
+  }
+}
+=== lib/theme/app_colors.dart ===
+import 'dart:ui';
+
+abstract final class AppColors {
+  // Background
+  static const bgBase = Color(0xFF041615);
+  static const bgPrimary = Color(0xFF0C1F1D);
+  static const bgSurface = Color(0xFF132B28);
+  static const bgElevated = Color(0xFF1A3633);
+
+  // Brand
+  static const brandPrimary = Color(0xFF4ECDC4);
+  static const brandLight = Color(0xFF6EE7DF);
+  static const brandDim = Color(0xFF2A8F88);
+  static const brandOn = Color(0xFF0C1F1D);
+
+  // Text
+  static const textPrimary = Color(0xFFE8F5F3);
+  static const textSecondary = Color(0xFF7FA8A3);
+  static const textMuted = Color(0xFF4A7B75);
+
+  // Status
+  static const statusInTune = Color(0xFF10B981);
+  static const statusSharp = Color(0xFFF43F5E);
+  static const statusFlat = Color(0xFFF59E0B);
+
+  // Memorial (Hakkında ekranı)
+  static const memorialBg = Color(0xFF161311);
+  static const memorialWarm = Color(0xFFE8A838);
+  static const memorialText = Color(0xFFFFC66B);
+  static const memorialMuted = Color(0xFF8A8078);
+}
+=== lib/theme/app_theme.dart ===
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'app_colors.dart';
+import 'app_typography.dart';
+
+abstract final class AppTheme {
+  static ThemeData get dark => ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: AppColors.bgBase,
+        colorScheme: const ColorScheme.dark(
+          surface: AppColors.bgBase,
+          primary: AppColors.brandPrimary,
+          secondary: AppColors.brandDim,
+          error: AppColors.statusSharp,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.bgBase,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+          titleTextStyle: AppTypography.heading3,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          iconTheme: const IconThemeData(color: AppColors.textSecondary),
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: AppColors.bgSurface,
+          indicatorColor: AppColors.brandPrimary.withValues(alpha: 0.15),
+          labelTextStyle: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return AppTypography.navLabel
+                  .copyWith(color: AppColors.brandPrimary);
+            }
+            return AppTypography.navLabel;
+          }),
+          iconTheme: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const IconThemeData(
+                color: AppColors.brandPrimary,
+                size: 24,
+              );
+            }
+            return const IconThemeData(
+              color: AppColors.textMuted,
+              size: 24,
+            );
+          }),
+        ),
+        dividerColor: AppColors.bgElevated,
+        cardColor: AppColors.bgSurface,
+      );
+}
+=== lib/theme/app_typography.dart ===
+import 'package:flutter/material.dart';
+import 'app_colors.dart';
+
+abstract final class AppTypography {
+  // Plus Jakarta Sans 800 — başlıklar
+  static const heading1 = TextStyle(
+    fontFamily: 'PlusJakartaSans',
+    fontSize: 28,
+    fontWeight: FontWeight.w800,
+    color: AppColors.textPrimary,
+  );
+
+  static const heading2 = TextStyle(
+    fontFamily: 'PlusJakartaSans',
+    fontSize: 22,
+    fontWeight: FontWeight.w800,
+    color: AppColors.textPrimary,
+  );
+
+  static const heading3 = TextStyle(
+    fontFamily: 'PlusJakartaSans',
+    fontSize: 18,
+    fontWeight: FontWeight.w800,
+    color: AppColors.textPrimary,
+  );
+
+  // Space Grotesk 500-700 — frekans/cent göstergeleri
+  static const frequency = TextStyle(
+    fontFamily: 'SpaceGrotesk',
+    fontSize: 48,
+    fontWeight: FontWeight.w700,
+    color: AppColors.brandPrimary,
+  );
+
+  static const cent = TextStyle(
+    fontFamily: 'SpaceGrotesk',
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textSecondary,
+  );
+
+  static const noteName = TextStyle(
+    fontFamily: 'SpaceGrotesk',
+    fontSize: 64,
+    fontWeight: FontWeight.w700,
+    color: AppColors.textPrimary,
+  );
+
+  // Be Vietnam Pro 500 — body/nav
+  static const body = TextStyle(
+    fontFamily: 'BeVietnamPro',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textPrimary,
+  );
+
+  static const bodySecondary = TextStyle(
+    fontFamily: 'BeVietnamPro',
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textSecondary,
+  );
+
+  static const caption = TextStyle(
+    fontFamily: 'BeVietnamPro',
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textMuted,
+  );
+
+  static const navLabel = TextStyle(
+    fontFamily: 'BeVietnamPro',
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textSecondary,
+  );
+}
+=== lib/widgets/app_scaffold.dart ===
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import '../theme/app_colors.dart';
+
+class AppScaffold extends StatefulWidget {
+  final StatefulNavigationShell navigationShell;
+
+  const AppScaffold({super.key, required this.navigationShell});
+
+  @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
+  DateTime? _lastBackPress;
+
+  StatefulNavigationShell get navigationShell => widget.navigationShell;
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        // If not on the first tab, go back to tuner tab
+        if (navigationShell.currentIndex != 0) {
+          navigationShell.goBranch(0, initialLocation: true);
+          return;
+        }
+
+        // Double-tap to exit
+        final now = DateTime.now();
+        if (_lastBackPress != null &&
+            now.difference(_lastBackPress!) < const Duration(seconds: 2)) {
+          SystemNavigator.pop();
+          return;
+        }
+        _lastBackPress = now;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Çıkmak için tekrar basın'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      },
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            color: AppColors.bgBase,
+            border: Border(
+              top: BorderSide(color: AppColors.bgElevated, width: 1),
+            ),
+          ),
+          child: SafeArea(
+            child: SizedBox(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(
+                    icon: Icons.tune,
+                    label: 'Akort',
+                    isSelected: navigationShell.currentIndex == 0,
+                    onTap: () => _onTap(0),
+                  ),
+                  _buildNavItem(
+                    icon: Icons.straighten,
+                    label: 'Enstrümanlar',
+                    isSelected: navigationShell.currentIndex == 1,
+                    onTap: () => _onTap(1),
+                  ),
+                  _buildNavItem(
+                    icon: Icons.settings,
+                    label: 'Ayarlar',
+                    isSelected: navigationShell.currentIndex == 2,
+                    onTap: () => _onTap(2),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onTap(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
+  }
+
+  Widget _buildNavItem({
+    required IconData icon,
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    final color = isSelected ? AppColors.brandPrimary : AppColors.textMuted;
+
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: isSelected
+            ? BoxDecoration(
+                color: AppColors.bgSurface.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(12),
+              )
+            : null,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              isSelected ? icon : icon,
+              color: color,
+              size: 24,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontSize: 11,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+=== lib/widgets/mic_permission_dialog.dart ===
+import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
+
+class MicPermissionDialog extends StatelessWidget {
+  const MicPermissionDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Container(
+        padding: const EdgeInsets.all(32),
+        constraints: const BoxConstraints(maxWidth: 340),
+        decoration: BoxDecoration(
+          color: AppColors.bgSurface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppColors.bgElevated),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: const BoxDecoration(
+                color: AppColors.bgElevated,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.mic,
+                size: 48,
+                color: AppColors.brandPrimary,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Mikrofon İzni Gerekli',
+              style: AppTypography.heading3,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Nağme, enstrümanınızın sesini duyabilmek için mikrofon erişimine ihtiyaç duyar. Ses veriniz kaydedilmez ve cihazınızdan çıkmaz.',
+              style: AppTypography.body.copyWith(
+                color: AppColors.textSecondary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.brandPrimary,
+                  foregroundColor: AppColors.brandOn,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  textStyle: AppTypography.body.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                child: const Text('İzin Ver'),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: OutlinedButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.textSecondary,
+                  side: const BorderSide(color: AppColors.bgElevated),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  textStyle: AppTypography.body,
+                ),
+                child: const Text('Şimdi Değil'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+=== lib/widgets/pitch_bar.dart ===
+import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
+
+class PitchBar extends StatelessWidget {
+  /// -50 to +50 cent, 0 = in tune
+  final double cents;
+  final Color indicatorColor;
+
+  const PitchBar({
+    super.key,
+    required this.cents,
+    required this.indicatorColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Normalize cents to 0.0 - 1.0 range (-50 = 0.0, 0 = 0.5, +50 = 1.0)
+    final position = ((cents + 50) / 100).clamp(0.0, 1.0);
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 24,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final trackWidth = constraints.maxWidth;
+
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // Track
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 9,
+                    child: Container(
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: AppColors.bgElevated,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                  ),
+                  // Center notch
+                  Positioned(
+                    left: trackWidth / 2 - 1,
+                    top: 4,
+                    child: Container(
+                      width: 2,
+                      height: 16,
+                      color: AppColors.brandPrimary.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  // Animated indicator dot
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 150),
+                    curve: Curves.easeOut,
+                    left: trackWidth * position - 10,
+                    top: 2,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 150),
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: indicatorColor,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.bgBase,
+                          width: 2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: indicatorColor.withValues(alpha: 0.6),
+                            blurRadius: 12,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('-50 CENT',
+                style: AppTypography.caption.copyWith(
+                  fontSize: 10,
+                  letterSpacing: 1.5,
+                )),
+            Text('0',
+                style: AppTypography.caption.copyWith(
+                  fontSize: 10,
+                  letterSpacing: 1.5,
+                )),
+            Text('+50 CENT',
+                style: AppTypography.caption.copyWith(
+                  fontSize: 10,
+                  letterSpacing: 1.5,
+                )),
+          ],
+        ),
+      ],
+    );
+  }
+}
+=== lib/widgets/settings_bottom_sheet.dart ===
+import 'package:flutter/material.dart';
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
+
+class SettingsBottomSheet<T> extends StatelessWidget {
+  final String title;
+  final List<T> options;
+  final T selected;
+  final String Function(T) labelBuilder;
+  final ValueChanged<T> onSelected;
+
+  const SettingsBottomSheet({
+    super.key,
+    required this.title,
+    required this.options,
+    required this.selected,
+    required this.labelBuilder,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.bgSurface,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 12),
+          // Handle bar
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.bgElevated,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 20),
+          // Title
+          Text(title, style: AppTypography.heading3),
+          const SizedBox(height: 16),
+          // Options
+          ...options.map((option) {
+            final isActive = option == selected;
+            return InkWell(
+              onTap: () {
+                onSelected(option);
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                height: 52,
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      labelBuilder(option),
+                      style: AppTypography.body.copyWith(
+                        color: isActive
+                            ? AppColors.brandPrimary
+                            : AppColors.textPrimary,
+                      ),
+                    ),
+                    if (isActive)
+                      const Icon(
+                        Icons.check,
+                        color: AppColors.brandPrimary,
+                        size: 20,
+                      ),
+                  ],
+                ),
+              ),
+            );
+          }),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
+        ],
+      ),
+    );
+  }
+}
+
+class FrequencyBottomSheet extends StatefulWidget {
+  final double value;
+  final ValueChanged<double> onChanged;
+
+  const FrequencyBottomSheet({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  State<FrequencyBottomSheet> createState() => _FrequencyBottomSheetState();
+}
+
+class _FrequencyBottomSheetState extends State<FrequencyBottomSheet> {
+  late double _value;
+
+  @override
+  void initState() {
+    super.initState();
+    _value = widget.value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.bgSurface,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 12),
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.bgElevated,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text('Referans Frekansı', style: AppTypography.heading3),
+          const SizedBox(height: 24),
+          Text(
+            'A4 = ${_value.round()} Hz',
+            style: const TextStyle(
+              fontFamily: 'SpaceGrotesk',
+              fontSize: 32,
+              fontWeight: FontWeight.w700,
+              color: AppColors.brandPrimary,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: SliderTheme(
+              data: SliderThemeData(
+                activeTrackColor: AppColors.brandPrimary,
+                inactiveTrackColor: AppColors.bgElevated,
+                thumbColor: AppColors.brandPrimary,
+                overlayColor: AppColors.brandPrimary.withValues(alpha: 0.2),
+              ),
+              child: Slider(
+                min: 432,
+                max: 446,
+                divisions: 14,
+                value: _value,
+                onChanged: (v) => setState(() => _value = v),
+                onChangeEnd: (v) {
+                  widget.onChanged(v);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('432 Hz', style: AppTypography.caption),
+                Text('446 Hz', style: AppTypography.caption),
+              ],
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 24),
+        ],
+      ),
+    );
+  }
+}
+=== lib/widgets/waveform_painter.dart ===
+import 'dart:math';
+import 'package:flutter/material.dart';
+
+class WaveformPainter extends CustomPainter {
+  final Color color;
+  final double phase;
+  final double amplitude;
+  final bool showDashed;
+  final Color? dashedColor;
+
+  WaveformPainter({
+    required this.color,
+    this.phase = 0,
+    this.amplitude = 0.35,
+    this.showDashed = false,
+    this.dashedColor,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    final path = Path();
+    final midY = size.height / 2;
+    final amp = size.height * amplitude;
+    final wFactor = 4 * pi / size.width;
+
+    path.moveTo(0, midY);
+    for (double x = 0; x <= size.width; x += 2) {
+      final y = midY + amp * sin(x * wFactor + phase);
+      path.lineTo(x, y);
+    }
+    canvas.drawPath(path, paint);
+
+    if (showDashed) {
+      final dashedPaint = Paint()
+        ..color = (dashedColor ?? color).withValues(alpha: 0.4)
+        ..strokeWidth = 1.5
+        ..style = PaintingStyle.stroke;
+
+      final dashedPath = Path();
+      final ampDashed = amp * 0.7;
+      final phaseDashed = phase + 0.5;
+      dashedPath.moveTo(0, midY);
+      for (double x = 0; x <= size.width; x += 2) {
+        final y = midY + ampDashed * sin(x * wFactor + phaseDashed);
+        dashedPath.lineTo(x, y);
+      }
+
+      const dashWidth = 4.0;
+      const dashSpace = 4.0;
+      final metric = dashedPath.computeMetrics().first;
+      double distance = 0;
+      while (distance < metric.length) {
+        final end = min(distance + dashWidth, metric.length);
+        canvas.drawPath(
+          metric.extractPath(distance, end),
+          dashedPaint,
+        );
+        distance += dashWidth + dashSpace;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant WaveformPainter oldDelegate) =>
+      color != oldDelegate.color ||
+      phase != oldDelegate.phase ||
+      amplitude != oldDelegate.amplitude ||
+      showDashed != oldDelegate.showDashed;
+}
+
+class GridPainter extends CustomPainter {
+  final Color color;
+
+  GridPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color.withValues(alpha: 0.1)
+      ..strokeWidth = 1;
+
+    const spacing = 40.0;
+    for (double x = 0; x <= size.width; x += spacing) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+    for (double y = 0; y <= size.height; y += spacing) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant GridPainter oldDelegate) =>
+      color != oldDelegate.color;
+}
