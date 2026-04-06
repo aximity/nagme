@@ -32,9 +32,9 @@ class TunerState {
       case TunerStatus.idle:
         return '';
       case TunerStatus.flat:
-        return 'YUKARI AKORT ↑';
+        return 'SES DÜŞÜK — Teli sıkıştır ↑';
       case TunerStatus.sharp:
-        return 'AŞAĞI AKORT ↓';
+        return 'SES YÜKSEK — Teli gevşet ↓';
       case TunerStatus.inTune:
         return 'AKORT TAMAM ✓';
     }

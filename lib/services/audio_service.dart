@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
@@ -93,19 +94,27 @@ class AudioService {
   void _onAudioData(Float32List buffer) {
     if (!_isCapturing) return;
     if (_isProcessing) return;
-    if (buffer.length < _bufferSize) return;
+    if (buffer.length < 512) return;
 
     final now = DateTime.now();
     if (now.difference(_lastEmit).inMilliseconds < _throttleMs) return;
 
+    // Minimum ses seviyesi kontrolü — çok sessiz sinyalleri reddet
+    final rms = buffer.fold<double>(0, (sum, s) => sum + s * s) / buffer.length;
+    final amplitude = math.sqrt(rms);
+    if (amplitude < 0.001) return;
+
     _isProcessing = true;
 
-    // buffer.toList() burada gerekli: Float32List'i isolate'e göndermek için
-    // standart List<double>'a çeviriyoruz
+    // buffer'ı PitchDetector bufferSize'ına eşitle
+    final sendBuffer = buffer.length > _bufferSize
+        ? buffer.sublist(0, _bufferSize).toList()
+        : buffer.toList();
+
     compute(_detectPitch, {
-      'buffer': buffer.toList(),
+      'buffer': sendBuffer,
       'sampleRate': sampleRate,
-      'bufferSize': _bufferSize,
+      'bufferSize': sendBuffer.length,
     }).then((result) {
       _isProcessing = false;
       if (!_isCapturing) return;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../models/instrument.dart';
 import '../models/tuner_state.dart';
@@ -80,6 +82,50 @@ class _TunerScreenState extends ConsumerState<TunerScreen>
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
               child: Column(
                 children: [
+                  Center(
+                    child: GestureDetector(
+                      onTap: () => context.go('/instruments'),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.bgSurface,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppColors.bgElevated),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(
+                              instrument.iconAsset,
+                              width: 18,
+                              height: 18,
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.brandPrimary,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              instrument.name,
+                              style: const TextStyle(
+                                fontFamily: 'PlusJakartaSans',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.brandPrimary,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 16,
+                              color: AppColors.brandPrimary.withValues(alpha: 0.6),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   _WaveformSection(animation: _waveController),
                   const SizedBox(height: 32),
                   const _NoteSection(),

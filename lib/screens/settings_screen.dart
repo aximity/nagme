@@ -78,24 +78,6 @@ class SettingsScreen extends ConsumerWidget {
             ]),
             const SizedBox(height: 24),
 
-            // GÖRÜNÜM
-            _buildSectionHeader('GÖRÜNÜM'),
-            _buildCard([
-              _buildSettingsRow(
-                'Koyu Tema',
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Yakında', style: AppTypography.caption),
-                    const SizedBox(width: 8),
-                    _buildToggle(true, null),
-                  ],
-                ),
-                showDivider: false,
-              ),
-            ]),
-            const SizedBox(height: 24),
-
             // HAKKINDA
             _buildSectionHeader('HAKKINDA'),
             _buildCard([

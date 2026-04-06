@@ -9,7 +9,7 @@ class PitchResult {
     required this.timestamp,
   });
 
-  bool get isValid => frequency > 0 && confidence > 0.5;
+  bool get isValid => frequency > 0 && confidence > 0.3;
 
   @override
   String toString() =>

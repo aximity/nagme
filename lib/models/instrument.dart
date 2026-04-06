@@ -63,7 +63,7 @@ abstract final class Instruments {
     ],
     minFrequency: 82.0,
     maxFrequency: 1175.0,
-    yinThreshold: 0.15,
+    yinThreshold: 0.20,
     preferredBufferSize: 2048,
     smoothingWindow: 3,
   );
@@ -81,8 +81,8 @@ abstract final class Instruments {
     ],
     minFrequency: 196.0,
     maxFrequency: 2637.0,
-    yinThreshold: 0.12,
-    preferredBufferSize: 1024,
+    yinThreshold: 0.20,
+    preferredBufferSize: 2048,
     smoothingWindow: 7,
   );
 
@@ -99,7 +99,7 @@ abstract final class Instruments {
     ],
     minFrequency: 131.0,
     maxFrequency: 1760.0,
-    yinThreshold: 0.13,
+    yinThreshold: 0.20,
     preferredBufferSize: 2048,
     smoothingWindow: 7,
   );
@@ -117,7 +117,7 @@ abstract final class Instruments {
     ],
     minFrequency: 65.0,
     maxFrequency: 1047.0,
-    yinThreshold: 0.14,
+    yinThreshold: 0.20,
     preferredBufferSize: 4096,
     smoothingWindow: 7,
   );
@@ -135,7 +135,7 @@ abstract final class Instruments {
     ],
     minFrequency: 41.0,
     maxFrequency: 392.0,
-    yinThreshold: 0.18,
+    yinThreshold: 0.22,
     preferredBufferSize: 4096,
     smoothingWindow: 5,
   );
@@ -153,8 +153,8 @@ abstract final class Instruments {
     ],
     minFrequency: 262.0,
     maxFrequency: 1175.0,
-    yinThreshold: 0.12,
-    preferredBufferSize: 1024,
+    yinThreshold: 0.18,
+    preferredBufferSize: 2048,
     smoothingWindow: 3,
   );
 
@@ -177,7 +177,7 @@ abstract final class Instruments {
     ],
     minFrequency: 130.0,
     maxFrequency: 1760.0,
-    yinThreshold: 0.15,
+    yinThreshold: 0.20,
     preferredBufferSize: 2048,
     smoothingWindow: 3,
   );
@@ -208,7 +208,7 @@ abstract final class Instruments {
     ],
     minFrequency: 46.0,
     maxFrequency: 880.0,
-    yinThreshold: 0.16,
+    yinThreshold: 0.22,
     preferredBufferSize: 4096,
     smoothingWindow: 5,
   );

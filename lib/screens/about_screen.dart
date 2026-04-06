@@ -142,6 +142,34 @@ class AboutScreen extends StatelessWidget {
             _buildInfoItem('KULLANIM', 'Reklamsız / Çevrimdışı'),
             const SizedBox(height: 24),
             _buildInfoItem('SÜRÜM', '2.0.0'),
+            const SizedBox(height: 40),
+            Container(
+              width: 32,
+              height: 1,
+              color: AppColors.memorialWarm.withValues(alpha: 0.15),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'TEŞEKKÜR',
+              style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 3,
+                color: AppColors.memorialWarm.withValues(alpha: 0.4),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Kıbrıs Sanat',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'BeVietnamPro',
+                fontSize: 14,
+                fontWeight: FontWeight.w300,
+                color: AppColors.memorialMuted,
+              ),
+            ),
             const SizedBox(height: 32),
 
             // Closing heart
