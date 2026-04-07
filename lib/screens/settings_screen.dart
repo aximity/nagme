@@ -18,6 +18,7 @@ class SettingsScreen extends ConsumerWidget {
     final notation = ref.watch(noteNotationProvider);
     final refSound = ref.watch(referenceSoundProvider);
     final soundType = ref.watch(soundTypeProvider);
+    final detectionLevel = ref.watch(detectionLevelProvider);
 
     return Scaffold(
       backgroundColor: AppColors.bgBase,
@@ -54,6 +55,11 @@ class SettingsScreen extends ConsumerWidget {
                   notation == NoteNotation.letter ? 'C D E' : 'Do Re Mi',
                 ),
                 onTap: () => _showNotationSheet(context, ref, notation),
+              ),
+              _buildSettingsRow(
+                'Hassasiyet Seviyesi',
+                trailing: _buildValueChevron(_levelLabel(detectionLevel)),
+                onTap: () => _showLevelSheet(context, ref, detectionLevel),
                 showDivider: false,
               ),
             ]),
@@ -167,6 +173,33 @@ class SettingsScreen extends ConsumerWidget {
         selected: current,
         labelBuilder: _soundTypeLabel,
         onSelected: (v) => ref.read(soundTypeProvider.notifier).value = v,
+      ),
+    );
+  }
+
+  String _levelLabel(DetectionLevel level) {
+    switch (level) {
+      case DetectionLevel.beginner:
+        return 'Başlangıç';
+      case DetectionLevel.intermediate:
+        return 'Orta';
+      case DetectionLevel.advanced:
+        return 'İleri';
+    }
+  }
+
+  void _showLevelSheet(
+      BuildContext context, WidgetRef ref, DetectionLevel current) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => SettingsBottomSheet<DetectionLevel>(
+        title: 'Hassasiyet Seviyesi',
+        options: DetectionLevel.values,
+        selected: current,
+        labelBuilder: _levelLabel,
+        onSelected: (v) =>
+            ref.read(detectionLevelProvider.notifier).value = v,
       ),
     );
   }

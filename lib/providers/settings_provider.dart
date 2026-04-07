@@ -54,6 +54,13 @@ final soundTypeProvider =
   (ref) => _PersistentSoundType(ref.watch(sharedPrefsProvider)),
 );
 
+// --- Hassasiyet Seviyesi ---
+
+final detectionLevelProvider =
+    StateNotifierProvider<_PersistentDetectionLevel, DetectionLevel>(
+  (ref) => _PersistentDetectionLevel(ref.watch(sharedPrefsProvider)),
+);
+
 // ---------------------------------------------------------------------------
 // Persistent StateNotifier'lar
 // ---------------------------------------------------------------------------
@@ -116,6 +123,30 @@ class _PersistentSoundType extends StateNotifier<SoundType> {
   }
 
   set value(SoundType v) {
+    state = v;
+    _prefs.setString(_key, v.name);
+  }
+}
+
+class _PersistentDetectionLevel extends StateNotifier<DetectionLevel> {
+  final SharedPreferences _prefs;
+  static const _key = 'detection_level';
+
+  _PersistentDetectionLevel(this._prefs)
+      : super(_fromString(_prefs.getString(_key)));
+
+  static DetectionLevel _fromString(String? s) {
+    switch (s) {
+      case 'beginner':
+        return DetectionLevel.beginner;
+      case 'advanced':
+        return DetectionLevel.advanced;
+      default:
+        return DetectionLevel.intermediate;
+    }
+  }
+
+  set value(DetectionLevel v) {
     state = v;
     _prefs.setString(_key, v.name);
   }

@@ -82,7 +82,7 @@ abstract final class Instruments {
     ],
     minFrequency: 196.0,
     maxFrequency: 2637.0,
-    yinThreshold: 0.08,
+    yinThreshold: 0.11,
     preferredBufferSize: 2048,
     smoothingWindow: 7,
   );

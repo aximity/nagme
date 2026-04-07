@@ -1,5 +1,7 @@
 enum TunerStatus { idle, flat, sharp, inTune, tooFlat, tooSharp }
 
+enum DetectionLevel { beginner, intermediate, advanced }
+
 enum NoteNotation { letter, solfege }
 
 enum SoundType { sine, square, triangle }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -63,10 +64,23 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
       final audioService = _ref.read(audioServiceProvider);
       final instrument = _ref.read(selectedInstrumentProvider);
 
+      // Seviyeye göre yinThreshold çarpanı
+      final level = _ref.read(detectionLevelProvider);
+      final baseYin = instrument.yinThreshold ?? 0.5;
+      final double yinMultiplier;
+      switch (level) {
+        case DetectionLevel.beginner:
+          yinMultiplier = 1.5;
+        case DetectionLevel.intermediate:
+          yinMultiplier = 1.0;
+        case DetectionLevel.advanced:
+          yinMultiplier = 0.7;
+      }
+
       await audioService.startCapture(
         minFreq: instrument.minFrequency,
         maxFreq: instrument.maxFrequency,
-        confidenceThreshold: instrument.yinThreshold ?? 0.5,
+        confidenceThreshold: baseYin * yinMultiplier,
         bufferSize: instrument.preferredBufferSize ?? 2048,
       );
       _ref.read(isListeningProvider.notifier).state = true;
@@ -148,15 +162,67 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
 
     final smoothedFreq = _median(_freqBuffer);
 
-    final threshold = _ref.read(tuningThresholdProvider);
+    final baseThreshold = _ref.read(tuningThresholdProvider);
 
+    // Seviyeye göre akort eşiği ayarla
+    final level = _ref.read(detectionLevelProvider);
+    final int effectiveThreshold;
+    switch (level) {
+      case DetectionLevel.beginner:
+        effectiveThreshold = baseThreshold + 5;
+      case DetectionLevel.intermediate:
+        effectiveThreshold = baseThreshold;
+      case DetectionLevel.advanced:
+        effectiveThreshold = (baseThreshold - 3).clamp(1, baseThreshold);
+    }
+
+    // Seçili tel varsa cents'i hedef telin frekansına göre hesapla
+    if (selectedString != null) {
+      final targetFreq = selectedString.frequency;
+      final centsFromTarget = 1200 * (log(smoothedFreq / targetFreq) / ln2);
+
+      final TunerStatus statusVsTarget;
+      if (centsFromTarget.abs() <= effectiveThreshold) {
+        statusVsTarget = TunerStatus.inTune;
+      } else if (centsFromTarget < 0) {
+        statusVsTarget = TunerStatus.flat;
+      } else {
+        statusVsTarget = TunerStatus.sharp;
+      }
+
+      final noteName = _stripOctave(selectedString.name);
+
+      // Gereksiz rebuild önle
+      if (state.note == noteName &&
+          state.octave == selectedString.octave &&
+          state.status == statusVsTarget &&
+          (state.cents - centsFromTarget).abs() < 1) {
+        return;
+      }
+
+      state = TunerState(
+        status: statusVsTarget,
+        note: noteName,
+        octave: selectedString.octave,
+        frequency: smoothedFreq,
+        cents: centsFromTarget,
+      );
+
+      _holdTimer?.cancel();
+      _holdTimer = Timer(_holdDuration, () {
+        state = const TunerState();
+      });
+      return;
+    }
+
+    // Kromatik mod — en yakın notaya göre hesapla
     final note = NoteCalculator.fromFrequency(
       smoothedFreq,
       referenceA4: referenceA4,
     );
 
     final TunerStatus status;
-    if (note.cents.abs() <= threshold) {
+    if (note.cents.abs() <= effectiveThreshold) {
       status = TunerStatus.inTune;
     } else if (note.cents < 0) {
       status = TunerStatus.flat;
