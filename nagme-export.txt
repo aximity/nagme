@@ -1,0 +1,725 @@
+============================================
+ NAGME CODEBASE EXPORT
+ Tarih: Pzt 06.04.2026 13:22:14,42
+============================================
+
+
+================== KLASOR YAPISI ==================
+.claude
+.dart_tool
+.idea
+android
+assets
+build
+design
+docs
+google_fonts
+ios
+lib
+tasks
+test
+android\app
+android\gradle
+android\app\.cxx
+android\app\src
+android\app\.cxx\Debug
+android\app\.cxx\RelWithDebInfo
+android\app\.cxx\Debug\425l5j1d
+android\app\.cxx\Debug\425l5j1d\arm64-v8a
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a
+android\app\.cxx\Debug\425l5j1d\x86
+android\app\.cxx\Debug\425l5j1d\x86_64
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\query
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\reply
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\query\client-agp
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\CMakeTmp
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\query
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\reply
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\query\client-agp
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\CMakeTmp
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\Debug\425l5j1d\x86\.cmake
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\query
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\reply
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\query\client-agp
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\CMakeTmp
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\query
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\reply
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\query\client-agp
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\CMakeTmp
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg
+android\app\.cxx\RelWithDebInfo\u666y03c
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a
+android\app\.cxx\RelWithDebInfo\u666y03c\x86
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\query
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\reply
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\query\client-agp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\CMakeTmp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\tmp
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\tmp
+android\app\src\debug
+android\app\src\main
+android\app\src\profile
+android\app\src\main\java
+android\app\src\main\kotlin
+android\app\src\main\res
+android\app\src\main\java\io
+android\app\src\main\java\io\flutter
+android\app\src\main\java\io\flutter\plugins
+android\app\src\main\kotlin\com
+android\app\src\main\kotlin\com\aximity
+android\app\src\main\kotlin\com\aximity\nagme
+android\app\src\main\res\drawable
+android\app\src\main\res\drawable-hdpi
+android\app\src\main\res\drawable-mdpi
+android\app\src\main\res\drawable-night-hdpi
+android\app\src\main\res\drawable-night-mdpi
+android\app\src\main\res\drawable-night-xhdpi
+android\app\src\main\res\drawable-night-xxhdpi
+android\app\src\main\res\drawable-night-xxxhdpi
+android\app\src\main\res\drawable-v21
+android\app\src\main\res\drawable-xhdpi
+android\app\src\main\res\drawable-xxhdpi
+android\app\src\main\res\drawable-xxxhdpi
+android\app\src\main\res\mipmap-anydpi-v26
+android\app\src\main\res\mipmap-hdpi
+android\app\src\main\res\mipmap-mdpi
+android\app\src\main\res\mipmap-xhdpi
+android\app\src\main\res\mipmap-xxhdpi
+android\app\src\main\res\mipmap-xxxhdpi
+android\app\src\main\res\values
+android\app\src\main\res\values-night
+android\app\src\main\res\values-night-v31
+android\app\src\main\res\values-v31
+android\gradle\wrapper
+assets\fonts
+assets\icon
+assets\icons
+assets\images
+assets\splash
+design\stitch_chromatic_tuner_screen
+design\stitch_chromatic_tuner_screen\aeterna_amber
+design\stitch_chromatic_tuner_screen\na_me_akort_bemol
+design\stitch_chromatic_tuner_screen\na_me_akort_diyez
+design\stitch_chromatic_tuner_screen\na_me_akort_tamam
+design\stitch_chromatic_tuner_screen\na_me_ayarlar_dark_teal
+design\stitch_chromatic_tuner_screen\na_me_a_l_ekran_splash
+design\stitch_chromatic_tuner_screen\na_me_enstr_man_se_imi
+design\stitch_chromatic_tuner_screen\na_me_enstr_man_se_imi_refined
+design\stitch_chromatic_tuner_screen\na_me_hakk_nda_mehmet_akif_y_ld_z_an_s_na
+design\stitch_chromatic_tuner_screen\na_me_hakk_nda_memorial
+design\stitch_chromatic_tuner_screen\na_me_memorial_style
+design\stitch_chromatic_tuner_screen\na_me_mikrofon_i_zni
+design\stitch_chromatic_tuner_screen\na_me_rhythm
+design\stitch_chromatic_tuner_screen\na_me_rhythm_active_sharp_state
+design\stitch_chromatic_tuner_screen\na_me_rhythm_flat_state
+design\stitch_chromatic_tuner_screen\na_me_rhythm_in_tune_success_state
+design\stitch_chromatic_tuner_screen\tasar_m_sistemim_2
+ios\Flutter
+ios\Runner
+ios\Runner.xcodeproj
+ios\Runner.xcworkspace
+ios\RunnerTests
+ios\Runner\Assets.xcassets
+ios\Runner\Base.lproj
+ios\Runner\Assets.xcassets\AppIcon.appiconset
+ios\Runner\Assets.xcassets\LaunchBackground.imageset
+ios\Runner\Assets.xcassets\LaunchImage.imageset
+ios\Runner.xcodeproj\project.xcworkspace
+ios\Runner.xcodeproj\xcshareddata
+ios\Runner.xcodeproj\project.xcworkspace\xcshareddata
+ios\Runner.xcodeproj\xcshareddata\xcschemes
+ios\Runner.xcworkspace\xcshareddata
+lib\models
+lib\providers
+lib\screens
+lib\services
+lib\theme
+lib\widgets
+ 
+================== DOSYA LISTESI ================== 
+.flutter-plugins (3.2 KB)
+.flutter-plugins-dependencies (9.7 KB)
+.gitignore (0.7 KB)
+.metadata (1.1 KB)
+analysis_options.yaml (1.4 KB)
+CLAUDE.md (6 KB)
+nagme.iml (0.8 KB)
+pubspec.yaml (1.4 KB)
+README.md (0.6 KB)
+todo.md (2 KB)
+.claude\rules\git.md (2.1 KB)
+.claude\rules\performance.md (2.8 KB)
+.claude\rules\security.md (2.2 KB)
+.claude\rules\testing.md (1.8 KB)
+android\.gitignore (0.3 KB)
+android\build.gradle.kts (0.5 KB)
+android\gradle.properties (0.2 KB)
+android\gradlew (4.9 KB)
+android\gradlew.bat (2.3 KB)
+android\local.properties (0.2 KB)
+android\nagme_android.iml (1.6 KB)
+android\settings.gradle.kts (0.7 KB)
+android\app\build.gradle.kts (1.3 KB)
+android\app\.cxx\Debug\425l5j1d\hash_key.txt (1.2 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\additional_project_files.txt (0 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\android_gradle_build.json (1 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\build.ninja (26.7 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\build_file_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeCache.txt (17 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\cmake_install.cmake (1.8 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\configure_fingerprint.bin (1.5 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\prefab_config.json (0 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\reply\cache-v2-de844cf112eb828d94aa.json (28.2 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\reply\cmakeFiles-v1-c04cda586e076133f3ba.json (29.2 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\reply\codemodel-v2-b18b9f5c9947d253b600.json (0.7 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\reply\directory-.-Debug-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\.cmake\api\v1\reply\index-2026-03-31T11-43-36-0648.json (1.7 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\CMakeOutput.log (44.1 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (7.7 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (7.9 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (5.9 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\Debug\425l5j1d\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (5.9 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\additional_project_files.txt (0 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\android_gradle_build.json (1.1 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\build.ninja (26.7 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\build_file_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeCache.txt (17 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\cmake_install.cmake (1.8 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\configure_fingerprint.bin (1.5 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\prefab_config.json (0 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\reply\cache-v2-ae9680b67c1c92432c00.json (28.2 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\reply\cmakeFiles-v1-5ad7b9d7686d78a68107.json (29.3 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\reply\codemodel-v2-29e317e06fa62378e734.json (0.7 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\reply\directory-.-Debug-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\.cmake\api\v1\reply\index-2026-03-31T11-43-51-0686.json (1.7 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\CMakeOutput.log (47.2 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (5.8 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (5.9 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (4 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\Debug\425l5j1d\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (4 KB)
+android\app\.cxx\Debug\425l5j1d\x86\additional_project_files.txt (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86\android_gradle_build.json (1 KB)
+android\app\.cxx\Debug\425l5j1d\x86\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\Debug\425l5j1d\x86\build.ninja (26.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86\build_file_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeCache.txt (16.9 KB)
+android\app\.cxx\Debug\425l5j1d\x86\cmake_install.cmake (1.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86\configure_fingerprint.bin (1.4 KB)
+android\app\.cxx\Debug\425l5j1d\x86\metadata_generation_command.txt (1 KB)
+android\app\.cxx\Debug\425l5j1d\x86\prefab_config.json (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\reply\cache-v2-a1a8cd0f03ed63b61e8b.json (28.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\reply\cmakeFiles-v1-8ea8d8d21564c5bf2ad1.json (29.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\reply\codemodel-v2-74a8ad15f50c397ba191.json (0.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\reply\directory-.-Debug-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86\.cmake\api\v1\reply\index-2026-03-31T11-43-53-0652.json (1.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\CMakeOutput.log (42.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (5.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (5.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (3.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (3.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\additional_project_files.txt (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\android_gradle_build.json (1 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\build.ninja (26.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\build_file_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeCache.txt (17 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\cmake_install.cmake (1.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\configure_fingerprint.bin (1.5 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\metadata_generation_command.txt (1 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\prefab_config.json (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\reply\cache-v2-3364ba9635bf941cbf73.json (28.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\reply\cmakeFiles-v1-24ed83f2799e378f9dd2.json (29.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\reply\codemodel-v2-0f2691769fa1d7012ae0.json (0.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\reply\directory-.-Debug-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\.cmake\api\v1\reply\index-2026-03-31T11-43-54-0737.json (1.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\CMakeOutput.log (43.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (7.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (7.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (5.2 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\Debug\425l5j1d\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (5.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\hash_key.txt (1.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\android_gradle_build_mini.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\build.ninja (26.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeCache.txt (17 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\configure_fingerprint.bin (1.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\reply\cache-v2-7a833e277ebfd4f00a19.json (28.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\reply\cmakeFiles-v1-6d5ee9454f3225d95f47.json (29.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\reply\codemodel-v2-93c2cbaae41aa7814d3a.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\.cmake\api\v1\reply\index-2026-03-24T23-12-39-0290.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\CMakeOutput.log (44.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (7.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (7.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (5.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (5.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\android_gradle_build_mini.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\build.ninja (26.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeCache.txt (17 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\configure_fingerprint.bin (1.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\reply\cache-v2-7c473e0a4c52c5418af6.json (28.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\reply\cmakeFiles-v1-4656d966a69ae383f858.json (29.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\reply\codemodel-v2-421db33ad86b1e0caf49.json (0.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\.cmake\api\v1\reply\index-2026-03-24T23-12-40-0609.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\CMakeOutput.log (47.4 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (5.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (4 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (4 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\build.ninja (26.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeCache.txt (17 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\configure_fingerprint.bin (1.5 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\reply\cache-v2-e8bce262c2b405956c61.json (28.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\reply\cmakeFiles-v1-828b4cd87e92fb913253.json (29.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\reply\codemodel-v2-dd85961f73f221434c77.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\.cmake\api\v1\reply\index-2026-03-24T23-12-41-0742.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\CMakeOutput.log (42.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (5.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (5.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (3.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (3.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\build.ninja (26.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeCache.txt (17 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\configure_fingerprint.bin (1.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\reply\cache-v2-c9a924c8e53166b94e9d.json (28.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\reply\cmakeFiles-v1-67ed467a6afbce9cee25.json (29.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\reply\codemodel-v2-68533986715fcb38a37c.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\.cmake\api\v1\reply\index-2026-03-24T23-12-42-0908.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\CMakeOutput.log (43.3 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (7.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (7.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (5.2 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\6k5sx6jg\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (5.3 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\hash_key.txt (1.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\android_gradle_build_mini.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\build.ninja (26.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeCache.txt (16.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\configure_fingerprint.bin (1.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\reply\cache-v2-c9c7dbebeb18da559508.json (28.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\reply\cmakeFiles-v1-32328b77a12ef8c3e61b.json (29.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\reply\codemodel-v2-fd5b27a8902fbc0da2c4.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\.cmake\api\v1\reply\index-2026-03-24T23-11-27-0531.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\CMakeOutput.log (43.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (7.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (5.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\arm64-v8a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (5.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\android_gradle_build_mini.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\build.ninja (26.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeCache.txt (16.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\configure_fingerprint.bin (1.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\reply\cache-v2-13dbbbf45a35c996e46f.json (28.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\reply\cmakeFiles-v1-5cbea9d427e570442f7a.json (29.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\reply\codemodel-v2-54339d8e8799e83165d3.json (0.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\.cmake\api\v1\reply\index-2026-03-24T23-11-31-0068.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\CMakeOutput.log (46.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (5.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (5.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (4 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\armeabi-v7a\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (4 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\build.ninja (26.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeCache.txt (16.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\configure_fingerprint.bin (1.5 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\reply\cache-v2-83b6fa4efded45436b86.json (28.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\reply\cmakeFiles-v1-8a775b66b68161999c4d.json (29.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\reply\codemodel-v2-5173f3e630734ae30039.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\.cmake\api\v1\reply\index-2026-03-24T23-11-32-0938.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\CMakeOutput.log (42.5 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (5.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (5.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (3.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (3.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\additional_project_files.txt (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\android_gradle_build.json (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\android_gradle_build_mini.json (0.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\build.ninja (26.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\build_file_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeCache.txt (16.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\cmake_install.cmake (1.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\configure_fingerprint.bin (1.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\metadata_generation_command.txt (1.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\prefab_config.json (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\symbol_folder_index.txt (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\query\client-agp\cache-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\query\client-agp\cmakeFiles-v1 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\query\client-agp\codemodel-v2 (0 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\reply\cache-v2-88a148151a31ad530d40.json (28.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\reply\cmakeFiles-v1-426340eb453e1140eac0.json (29.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\reply\codemodel-v2-14856afb1040588166bc.json (0.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\reply\directory-.-RelWithDebInfo-d0094a50bb2071803777.json (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\.cmake\api\v1\reply\index-2026-03-24T23-11-34-0076.json (1.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\cmake.check_cache (0.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\CMakeOutput.log (42.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\rules.ninja (1.6 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\TargetDirectories.txt (0.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCCompiler.cmake (3.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeCXXCompiler.cmake (6.7 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_C.bin (6.9 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeDetermineCompilerABI_CXX.bin (7.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CMakeSystem.cmake (0.5 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.c (25.1 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdC\CMakeCCompilerId.o (5.2 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.cpp (24.8 KB)
+android\app\.cxx\RelWithDebInfo\u666y03c\x86_64\CMakeFiles\3.22.1-g37088a8-dirty\CompilerIdCXX\CMakeCXXCompilerId.o (5.3 KB)
+android\app\src\debug\AndroidManifest.xml (0.4 KB)
+android\app\src\main\AndroidManifest.xml (1.6 KB)
+android\app\src\main\java\io\flutter\plugins\GeneratedPluginRegistrant.java (2.6 KB)
+android\app\src\main\kotlin\com\aximity\nagme\MainActivity.kt (0.1 KB)
+android\app\src\main\res\drawable\launch_background.xml (0.2 KB)
+android\app\src\main\res\drawable-v21\launch_background.xml (0.2 KB)
+android\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml (0.3 KB)
+android\app\src\main\res\mipmap-anydpi-v26\launcher_icon.xml (0.3 KB)
+android\app\src\main\res\values\colors.xml (0.1 KB)
+android\app\src\main\res\values\styles.xml (1.2 KB)
+android\app\src\main\res\values-night\styles.xml (1.2 KB)
+android\app\src\main\res\values-night-v31\styles.xml (1.1 KB)
+android\app\src\main\res\values-v31\styles.xml (1.1 KB)
+android\app\src\profile\AndroidManifest.xml (0.4 KB)
+android\gradle\wrapper\gradle-wrapper.jar (52.4 KB)
+android\gradle\wrapper\gradle-wrapper.properties (0.2 KB)
+assets\fonts\download (212.9 KB)
+assets\icon\.keep (0 KB)
+assets\icon\baglama.svg (1.7 KB)
+assets\icon\bass.svg (1.9 KB)
+assets\icon\cello.svg (2.1 KB)
+assets\icon\guitar.svg (1.6 KB)
+assets\icon\ud.svg (1.1 KB)
+assets\icon\ukulele.svg (1.3 KB)
+assets\icon\viola.svg (2 KB)
+assets\icon\violin.svg (1.9 KB)
+assets\icon\waveform.svg (0.5 KB)
+assets\icons\baglama.svg (1.7 KB)
+assets\icons\bass.svg (1.9 KB)
+assets\icons\cello.svg (2.1 KB)
+assets\icons\guitar.svg (1.6 KB)
+assets\icons\ud.svg (1.1 KB)
+assets\icons\ukulele.svg (1.3 KB)
+assets\icons\viola.svg (2 KB)
+assets\icons\violin.svg (1.9 KB)
+assets\icons\waveform.svg (0.5 KB)
+assets\splash\.keep (0 KB)

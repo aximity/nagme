@@ -37,6 +37,7 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
   StreamSubscription<PitchResult>? _subscription;
 
   int _smoothingWindow = 5;
+  int _consecutiveValid = 0;
   static const int _stringFilterSemitones = 2;
   final Queue<double> _freqBuffer = Queue<double>();
 
@@ -89,12 +90,14 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
 
     _ref.read(isListeningProvider.notifier).state = false;
     _freqBuffer.clear();
+    _consecutiveValid = 0;
     state = const TunerState();
   }
 
   void _onPitchResult(PitchResult pitch) {
     if (!pitch.isValid) {
       _freqBuffer.clear();
+      _consecutiveValid = 0;
       if (state.status != TunerStatus.idle) {
         state = const TunerState();
       }
@@ -103,7 +106,7 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
 
     final referenceA4 = _ref.read(referenceFreqProvider);
 
-    // Tel filtresi: seçili tel varsa, hedeften ±2 yarım ton dışını atla
+    // Tel filtresi: seçili tel varsa, hedeften uzaklığı kontrol et
     final selectedString = _ref.read(selectedStringProvider);
     if (selectedString != null) {
       final targetMidi = NoteCalculator.frequencyToMidi(
@@ -114,16 +117,31 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
         pitch.frequency,
         referenceA4: referenceA4,
       );
-      if (targetMidi > 0 &&
-          detectedMidi > 0 &&
-          (detectedMidi - targetMidi).abs() > _stringFilterSemitones) {
-        return;
+      if (targetMidi > 0 && detectedMidi > 0) {
+        final diff = detectedMidi - targetMidi;
+        if (diff.abs() > _stringFilterSemitones) {
+          final farStatus = diff < 0 ? TunerStatus.tooFlat : TunerStatus.tooSharp;
+          final note = NoteCalculator.fromFrequency(pitch.frequency, referenceA4: referenceA4);
+          state = TunerState(
+            status: farStatus,
+            note: note.name,
+            octave: note.octave,
+            frequency: pitch.frequency,
+            cents: diff * 100 / 12,
+          );
+          return;
+        }
       }
     }
 
-    // Smoothing: son N geçerli frekansın medyanı
+    // Adaptif smoothing: pizzicato'da küçük pencere, arşe'de büyük pencere
+    _consecutiveValid++;
+    final effectiveWindow = _consecutiveValid < _smoothingWindow
+        ? _consecutiveValid.clamp(2, _smoothingWindow)
+        : _smoothingWindow;
+
     _freqBuffer.addLast(pitch.frequency);
-    if (_freqBuffer.length > _smoothingWindow) {
+    while (_freqBuffer.length > effectiveWindow) {
       _freqBuffer.removeFirst();
     }
 

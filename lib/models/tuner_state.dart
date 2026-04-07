@@ -1,4 +1,4 @@
-enum TunerStatus { idle, flat, sharp, inTune }
+enum TunerStatus { idle, flat, sharp, inTune, tooFlat, tooSharp }
 
 enum NoteNotation { letter, solfege }
 
@@ -37,6 +37,10 @@ class TunerState {
         return 'SES YÜKSEK — Teli gevşet ↓';
       case TunerStatus.inTune:
         return 'AKORT TAMAM ✓';
+      case TunerStatus.tooFlat:
+        return 'ÇOK DÜŞÜK — Sıkıştırmaya devam et ↑↑';
+      case TunerStatus.tooSharp:
+        return 'ÇOK YÜKSEK — Gevşetmeye devam et ↓↓';
     }
   }
 }

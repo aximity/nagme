@@ -233,7 +233,7 @@ class _WaveformSection extends ConsumerWidget {
                             : color.withValues(alpha: 0.8),
                         amplitude: amplitude,
                         phase: animation.value * 6.2832, // 2π
-                        showDashed: state.status == TunerStatus.flat,
+                        showDashed: state.status == TunerStatus.flat || state.status == TunerStatus.tooFlat,
                         dashedColor: color,
                       ),
                     );
@@ -264,7 +264,7 @@ class _WaveformSection extends ConsumerWidget {
                     fontFamily: 'SpaceGrotesk',
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: state.status == TunerStatus.flat
+                    color: state.status == TunerStatus.flat || state.status == TunerStatus.tooFlat
                         ? AppColors.statusFlat
                         : AppColors.textMuted.withValues(alpha: 0.2),
                   )),
@@ -277,7 +277,7 @@ class _WaveformSection extends ConsumerWidget {
                     fontFamily: 'SpaceGrotesk',
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: state.status == TunerStatus.sharp
+                    color: state.status == TunerStatus.sharp || state.status == TunerStatus.tooSharp
                         ? AppColors.statusSharp
                         : AppColors.textMuted.withValues(alpha: 0.2),
                   )),
@@ -330,11 +330,12 @@ class _NoteSection extends ConsumerWidget {
                     height: 1,
                   ),
                 ),
-                if (state.status == TunerStatus.flat || state.status == TunerStatus.sharp)
+                if (state.status == TunerStatus.flat || state.status == TunerStatus.sharp ||
+                    state.status == TunerStatus.tooFlat || state.status == TunerStatus.tooSharp)
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: Text(
-                      state.status == TunerStatus.flat ? '♭' : '♯',
+                      state.status == TunerStatus.flat || state.status == TunerStatus.tooFlat ? '♭' : '♯',
                       style: TextStyle(
                         fontFamily: 'SpaceGrotesk',
                         fontSize: 24,
@@ -362,16 +363,27 @@ class _NoteSection extends ConsumerWidget {
             ),
             if (state.statusText.isNotEmpty) ...[
               const SizedBox(height: 12),
-              Text(
-                state.statusText,
-                style: TextStyle(
-                  fontFamily: 'PlusJakartaSans',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  color: c,
-                  letterSpacing: 3,
-                ),
-              ),
+              Builder(builder: (context) {
+                final selectedString = ref.watch(selectedStringProvider);
+                final isMiTeli = selectedString != null &&
+                    selectedString.name.startsWith('E') &&
+                    selectedString.octave >= 5;
+                final text = (state.status == TunerStatus.tooSharp && isMiTeli)
+                    ? 'DUR! Teli gevşet — kopma riski ↓↓'
+                    : state.statusText;
+                return Text(
+                  text,
+                  style: TextStyle(
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: (state.status == TunerStatus.tooSharp && isMiTeli)
+                        ? AppColors.statusSharp
+                        : c,
+                    letterSpacing: 3,
+                  ),
+                );
+              }),
             ],
           ],
         );
@@ -390,11 +402,16 @@ class _PitchBarSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tunerStateProvider);
     final color = _statusColor(state.status);
+    final displayCents = (state.status == TunerStatus.tooFlat)
+        ? -50.0
+        : (state.status == TunerStatus.tooSharp)
+            ? 50.0
+            : state.cents;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: PitchBar(
-        cents: state.cents,
+        cents: displayCents,
         indicatorColor: color,
       ),
     );
@@ -446,7 +463,79 @@ class _StringSelector extends ConsumerWidget {
       _syncToneGenerator(ref, selected, refSound, soundType);
     }
 
-    return GridView.builder(
+    return Column(
+      children: [
+        if (selected != null && selected.name.startsWith('E') && selected.octave >= 5)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.statusSharp.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: AppColors.statusSharp.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    size: 18,
+                    color: AppColors.statusSharp.withValues(alpha: 0.8),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Mi teli çok incedir. Burguyu yavaş çevir, ince ayar vidasını kullan.',
+                      style: TextStyle(
+                        fontFamily: 'BeVietnamPro',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.statusSharp.withValues(alpha: 0.8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        if (selected != null && selected.name == 'G' && selected.octave == 3)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.statusFlat.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: AppColors.statusFlat.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    size: 18,
+                    color: AppColors.statusFlat.withValues(alpha: 0.8),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Sol teli kalındır, burgudan sıkıştırırken milimetrik çevir.',
+                      style: TextStyle(
+                        fontFamily: 'BeVietnamPro',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.statusFlat.withValues(alpha: 0.8),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -491,6 +580,8 @@ class _StringSelector extends ConsumerWidget {
           ),
         );
       },
+    ),
+      ],
     );
   }
 }
@@ -540,8 +631,10 @@ Color _statusColor(TunerStatus status) {
     case TunerStatus.idle:
       return AppColors.textMuted;
     case TunerStatus.flat:
+    case TunerStatus.tooFlat:
       return AppColors.statusFlat;
     case TunerStatus.sharp:
+    case TunerStatus.tooSharp:
       return AppColors.statusSharp;
     case TunerStatus.inTune:
       return AppColors.statusInTune;
