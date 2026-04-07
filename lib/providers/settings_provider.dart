@@ -14,7 +14,7 @@ final referenceFreqProvider =
   (ref) => _PersistentDouble(
     ref.watch(sharedPrefsProvider),
     key: 'referenceFreq',
-    defaultValue: 440.0,
+    defaultValue: 442.0,
   ),
 );
 
