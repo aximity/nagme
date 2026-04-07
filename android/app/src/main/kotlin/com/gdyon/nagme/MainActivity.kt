@@ -1,4 +1,4 @@
-package com.aximity.nagme
+package com.gdyon.nagme
 
 import io.flutter.embedding.android.FlutterActivity
 
