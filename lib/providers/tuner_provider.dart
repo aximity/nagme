@@ -39,19 +39,23 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
   Timer? _holdTimer;
   static const Duration _holdDuration = Duration(milliseconds: 2000);
 
-  int _smoothingWindow = 5;
-  int _consecutiveValid = 0;
   final Queue<double> _freqBuffer = Queue<double>();
 
   TunerStateNotifier(this._ref) : super(const TunerState()) {
-    final instrument = _ref.read(selectedInstrumentProvider);
-    _smoothingWindow = instrument.smoothingWindow ?? 5;
-
-    // Enstrüman değiştiğinde seçili teli sıfırla ve smoothing güncelle
+    // Enstrüman değiştiğinde seçili teli sıfırla
     _ref.listen(selectedInstrumentProvider, (_, instrument) {
       _ref.read(selectedStringProvider.notifier).state = null;
-      _smoothingWindow = instrument.smoothingWindow ?? 5;
     });
+  }
+
+  // Frekansa göre uygun smoothing pencere boyutu
+  // Düşük frekans = az sample (zaten yavaş gelir)
+  // Yüksek frekans = çok sample (hızlı gelir, gürültü filtresi gerek)
+  int _adaptiveWindow(double frequency) {
+    if (frequency < 100) return 2;
+    if (frequency < 250) return 3;
+    if (frequency < 500) return 4;
+    return 5;
   }
 
   Future<void> startListening() async {
@@ -107,14 +111,14 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
     _holdTimer = null;
     _ref.read(isListeningProvider.notifier).state = false;
     _freqBuffer.clear();
-    _consecutiveValid = 0;
+
     state = const TunerState();
   }
 
   void _onPitchResult(PitchResult pitch) {
     if (!pitch.isValid) {
       _freqBuffer.clear();
-      _consecutiveValid = 0;
+  
       // Hemen idle'a düşme — hold timer'ın bitmesini bekle
       return;
     }
@@ -144,19 +148,15 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
       final ratio = pitch.frequency / _freqBuffer.last;
       if (ratio < 0.85 || ratio > 1.18) {
         _freqBuffer.clear();
-        _consecutiveValid = 0;
+    
         return;
       }
     }
 
-    // Adaptif smoothing: pizzicato'da küçük pencere, arşe'de büyük pencere
-    _consecutiveValid++;
-    final effectiveWindow = _consecutiveValid < _smoothingWindow
-        ? _consecutiveValid.clamp(2, _smoothingWindow)
-        : _smoothingWindow;
-
+    // Adaptif smoothing: frekansa göre pencere boyutu
     _freqBuffer.addLast(pitch.frequency);
-    while (_freqBuffer.length > effectiveWindow) {
+    final window = _adaptiveWindow(pitch.frequency);
+    while (_freqBuffer.length > window) {
       _freqBuffer.removeFirst();
     }
 
