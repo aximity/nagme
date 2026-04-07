@@ -53,4 +53,4 @@ Telefonda test → sonraki adım
 
 Offline, ücretsiz, reklamsız
 
-com.aximity.nagme
+com.gdyon.nagme

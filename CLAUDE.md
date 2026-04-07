@@ -117,7 +117,7 @@ Her düzeltmeden SONRA:
 
 - **Proje:** Nağme — Kromatik Akort Uygulaması
 - **Path:** `C:\Users\stare\Desktop\nagme`
-- **Package:** `com.aximity.nagme`
+- **Package:** `com.gdyon.nagme`
 - **Stack:** Flutter 3.29.2 + Riverpod + GoRouter
 - **Branch:** `v2-dark-teal`
 
