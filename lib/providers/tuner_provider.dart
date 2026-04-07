@@ -40,7 +40,6 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
 
   int _smoothingWindow = 5;
   int _consecutiveValid = 0;
-  static const int _stringFilterSemitones = 2;
   final Queue<double> _freqBuffer = Queue<double>();
 
   TunerStateNotifier(this._ref) : super(const TunerState()) {
@@ -108,32 +107,22 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
 
     final referenceA4 = _ref.read(referenceFreqProvider);
 
-    // Tel filtresi: seçili tel varsa, hedeften uzaklığı kontrol et
+    // Tel filtresi: nota sınıfı kilidi — oktavdan bağımsız eşleşme
     final selectedString = _ref.read(selectedStringProvider);
     if (selectedString != null) {
-      final targetMidi = NoteCalculator.frequencyToMidi(
-        selectedString.frequency,
-        referenceA4: referenceA4,
-      );
-      final detectedMidi = NoteCalculator.frequencyToMidi(
+      final targetNoteName = _stripOctave(selectedString.name);
+
+      final detectedNote = NoteCalculator.fromFrequency(
         pitch.frequency,
         referenceA4: referenceA4,
       );
-      if (targetMidi > 0 && detectedMidi > 0) {
-        final diff = detectedMidi - targetMidi;
-        if (diff.abs() > _stringFilterSemitones) {
-          final farStatus = diff < 0 ? TunerStatus.tooFlat : TunerStatus.tooSharp;
-          final note = NoteCalculator.fromFrequency(pitch.frequency, referenceA4: referenceA4);
-          state = TunerState(
-            status: farStatus,
-            note: note.name,
-            octave: note.octave,
-            frequency: pitch.frequency,
-            cents: diff * 100 / 12,
-          );
-          return;
-        }
+      final detectedNoteName = detectedNote.name;
+
+      // Nota sınıfları eşleşmiyorsa reddet (smoothing buffer'a girmesin)
+      if (detectedNoteName != targetNoteName) {
+        return;
       }
+      // Eşleşiyorsa normal akışa devam — smoothing, status hesaplama vs.
     }
 
     // Harmonik tutarlılık: önceki frekansla karşılaştır, ani atlamaları reddet
@@ -203,6 +192,11 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
     final mid = sorted.length ~/ 2;
     if (sorted.length.isOdd) return sorted[mid];
     return (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
+  // "A4" → "A", "F#1" → "F#", "Bb3" → "Bb"
+  String _stripOctave(String noteName) {
+    return noteName.replaceAll(RegExp(r'\d+$'), '');
   }
 
   @override
