@@ -35,6 +35,8 @@ final tunerStateProvider = StateNotifierProvider<TunerStateNotifier, TunerState>
 class TunerStateNotifier extends StateNotifier<TunerState> {
   final Ref _ref;
   StreamSubscription<PitchResult>? _subscription;
+  Timer? _holdTimer;
+  static const Duration _holdDuration = Duration(milliseconds: 2000);
 
   int _smoothingWindow = 5;
   int _consecutiveValid = 0;
@@ -88,6 +90,8 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
     final audioService = _ref.read(audioServiceProvider);
     await audioService.stopCapture();
 
+    _holdTimer?.cancel();
+    _holdTimer = null;
     _ref.read(isListeningProvider.notifier).state = false;
     _freqBuffer.clear();
     _consecutiveValid = 0;
@@ -98,9 +102,7 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
     if (!pitch.isValid) {
       _freqBuffer.clear();
       _consecutiveValid = 0;
-      if (state.status != TunerStatus.idle) {
-        state = const TunerState();
-      }
+      // Hemen idle'a düşme — hold timer'ın bitmesini bekle
       return;
     }
 
@@ -131,6 +133,16 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
           );
           return;
         }
+      }
+    }
+
+    // Harmonik tutarlılık: önceki frekansla karşılaştır, ani atlamaları reddet
+    if (_freqBuffer.isNotEmpty) {
+      final ratio = pitch.frequency / _freqBuffer.last;
+      if (ratio < 0.85 || ratio > 1.18) {
+        _freqBuffer.clear();
+        _consecutiveValid = 0;
+        return;
       }
     }
 
@@ -178,6 +190,12 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
       frequency: smoothedFreq,
       cents: note.cents,
     );
+
+    // Hold timer'ı sıfırla — 2 saniye yeni geçerli pitch gelmezse idle'a dön
+    _holdTimer?.cancel();
+    _holdTimer = Timer(_holdDuration, () {
+      state = const TunerState();
+    });
   }
 
   double _median(Queue<double> values) {
@@ -190,6 +208,7 @@ class TunerStateNotifier extends StateNotifier<TunerState> {
   @override
   void dispose() {
     _subscription?.cancel();
+    _holdTimer?.cancel();
     super.dispose();
   }
 }
