@@ -1,5 +1,7 @@
 # nagme
 
+*Yakın anısına adanmış, ücretsiz ve reklamsız bir Türk müzik aletleri akort uygulaması.*
+
 A new Flutter project.
 
 ## Getting Started
