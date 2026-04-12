@@ -216,7 +216,9 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   Future<void> _sendFeedback() async {
-    final uri = Uri.parse('mailto:info@gdyon.dev?subject=Nağme Geri Bildirim');
+    final uri = Uri.parse(
+      'mailto:gdyon.dev@gmail.com?subject=Nağme Geri Bildirim',
+    );
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     }

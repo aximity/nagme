@@ -19,7 +19,7 @@
 - [x] Bundled fontlar (PlusJakartaSans, SpaceGrotesk, BeVietnamPro)
 - [x] Duruma göre renk değişimi (idle/flat/sharp/inTune)
 - [x] Simülasyon modu (FAB tıklama → rastgele durum)
-- [x] Geri bildirim (url_launcher, mailto:info@gdyon.dev)
+- [x] Geri bildirim (url_launcher, mailto:gdyon.dev@gmail.com)
 - [x] Paket ismi: com.gdyon.nagme
 
 ## 📋 Sıradaki — Ses Motoru
