@@ -50,3 +50,7 @@ android/app/nagme-release.keystore
 *.keystore
 *.jks
 .aider*
+
+# Claude Code kişisel ayarlar (rules/ commit'li, settings.json kişisel)
+.claude/settings.json
+.claude/settings.local.json
