@@ -49,3 +49,4 @@ android/key.properties
 android/app/nagme-release.keystore
 *.keystore
 *.jks
+.aider*
