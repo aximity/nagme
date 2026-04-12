@@ -119,14 +119,20 @@ class SettingsScreen extends ConsumerWidget {
 
   // --- Bottom Sheets ---
 
-  void _showFrequencySheet(BuildContext context, WidgetRef ref, double current) {
+  void _showFrequencySheet(
+    BuildContext context,
+    WidgetRef ref,
+    double current,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => FrequencyBottomSheet(
-        value: current,
-        onChanged: (v) => ref.read(referenceFreqProvider.notifier).value = v,
-      ),
+      builder:
+          (_) => FrequencyBottomSheet(
+            value: current,
+            onChanged:
+                (v) => ref.read(referenceFreqProvider.notifier).value = v,
+          ),
     );
   }
 
@@ -134,46 +140,58 @@ class SettingsScreen extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => SettingsBottomSheet<int>(
-        title: 'Akort Eşiği',
-        options: const [1, 2, 3, 5, 10],
-        selected: current,
-        labelBuilder: (v) => '± $v cent',
-        onSelected: (v) =>
-            ref.read(tuningThresholdProvider.notifier).value = v,
-      ),
+      builder:
+          (_) => SettingsBottomSheet<int>(
+            title: 'Akort Eşiği',
+            options: const [1, 2, 3, 5, 10],
+            selected: current,
+            labelBuilder: (v) => '± $v cent',
+            onSelected:
+                (v) => ref.read(tuningThresholdProvider.notifier).value = v,
+          ),
     );
   }
 
   void _showNotationSheet(
-      BuildContext context, WidgetRef ref, NoteNotation current) {
+    BuildContext context,
+    WidgetRef ref,
+    NoteNotation current,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => SettingsBottomSheet<NoteNotation>(
-        title: 'Nota Gösterimi',
-        options: NoteNotation.values,
-        selected: current,
-        labelBuilder: (v) =>
-            v == NoteNotation.letter ? 'C D E F G A B' : 'Do Re Mi Fa Sol La Si',
-        onSelected: (v) =>
-            ref.read(noteNotationProvider.notifier).value = v,
-      ),
+      builder:
+          (_) => SettingsBottomSheet<NoteNotation>(
+            title: 'Nota Gösterimi',
+            options: NoteNotation.values,
+            selected: current,
+            labelBuilder:
+                (v) =>
+                    v == NoteNotation.letter
+                        ? 'C D E F G A B'
+                        : 'Do Re Mi Fa Sol La Si',
+            onSelected:
+                (v) => ref.read(noteNotationProvider.notifier).value = v,
+          ),
     );
   }
 
   void _showSoundTypeSheet(
-      BuildContext context, WidgetRef ref, SoundType current) {
+    BuildContext context,
+    WidgetRef ref,
+    SoundType current,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => SettingsBottomSheet<SoundType>(
-        title: 'Ses Tipi',
-        options: SoundType.values,
-        selected: current,
-        labelBuilder: _soundTypeLabel,
-        onSelected: (v) => ref.read(soundTypeProvider.notifier).value = v,
-      ),
+      builder:
+          (_) => SettingsBottomSheet<SoundType>(
+            title: 'Ses Tipi',
+            options: SoundType.values,
+            selected: current,
+            labelBuilder: _soundTypeLabel,
+            onSelected: (v) => ref.read(soundTypeProvider.notifier).value = v,
+          ),
     );
   }
 
@@ -189,18 +207,22 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   void _showLevelSheet(
-      BuildContext context, WidgetRef ref, DetectionLevel current) {
+    BuildContext context,
+    WidgetRef ref,
+    DetectionLevel current,
+  ) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => SettingsBottomSheet<DetectionLevel>(
-        title: 'Hassasiyet Seviyesi',
-        options: DetectionLevel.values,
-        selected: current,
-        labelBuilder: _levelLabel,
-        onSelected: (v) =>
-            ref.read(detectionLevelProvider.notifier).value = v,
-      ),
+      builder:
+          (_) => SettingsBottomSheet<DetectionLevel>(
+            title: 'Hassasiyet Seviyesi',
+            options: DetectionLevel.values,
+            selected: current,
+            labelBuilder: _levelLabel,
+            onSelected:
+                (v) => ref.read(detectionLevelProvider.notifier).value = v,
+          ),
     );
   }
 
@@ -310,9 +332,12 @@ class SettingsScreen extends ConsumerWidget {
         width: 44,
         height: 24,
         decoration: BoxDecoration(
-          color: value
-              ? (enabled ? AppColors.brandPrimary : AppColors.brandPrimary.withValues(alpha: 0.4))
-              : AppColors.bgElevated,
+          color:
+              value
+                  ? (enabled
+                      ? AppColors.brandPrimary
+                      : AppColors.brandPrimary.withValues(alpha: 0.4))
+                  : AppColors.bgElevated,
           borderRadius: BorderRadius.circular(99),
         ),
         child: AnimatedAlign(
